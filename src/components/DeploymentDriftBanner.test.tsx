@@ -1,11 +1,12 @@
+/* @vitest-environment jsdom */
 import { render, screen } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { DeploymentDriftBanner } from './DeploymentDriftBanner'
 
-const useQueryMock = vi.fn()
+const useQueriesMock = vi.fn()
 
 vi.mock('convex/react', () => ({
-  useQuery: (...args: unknown[]) => useQueryMock(...args),
+  useQueries: (...args: unknown[]) => useQueriesMock(...args),
 }))
 
 function withMetaEnv<T>(values: Record<string, string | undefined>, run: () => T): T {
@@ -31,14 +32,14 @@ function withMetaEnv<T>(values: Record<string, string | undefined>, run: () => T
 }
 
 afterEach(() => {
-  useQueryMock.mockReset()
+  useQueriesMock.mockReset()
   vi.restoreAllMocks()
 })
 
 describe('DeploymentDriftBanner', () => {
-  it('swallows query crashes instead of taking down the app shell', () => {
+  it('swallows unexpected banner crashes instead of taking down the app shell', () => {
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {})
-    useQueryMock.mockImplementation(() => {
+    useQueriesMock.mockImplementation(() => {
       throw new Error('boom')
     })
 
@@ -48,11 +49,27 @@ describe('DeploymentDriftBanner', () => {
     expect(consoleError).toHaveBeenCalled()
   })
 
+  it('does not throw when the backend query is unavailable', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    useQueriesMock.mockReturnValue({
+      deploymentInfo: new Error("Could not find function for 'appMeta:getDeploymentInfo'"),
+    })
+
+    expect(() => render(<DeploymentDriftBanner />)).not.toThrow()
+    expect(screen.queryByRole('alert')).toBeNull()
+    expect(warnSpy).toHaveBeenCalledWith(
+      'Deployment drift check unavailable',
+      expect.any(Error),
+    )
+  })
+
   it('renders drift warning when backend and frontend SHAs differ', () => {
     vi.spyOn(console, 'error').mockImplementation(() => {})
-    useQueryMock.mockReturnValue({
-      appBuildSha: 'backend-sha',
-      deployedAt: '2026-03-09T00:00:00Z',
+    useQueriesMock.mockReturnValue({
+      deploymentInfo: {
+        appBuildSha: 'backend-sha',
+        deployedAt: '2026-03-09T00:00:00Z',
+      },
     })
 
     withMetaEnv({ VITE_APP_BUILD_SHA: 'frontend-sha' }, () => {

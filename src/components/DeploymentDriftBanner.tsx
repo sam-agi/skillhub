@@ -1,4 +1,4 @@
-import { useQuery } from 'convex/react'
+import { useQueries } from 'convex/react'
 import { Component, useEffect, type ReactNode } from 'react'
 import { api } from '../../convex/_generated/api'
 import { getDeploymentDriftInfo } from '../lib/deploymentDrift'
@@ -40,16 +40,26 @@ class DeploymentDriftBannerBoundary extends Component<
 }
 
 function DeploymentDriftBannerContent() {
-  const deploymentInfo = useQuery(api.appMeta.getDeploymentInfo)
+  const deploymentInfoResult = useQueries({
+    deploymentInfo: {
+      query: api.appMeta.getDeploymentInfo,
+      args: {},
+    },
+  }).deploymentInfo
+  const deploymentInfo = deploymentInfoResult instanceof Error ? null : deploymentInfoResult
   const drift = getDeploymentDriftInfo({
     expectedBuildSha: getFrontendBuildSha(),
     actualBuildSha: deploymentInfo?.appBuildSha ?? null,
   })
 
   useEffect(() => {
+    if (deploymentInfoResult instanceof Error) {
+      console.warn('Deployment drift check unavailable', deploymentInfoResult)
+      return
+    }
     if (!drift.hasMismatch) return
     console.error('Deployment drift detected', drift)
-  }, [drift])
+  }, [deploymentInfoResult, drift])
 
   if (!drift.hasMismatch) return null
 
