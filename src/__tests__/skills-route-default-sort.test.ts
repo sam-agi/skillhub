@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
 
+vi.mock('../../src/convex/client', () => ({
+  convexHttp: { query: vi.fn() },
+}))
+
 vi.mock('@tanstack/react-router', () => ({
   createFileRoute:
     () =>
