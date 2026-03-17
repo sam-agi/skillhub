@@ -3,6 +3,7 @@ import { formatReservedSlugCooldownMessage } from './lib/reservedSlugs'
 
 vi.mock('@convex-dev/auth/server', () => ({
   getAuthUserId: vi.fn(),
+  authTables: {},
 }))
 
 import { getAuthUserId } from '@convex-dev/auth/server'

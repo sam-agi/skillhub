@@ -2,6 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 
 vi.mock('@convex-dev/auth/server', () => ({
   getAuthUserId: vi.fn(),
+  authTables: {},
 }))
 
 vi.mock('./lib/badges', async () => {

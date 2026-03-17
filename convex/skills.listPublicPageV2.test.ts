@@ -1,6 +1,11 @@
 /* @vitest-environment node */
 import { describe, expect, it, vi } from 'vitest'
 
+vi.mock('@convex-dev/auth/server', () => ({
+  getAuthUserId: vi.fn(),
+  authTables: {},
+}))
+
 import { listPublicPageV2 } from './skills'
 
 type ListArgs = {

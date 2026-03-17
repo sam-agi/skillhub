@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest'
 
 vi.mock('@convex-dev/auth/server', () => ({
   getAuthUserId: vi.fn(),
+  authTables: {},
 }))
 
 const { getAuthUserId } = await import('@convex-dev/auth/server')

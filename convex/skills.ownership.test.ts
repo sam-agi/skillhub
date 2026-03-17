@@ -1,4 +1,10 @@
 import { describe, expect, it, vi } from 'vitest'
+
+vi.mock('@convex-dev/auth/server', () => ({
+  getAuthUserId: vi.fn(),
+  authTables: {},
+}))
+
 import { getSkillBySlugInternal } from './skills'
 
 type WrappedHandler<TArgs, TResult = unknown> = {
