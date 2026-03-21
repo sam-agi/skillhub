@@ -63,7 +63,7 @@ export default function Header() {
           <span className="brand-name">{siteName}</span>
         </Link>
         <nav className="nav-links">
-          {isSoulMode ? <a href={clawHubUrl}>ClawHub</a> : null}
+          {isSoulMode ? <a href={clawHubUrl}>SkillHub</a> : null}
           {isSoulMode ? (
             <Link
               to="/souls"
@@ -94,9 +94,9 @@ export default function Header() {
             </Link>
           )}
           <Link to="/upload" search={{ updateSlug: undefined }}>
-            Upload
+            上传
           </Link>
-          {isSoulMode ? null : <Link to="/import">Import</Link>}
+          {isSoulMode ? null : <Link to="/import">导入</Link>}
           <Link
             to={isSoulMode ? "/souls" : "/skills"}
             search={
@@ -119,12 +119,12 @@ export default function Header() {
                   }
             }
           >
-            Search
+            搜索
           </Link>
-          {me ? <Link to="/stars">Stars</Link> : null}
+          {me ? <Link to="/stars">收藏</Link> : null}
           {isStaff ? (
             <Link to="/management" search={{ skill: undefined }}>
-              Management
+              管理
             </Link>
           ) : null}
         </nav>
@@ -139,7 +139,7 @@ export default function Header() {
               <DropdownMenuContent align="end">
                 {isSoulMode ? (
                   <DropdownMenuItem asChild>
-                    <a href={clawHubUrl}>ClawHub</a>
+                    <a href={clawHubUrl}>SkillHub</a>
                   </DropdownMenuItem>
                 ) : null}
                 <DropdownMenuItem asChild>
@@ -224,15 +224,15 @@ export default function Header() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => setTheme("system")}>
                   <Monitor className="h-4 w-4" aria-hidden="true" />
-                  System
+                  跟随系统
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("light")}>
                   <Sun className="h-4 w-4" aria-hidden="true" />
-                  Light
+                  浅色
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => setTheme("dark")}>
                   <Moon className="h-4 w-4" aria-hidden="true" />
-                  Dark
+                  深色
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
@@ -249,15 +249,15 @@ export default function Header() {
             >
               <ToggleGroupItem value="system" aria-label="System theme">
                 <Monitor className="h-4 w-4" aria-hidden="true" />
-                <span className="sr-only">System</span>
+                <span className="sr-only">跟随系统</span>
               </ToggleGroupItem>
               <ToggleGroupItem value="light" aria-label="Light theme">
                 <Sun className="h-4 w-4" aria-hidden="true" />
-                <span className="sr-only">Light</span>
+                <span className="sr-only">浅色</span>
               </ToggleGroupItem>
               <ToggleGroupItem value="dark" aria-label="Dark theme">
                 <Moon className="h-4 w-4" aria-hidden="true" />
-                <span className="sr-only">Dark</span>
+                <span className="sr-only">深色</span>
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
@@ -276,13 +276,13 @@ export default function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuItem asChild>
-                  <Link to="/dashboard">Dashboard</Link>
+                  <Link to="/dashboard">仪表板</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link to="/settings">Settings</Link>
+                  <Link to="/settings">设置</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => void signOut()}>Sign out</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => void signOut()}>退出登录</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
