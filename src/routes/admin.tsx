@@ -1,10 +1,11 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/admin")({
-  beforeLoad: () => {
+  beforeLoad: ({ params }) => {
+    const skill = params["*"] || undefined;
     throw redirect({
       to: "/management",
-      search: { skill: undefined },
+      search: skill ? { skill } : { skill: undefined },
       replace: true,
     });
   },

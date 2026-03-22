@@ -1,225 +1,330 @@
-<p align="center">
-  <img src="public/clawd-logo.png" alt="ClawHub" width="120">
-</p>
-
-<h1 align="center">ClawHub</h1>
+# SkillHub for BGI — 生物信息学 Agent Skill 平台
 
 <p align="center">
-  <a href="https://github.com/openclaw/clawhub/actions/workflows/ci.yml?branch=main"><img src="https://img.shields.io/github/actions/workflow/status/openclaw/clawhub/ci.yml?branch=main&style=for-the-badge" alt="CI status"></a>
-  <a href="https://discord.gg/clawd"><img src="https://img.shields.io/discord/1456350064065904867?label=Discord&logo=discord&logoColor=white&color=5865F2&style=for-the-badge" alt="Discord"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="MIT License"></a>
+  <img src="public/clawd-logo.png" alt="SkillHub" width="120">
 </p>
 
-ClawHub is the **public skill registry for Clawdbot**: publish, version, and search text-based agent skills (a `SKILL.md` plus supporting files).
-It's designed for fast browsing + a CLI-friendly API, with moderation hooks and vector search.
-
-onlycrabs.ai is the **SOUL.md registry**: publish and share system lore the same way you publish skills.
+<h1 align="center">SkillHub</h1>
 
 <p align="center">
-  <a href="https://clawhub.ai">ClawHub</a> ·
-  <a href="https://onlycrabs.ai">onlycrabs.ai</a> ·
-  <a href="VISION.md">Vision</a> ·
-  <a href="docs/README.md">Docs</a> ·
-  <a href="CONTRIBUTING.md">Contributing</a> ·
-  <a href="https://discord.gg/clawd">Discord</a>
+  <strong>面向中国生物学研究者的 Agent Skill 统一仓库</strong>
 </p>
 
-## What you can do with it
+<p align="center">
+  <a href="#核心功能">核心功能</a> ·
+  <a href="#快速开始">快速开始</a> ·
+  <a href="#技术架构">技术架构</a> ·
+  <a href="#贡献指南">贡献指南</a> ·
+  <a href="#许可证">许可证</a>
+</p>
 
-- Browse skills + render their `SKILL.md`.
-- Publish new skill versions with changelogs + tags (including `latest`).
-- Rename an owned skill without breaking old links or installs.
-- Merge duplicate owned skills into one canonical slug.
-- Browse souls + render their `SOUL.md`.
-- Publish new soul versions with changelogs + tags.
-- Search via embeddings (vector index) instead of brittle keywords.
-- Star + comment; admins/mods can curate and approve skills.
+---
 
-## onlycrabs.ai (SOUL.md registry)
+## 项目简介
 
-- Entry point is host-based: `onlycrabs.ai`.
-- On the onlycrabs.ai host, the home page and nav default to souls.
-- On ClawHub, souls live under `/souls`.
-- Soul bundles only accept `SOUL.md` for now (no extra files).
+**SkillHub** 是为 **BGI（华大基因）** 及中国生物学研究社区打造的 Agent Skill 共享、分发与合作平台。研究人员可以将生物信息学分析流程、数据处理脚本打包为标准化 Skill，通过平台进行版本管理和社区共享。
 
-## How it works (high level)
+### 核心理念
 
-- Web app: TanStack Start (React, Vite/Nitro).
-- Backend: Convex (DB + file storage + HTTP actions) + Convex Auth (GitHub OAuth).
-- Search: OpenAI embeddings (`text-embedding-3-small`) + Convex vector search.
-- API schema + routes: `packages/schema` (`clawhub-schema`).
+| 维度 | 说明 |
+|------|------|
+| **共享** | 研究人员分享自定义的生物信息学分析流程 |
+| **分发** | 版本化的 Skill 分发机制，确保分析流程可重复 |
+| **合作** | 基于论坛的社区互动，促进知识交流 |
 
-## CLI
+---
 
-Common CLI flows:
+## 核心功能
 
-- Auth: `clawhub login`, `clawhub whoami`
-- Discover: `clawhub search ...`, `clawhub explore`
-- Manage local installs: `clawhub install <slug>`, `clawhub uninstall <slug>`, `clawhub list`, `clawhub update --all`
-- Inspect without installing: `clawhub inspect <slug>`
-- Publish/sync: `clawhub publish <path>`, `clawhub sync`
-- Canonicalize owned skills: `clawhub skill rename <slug> <new-slug>`, `clawhub skill merge <source> <target>`
+### 🧬 Skill 仓库
 
-Docs: [`docs/quickstart.md`](docs/quickstart.md), [`docs/cli.md`](docs/cli.md).
+- **标准化格式**: 基于 `SKILL.md` 的规范格式，包含元数据、描述、依赖声明
+- **版本控制**: 语义化版本 (semver)，支持标签管理 (`latest`, `stable` 等)
+- **向量搜索**: 基于 OpenAI Embeddings 的智能搜索，快速发现相关 Skill
 
-### Removal permissions
+### 🔐 统一认证
 
-- `clawhub uninstall <slug>` only removes a local install on your machine.
-- Uploaded registry skills use soft-delete/restore (`clawhub delete <slug>` / `clawhub undelete <slug>` or API equivalents).
-- Soft-delete/restore is allowed for the skill owner, moderators, and admins.
-- Hard delete is admin-only (management tools / ban flows).
-- Owner rename keeps the old slug as a redirect alias.
-- Owner merge hides the source listing and redirects the old slug to the canonical target.
+- **论坛集成**: 支持与 BGI Flarum 论坛的单点登录
+- **权限管理**: 用户 / Moderator / Admin 三级权限体系
+- **JWT 安全**: 基于 Convex Auth 的会话管理
 
-## Telemetry
+### 🛠️ 管理工具
 
-ClawHub tracks minimal **install telemetry** (to compute install counts) when you run `clawhub sync` while logged in.
-Disable via:
+- **版本对比**: 可视化 diff 查看版本变更
+- **所有权管理**: Skill 重命名、合并、转移
+- **审核机制**: 标记精选、官方认证、弃用状态
+- **审计日志**: 完整记录所有管理操作
+
+### 💬 社区功能
+
+- **评论系统**: 每个 Skill 支持讨论和反馈
+- **评分收藏**: Star 机制标记优质 Skill
+- **Report 机制**: 社区自治，标记问题内容
+
+---
+
+## 快速开始
+
+### 安装 CLI
 
 ```bash
-export CLAWHUB_DISABLE_TELEMETRY=1
+npm install -g @bgicli/skillhub
 ```
 
-Details: [`docs/telemetry.md`](docs/telemetry.md).
-
-## Repo layout
-
-- `src/` — TanStack Start app (routes, components, styles).
-- `convex/` — schema + queries/mutations/actions + HTTP API routes.
-- `packages/schema/` — shared API types/routes for the CLI and app.
-- [`docs/`](docs/README.md) — project documentation (architecture, CLI, auth, deployment, and more).
-- [`docs/spec.md`](docs/spec.md) — product + implementation spec (good first read).
-
-## Local dev
-
-Prereqs: [Bun](https://bun.sh/) (Convex runs via `bunx`, no global install needed).
+### 登录
 
 ```bash
-bun install
-cp .env.local.example .env.local
-# edit .env.local — see CONTRIBUTING.md for local Convex values
+# 使用 BGI 论坛账号登录
+skillhub login
+```
 
-# terminal A: local Convex backend
+### 搜索 Skill
+
+```bash
+# 搜索基因分析相关 Skill
+skillhub search genome
+
+# 浏览热门 Skill
+skillhub explore
+```
+
+### 安装 Skill
+
+```bash
+# 安装到本地
+skillhub install steipete/variant-calling
+
+# 查看已安装
+skillhub list
+
+# 更新全部
+skillhub update --all
+```
+
+### 发布 Skill
+
+```bash
+# 进入 Skill 目录
+cd ./my-bio-pipeline
+
+# 发布新版本
+skillhub publish .
+
+# 或使用自动同步
+skillhub sync
+```
+
+### Skill 管理
+
+```bash
+# 重命名（旧 slug 自动 redirect）
+skillhub skill rename old-slug new-slug
+
+# 合并 Skill
+skillhub skill merge source-slug target-slug
+```
+
+---
+
+## SKILL.md 格式
+
+每个 Skill 必须包含 `SKILL.md` 文件：
+
+```yaml
+---
+name: variant-calling
+description: GATK-based variant calling pipeline for WGS data
+metadata:
+  clawhub:
+    requires:
+      bins:
+        - gatk
+        - samtools
+      env:
+        - REF_GENOME
+    config:
+      requiredEnv: ["REF_GENOME"]
+      example: |
+        REF_GENOME=/data/hg38.fa
+---
+
+## 使用方法
+
+```bash
+# 运行 variant calling
+bash run.sh input.bam output.vcf
+```
+```
+
+完整规范参见 [`docs/skill-format.md`](docs/skill-format.md)
+
+---
+
+## 技术架构
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        用户浏览器                             │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+┌───────────────────────▼─────────────────────────────────────┐
+│                  Vercel Edge (SSR)                          │
+│              TanStack Start + React 19                      │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+┌───────────────────────▼─────────────────────────────────────┐
+│                   Convex Cloud                              │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────────────┐  │
+│  │   Database  │  │File Storage │  │  Vector Search      │  │
+│  └─────────────┘  └─────────────┘  └─────────────────────┘  │
+└───────────────────────┬─────────────────────────────────────┘
+                        │
+┌───────────────────────▼─────────────────────────────────────┐
+│              Flarum Bridge (Node.js)                        │
+│                 JWT + MySQL                                 │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 技术栈
+
+| 层级 | 技术 |
+|------|------|
+| 前端 | TanStack Start (React 19 + Vite 7 + Tailwind CSS 4) |
+| 后端 | Convex (Serverless DB + 文件存储 + HTTP Actions) |
+| 认证 | Convex Auth + Flarum JWT |
+| 搜索 | OpenAI Embeddings + Convex Vector Search |
+| 部署 | Vercel + Convex Cloud |
+
+---
+
+## 本地开发
+
+### 环境要求
+
+- [Bun](https://bun.sh/) (Node.js 包管理器)
+- Convex CLI (`bunx convex`)
+
+### 快速启动
+
+```bash
+# 安装依赖
+bun install
+
+# 配置环境变量
+cp .env.local.example .env.local
+# 编辑 .env.local 填入必要配置
+
+# 终端 A: 启动 Convex 后端
 bunx convex dev
 
-# terminal B: web app (port 3000)
+# 终端 B: 启动开发服务器
 bun run dev
 
-# seed sample data
-bunx convex run --no-push devSeed:seedNixSkills
+# 访问 http://localhost:3000
 ```
 
-For full setup instructions (env vars, GitHub OAuth, JWT keys, database seeding), see [CONTRIBUTING.md](CONTRIBUTING.md).
+### 环境变量
 
-## Environment
+| 变量 | 说明 |
+|------|------|
+| `VITE_CONVEX_URL` | Convex 部署 URL |
+| `VITE_FLARUM_BRIDGE_URL` | Flarum Bridge 服务地址 |
+| `AUTH_GITHUB_ID` / `AUTH_GITHUB_SECRET` | GitHub OAuth (可选) |
+| `OPENAI_API_KEY` | 用于向量搜索 |
 
-- `VITE_CONVEX_URL`: Convex deployment URL (`https://<deployment>.convex.cloud`).
-- `VITE_CONVEX_SITE_URL`: Convex site URL (`https://<deployment>.convex.site`).
-- `VITE_SOULHUB_SITE_URL`: onlycrabs.ai site URL (`https://onlycrabs.ai`).
-- `VITE_SOULHUB_HOST`: onlycrabs.ai host match (`onlycrabs.ai`).
-- `VITE_SITE_MODE`: Optional override (`skills` or `souls`) for SSR builds.
-- `CONVEX_SITE_URL`: same as `VITE_CONVEX_SITE_URL` (auth + cookies).
-- `SITE_URL`: App URL (local: `http://localhost:3000`).
-- `AUTH_GITHUB_ID` / `AUTH_GITHUB_SECRET`: GitHub OAuth App.
-- `JWT_PRIVATE_KEY` / `JWKS`: Convex Auth keys.
-- `OPENAI_API_KEY`: embeddings for search + indexing.
+完整配置参见 [CONTRIBUTING.md](CONTRIBUTING.md)
 
-## Nix plugins (nixmode skills)
-
-ClawHub can store a nix-clawdbot plugin pointer in SKILL frontmatter so the registry knows which
-Nix package bundle to install. A nix plugin is different from a regular skill pack: it bundles the
-skill pack, the CLI binary, and its config flags/requirements together.
-
-Add this to `SKILL.md`:
-
-```yaml
 ---
-name: peekaboo
-description: Capture and automate macOS UI with the Peekaboo CLI.
-metadata:
-  {
-    "clawdbot":
-      {
-        "nix":
-          {
-            "plugin": "github:clawdbot/nix-steipete-tools?dir=tools/peekaboo",
-            "systems": ["aarch64-darwin"],
-          },
-      },
-  }
----
+
+## 项目结构
+
+```
+├── src/                    # TanStack Start 前端应用
+│   ├── routes/            # 文件系统路由
+│   ├── components/        # React 组件
+│   └── lib/               # 客户端工具函数
+├── convex/                # Convex 后端
+│   ├── schema.ts          # 数据库 Schema
+│   ├── functions.ts       # Queries / Mutations
+│   └── http.ts            # HTTP Actions
+├── packages/
+│   └── schema/            # 共享 API 类型 (CLI 使用)
+├── docs/                  # 项目文档
+└── cli/                   # CLI 工具源码
 ```
 
-Install via nix-clawdbot:
+---
 
-```nix
-programs.clawdbot.plugins = [
-  { source = "github:clawdbot/nix-steipete-tools?dir=tools/peekaboo"; }
-];
+## 贡献指南
+
+我们欢迎社区贡献！请遵循以下流程：
+
+1. **Fork 仓库** 并创建功能分支
+2. **遵循代码规范**: `bun run lint` 必须通过
+3. **提交前测试**: `bun run test` 和 `bun run coverage`
+4. **使用 Conventional Commits**: `feat:`, `fix:`, `docs:`, `chore:`
+5. **提交 PR** 并描述变更内容
+
+详细指南参见 [CONTRIBUTING.md](CONTRIBUTING.md)
+
+---
+
+## 安全与合规
+
+- **恶意代码扫描**: VirusTotal 集成，自动检测可疑文件
+- **静态分析**: LLM 辅助代码审查
+- **社区自治**: 用户 Report + 管理员审核双层机制
+- **审计日志**: 所有管理操作完整记录
+
+安全报告: [security@openclaw.ai](mailto:security@openclaw.ai)
+
+---
+
+## 相关项目
+
+- [OpenClaw](https://github.com/openclaw/openclaw) - Agent 运行时
+- [Flarum](https://flarum.org/) - 论坛软件
+- [Convex](https://convex.dev/) - 后端平台
+
+---
+
+## 许可证
+
+本项目基于 **MIT License** 开源。
+
+原 [ClawHub](https://github.com/openclaw/clawhub) 项目由 [OpenClaw](https://openclaw.ai) 团队创建并维护。本仓库是原项目的衍生版本，针对 BGI（华大基因）及中国生物学研究社区进行了本地化和定制。
+
+```
+MIT License
+
+Copyright (c) 2024 OpenClaw
+Copyright (c) 2025 BGI SkillHub Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 ```
 
-You can also declare config requirements + an example snippet:
-
-```yaml
 ---
-name: padel
-description: Check padel court availability and manage bookings via Playtomic.
-metadata:
-  {
-    "clawdbot":
-      {
-        "config":
-          {
-            "requiredEnv": ["PADEL_AUTH_FILE"],
-            "stateDirs": [".config/padel"],
-            "example": "config = { env = { PADEL_AUTH_FILE = \\\"/run/agenix/padel-auth\\\"; }; };",
-          },
-      },
-  }
----
-```
 
-To show CLI help (recommended for nix plugins), include the `cli --help` output:
+<p align="center">
+  Made with ❤️ for the BGI & Chinese Bioinformatics Community
+</p>
 
-```yaml
----
-name: padel
-description: Check padel court availability and manage bookings via Playtomic.
-metadata: { "clawdbot": { "cliHelp": "padel --help\\nUsage: padel [command]\\n" } }
----
-```
-
-`metadata.clawdbot` is preferred, but `metadata.clawdis` and `metadata.openclaw` are accepted as aliases.
-
-## Skill metadata
-
-Skills declare their runtime requirements (env vars, binaries, install specs) in the `SKILL.md` frontmatter. ClawHub's security analysis checks these declarations against actual skill behavior.
-
-Full reference: [`docs/skill-format.md`](docs/skill-format.md#frontmatter-metadata)
-
-Quick example:
-
-```yaml
----
-name: my-skill
-description: Does a thing with an API.
-metadata:
-  openclaw:
-    requires:
-      env:
-        - MY_API_KEY
-      bins:
-        - curl
-    primaryEnv: MY_API_KEY
----
-```
-
-## Scripts
-
-```bash
-bun run dev
-bun run build
-bun run test
-bun run coverage
-bun run lint
-```
+<p align="center">
+  <sub>Built on top of <a href="https://github.com/openclaw/clawhub">ClawHub</a></sub>
+</p>

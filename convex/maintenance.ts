@@ -1761,7 +1761,7 @@ export const backfillDigestOwnerFieldsInternal = internalMutation({
         ownerHandle: isOwnerVisible ? (owner.handle ?? "") : "",
         ownerName: isOwnerVisible ? owner.name : undefined,
         ownerDisplayName: isOwnerVisible ? owner.displayName : undefined,
-        ownerImage: isOwnerVisible ? owner.image : undefined,
+        ownerImage: isOwnerVisible ? (owner.image ?? undefined) : undefined,
       });
       patched++;
     }

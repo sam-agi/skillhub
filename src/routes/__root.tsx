@@ -93,6 +93,19 @@ export const Route = createRootRoute({
           rel: "stylesheet",
           href: appCss,
         },
+        {
+          rel: "icon",
+          type: "image/png",
+          href: "/favicon.png",
+        },
+        {
+          rel: "apple-touch-icon",
+          href: "/logo192.png",
+        },
+        {
+          rel: "manifest",
+          href: "/manifest.json",
+        },
       ],
     };
   },
@@ -101,10 +114,42 @@ export const Route = createRootRoute({
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+  // 内联主题检测脚本 - 在页面渲染前执行，防止主题闪烁
+  const themeScript = `
+    (function() {
+      const THEME_KEY = "clawhub-theme";
+      const BRAND_KEY = "clawhub-brand";
+      const LEGACY_THEME_KEY = "clawdhub-theme";
+      function getStoredTheme() {
+        const stored = localStorage.getItem(THEME_KEY);
+        if (stored === "light" || stored === "dark" || stored === "system") return stored;
+        const legacy = localStorage.getItem(LEGACY_THEME_KEY);
+        if (legacy === "light" || legacy === "dark" || legacy === "system") return legacy;
+        return "system";
+      }
+      function getStoredBrand() {
+        const stored = localStorage.getItem(BRAND_KEY);
+        if (stored === "classic" || stored === "bgi") return stored;
+        return "bgi";
+      }
+      function resolveTheme(mode) {
+        if (mode !== "system") return mode;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      const mode = getStoredTheme();
+      const brand = getStoredBrand();
+      const resolved = resolveTheme(mode);
+      document.documentElement.dataset.theme = resolved;
+      document.documentElement.dataset.brand = brand;
+      if (resolved === "dark") document.documentElement.classList.add("dark");
+    })();
+  `;
+
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body>
         <AppProviders>

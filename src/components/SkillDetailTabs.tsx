@@ -78,7 +78,7 @@ export function SkillDetailTabs({
       </div>
 
       {activeTab === "files" ? (
-        <Suspense fallback={<div className="tab-body stat">Loading file viewer…</div>}>
+        <Suspense fallback={<div className="tab-body stat">加载文件查看器…</div>}>
           <SkillFilesPanel
             versionId={latestVersionId}
             readmeContent={readmeContent}
@@ -90,7 +90,7 @@ export function SkillDetailTabs({
 
       {activeTab === "compare" ? (
         <div className="tab-body">
-          <Suspense fallback={<div className="stat">Loading diff viewer…</div>}>
+          <Suspense fallback={<div className="stat">加载 diff 查看器…</div>}>
             <SkillDiffCard skill={skill} versions={diffVersions ?? []} variant="embedded" />
           </Suspense>
         </div>

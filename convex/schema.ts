@@ -14,7 +14,7 @@ const manualModerationOverride = v.object({
 
 const users = defineTable({
   name: v.optional(v.string()),
-  image: v.optional(v.string()),
+  image: v.optional(v.union(v.string(), v.null())),
   email: v.optional(v.string()),
   emailVerificationTime: v.optional(v.number()),
   phone: v.optional(v.string()),
@@ -36,10 +36,16 @@ const users = defineTable({
   banReason: v.optional(v.string()),
   createdAt: v.optional(v.number()),
   updatedAt: v.optional(v.number()),
+  // Flarum 论坛认证相关字段
+  flarumId: v.optional(v.number()),
+  flarumUsername: v.optional(v.string()),
+  flarumSyncedAt: v.optional(v.number()),
+  authProvider: v.optional(v.union(v.literal("github"), v.literal("flarum"))),
 })
   .index("email", ["email"])
   .index("phone", ["phone"])
-  .index("handle", ["handle"]);
+  .index("handle", ["handle"])
+  .index("flarumId", ["flarumId"]);
 
 // Shared validator fragments used by both `skills` and `skillSearchDigest`.
 const forkOfValidator = v.optional(
@@ -771,6 +777,16 @@ const skillOwnershipTransfers = defineTable({
   .index("by_from_user_status", ["fromUserId", "status"])
   .index("by_skill_status", ["skillId", "status"]);
 
+// Flarum 论坛登录令牌（用于 Credentials Provider 验证）
+const flarumLoginTokens = defineTable({
+  userId: v.id("users"),
+  token: v.string(),
+  expiresAt: v.number(),
+  usedAt: v.optional(v.number()),
+})
+  .index("token", ["token"])
+  .index("by_user", ["userId"]);
+
 export default defineSchema({
   ...authTables,
   users,
@@ -809,4 +825,5 @@ export default defineSchema({
   userSkillInstalls,
   userSkillRootInstalls,
   skillOwnershipTransfers,
+  flarumLoginTokens,
 });

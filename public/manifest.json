@@ -1,11 +1,11 @@
 {
-  "short_name": "ClawHub",
-  "name": "ClawHub — Skill Registry for Agents",
+  "short_name": "SkillHub",
+  "name": "SkillHub — Agent 技能库",
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "src": "favicon.png",
+      "sizes": "484x484",
+      "type": "image/png"
     },
     {
       "src": "logo192.png",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#00cfeb",
+  "background_color": "#f2f3f3"
 }

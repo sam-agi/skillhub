@@ -1,0 +1,14 @@
+{
+  "name": "flarum-bridge",
+  "version": "1.0.0",
+  "description": "Bridge service for Flarum authentication",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.9.0"
+  }
+}

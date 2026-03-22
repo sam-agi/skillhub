@@ -28,7 +28,7 @@ function formatMutationError(error: unknown) {
       .replace(/^ConvexError:\s*/i, "")
       .trim();
   }
-  return "Request failed.";
+  return "请求失败。";
 }
 
 export function SkillOwnershipPanel({
@@ -52,7 +52,7 @@ export function SkillOwnershipPanel({
   const handleRename = async () => {
     const nextSlug = renameSlug.trim().toLowerCase();
     if (!nextSlug || nextSlug === slug) return;
-    if (!window.confirm(`Rename ${slug} to ${nextSlug}? Old slug will redirect.`)) return;
+    if (!window.confirm(`将 ${slug} 重命名为 ${nextSlug}？旧 slug 将 redirect。`)) return;
     setIsSubmitting(true);
     setError(null);
     try {
@@ -77,7 +77,7 @@ export function SkillOwnershipPanel({
     if (!targetSlug || targetSlug === slug) return;
     if (
       !window.confirm(
-        `Merge ${slug} into ${targetSlug}? ${slug} will stop listing publicly and redirect.`,
+        `将 ${slug} 合并到 ${targetSlug}？${slug} 将停止公开列出并 redirect。`,
       )
     ) {
       return;
@@ -107,46 +107,46 @@ export function SkillOwnershipPanel({
   return (
     <div className="card skill-owner-tools" data-skill-id={skillId}>
       <h2 className="section-title" style={{ marginTop: 0 }}>
-        Owner tools
+        所有者工具
       </h2>
       <p className="section-subtitle">
-        Rename the canonical slug or fold this listing into another one you own. Old slugs stay as
-        redirects and stop polluting search/list views.
+        重命名 canonical slug 或将此列表合并到您拥有的另一个列表中。旧 slug 将保持为
+        redirect 并停止污染搜索/列表视图。
       </p>
 
       <div className="skill-owner-tools-grid">
         <label className="management-control management-control-stack">
-          <span className="mono">rename slug</span>
+          <span className="mono">重命名 slug</span>
           <input
             className="management-field"
             value={renameSlug}
             onChange={(event) => setRenameSlug(event.target.value)}
-            placeholder="new-slug"
+            placeholder="新 slug"
             autoComplete="off"
             spellCheck={false}
           />
-          <span className="section-subtitle">Current page: {ownerHref(slug)}</span>
+          <span className="section-subtitle">当前页面：{ownerHref(slug)}</span>
         </label>
         <div className="management-control management-control-stack">
-          <span className="mono">rename action</span>
+          <span className="mono">重命名操作</span>
           <button
             className="btn management-action-btn"
             type="button"
             onClick={() => void handleRename()}
             disabled={isSubmitting || renameSlug.trim().toLowerCase() === slug}
           >
-            Rename and redirect
+            重命名并 redirect
           </button>
         </div>
         <label className="management-control management-control-stack">
-          <span className="mono">merge into</span>
+          <span className="mono">合并到</span>
           <select
             className="management-field"
             value={mergeTargetSlug}
             onChange={(event) => setMergeTargetSlug(event.target.value)}
             disabled={ownedSkills.length === 0 || isSubmitting}
           >
-            {ownedSkills.length === 0 ? <option value="">No other owned skills</option> : null}
+            {ownedSkills.length === 0 ? <option value="">没有其他拥有的 skills</option> : null}
             {ownedSkills.map((entry) => (
               <option key={entry._id} value={entry.slug}>
                 {entry.displayName} ({entry.slug})
@@ -155,14 +155,14 @@ export function SkillOwnershipPanel({
           </select>
         </label>
         <div className="management-control management-control-stack">
-          <span className="mono">merge action</span>
+          <span className="mono">合并操作</span>
           <button
             className="btn management-action-btn"
             type="button"
             onClick={() => void handleMerge()}
             disabled={isSubmitting || !mergeTargetSlug}
           >
-            Merge into target
+            合并到目标
           </button>
         </div>
       </div>
@@ -173,8 +173,7 @@ export function SkillOwnershipPanel({
         </div>
       ) : null}
       <div className="section-subtitle">
-        Merge keeps the target live and hides this row. Versions and stats stay on the original
-        records for now.
+        合并保持目标处于活动状态并隐藏此行。版本和统计数据暂时保留在原始记录中。
       </div>
     </div>
   );

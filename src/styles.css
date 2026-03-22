@@ -3,6 +3,9 @@
 @import "@fontsource/manrope/latin.css";
 @import "@fontsource/ibm-plex-mono/latin.css";
 
+/* ============================================
+   THEME: Classic (Brown/Orange) - Default
+   ============================================ */
 :root {
   color-scheme: light dark;
   --bg: #f8f2ed;
@@ -40,7 +43,7 @@
     "Courier New", monospace;
 }
 
-[data-theme="dark"] {
+[data-theme="dark"]:not([data-brand="bgi"]) {
   color-scheme: dark;
   --bg: #14100d;
   --bg-soft: #1d1713;
@@ -66,6 +69,479 @@
   --border-ui-hover: rgba(255, 115, 87, 0.58);
   --border-ui-active: rgba(255, 115, 87, 0.78);
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+}
+
+/* ============================================
+   THEME: BGI (Cyan/Gray)
+   BGI Brand Colors - Cyan accent with gray neutrals
+   ============================================ */
+[data-brand="bgi"]:root,
+:root[data-brand="bgi"] {
+  color-scheme: light;
+  /* Primary Grays - Backgrounds */
+  --bg: #f2f3f3;
+  --bg-soft: #fafafa;
+  --bg-glow-1: #e4e7e7;
+  --bg-glow-2: #cfd3d3;
+  --surface: #ffffff;
+  --surface-muted: #f2f3f3;
+  --nav-bg: rgba(250, 250, 250, 0.92);
+  /* Text Colors - Primary Grays */
+  --ink: #111313;
+  --ink-soft: #515858;
+  /* Accent - Cyan (Secondary-500) */
+  --accent: #00cfeb;
+  --accent-deep: #0095a8;
+  /* Supporting Colors */
+  --seafoam: #0095a8;
+  --gold: #47eaff;
+  /* Diff Colors */
+  --diff-added: #22c55e;
+  --diff-added-strong: #16a34a;
+  --diff-removed: #ef4444;
+  --diff-removed-strong: #dc2626;
+  --diff-diagonal: #22222233;
+  --diff-scrollbar-rgb: 113, 122, 122;
+  /* UI Lines - Primary-300/400 */
+  --line: rgba(113, 122, 122, 0.2);
+  --border-ui: rgba(0, 207, 235, 0.35);
+  --border-ui-hover: rgba(0, 207, 235, 0.55);
+  --border-ui-active: rgba(0, 207, 235, 0.75);
+  /* Shadow - Primary based */
+  --shadow: 0 22px 52px rgba(17, 19, 19, 0.1);
+}
+
+[data-brand="bgi"][data-theme="dark"],
+:root[data-brand="bgi"][data-theme="dark"] {
+  color-scheme: dark;
+  /* Dark Mode - Primary 900/950 */
+  --bg: #111313;
+  --bg-soft: #1a1d1d;
+  --bg-glow-1: #222525;
+  --bg-glow-2: #003f47;
+  --surface: #222525;
+  --surface-muted: #3b4040;
+  --nav-bg: rgba(17, 19, 19, 0.92);
+  /* Text Colors - Primary 50/100 */
+  --ink: #fafafa;
+  --ink-soft: #a0a7a7;
+  /* Accent - Cyan (Secondary-400/500) */
+  --accent: #47eaff;
+  --accent-deep: #00cfeb;
+  /* Supporting Colors */
+  --seafoam: #00cfeb;
+  --gold: #47eaff;
+  /* Diff Colors */
+  --diff-added: #4ade80;
+  --diff-added-strong: #22c55e;
+  --diff-removed: #f87171;
+  --diff-removed-strong: #ef4444;
+  --diff-diagonal: #cccccc33;
+  --diff-scrollbar-rgb: 160, 167, 167;
+  /* UI Lines - Primary-700/600 */
+  --line: rgba(113, 122, 122, 0.25);
+  --border-ui: rgba(71, 234, 255, 0.45);
+  --border-ui-hover: rgba(71, 234, 255, 0.65);
+  --border-ui-active: rgba(71, 234, 255, 0.85);
+  /* Shadow - Darker */
+  --shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* BGI Theme - Override hardcoded brown colors */
+[data-brand="bgi"] .upload-page::before {
+  background:
+    radial-gradient(circle at 22% 40%, rgba(0, 207, 235, 0.15), transparent 55%),
+    radial-gradient(circle at 78% 0%, rgba(71, 234, 255, 0.1), transparent 45%);
+}
+
+/* BGI Theme - Body background glow enhancement for upload page */
+[data-brand="bgi"] body {
+  background:
+    radial-gradient(1400px 900px at 15% -5%, var(--bg-glow-1) 0%, transparent 55%),
+    radial-gradient(1000px 700px at 85% 5%, var(--bg-glow-2) 0%, transparent 55%),
+    var(--bg);
+}
+
+[data-brand="bgi"] .upload-panel {
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(242, 247, 248, 0.66)), var(--surface);
+  box-shadow:
+    0 18px 44px rgba(0, 31, 36, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.48);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-panel {
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  background:
+    linear-gradient(180deg, rgba(34, 37, 37, 0.78), rgba(26, 29, 29, 0.74)), var(--surface);
+  box-shadow:
+    0 22px 46px rgba(0, 0, 0, 0.34),
+    inset 0 1px 0 rgba(71, 234, 255, 0.08);
+}
+
+[data-brand="bgi"] .upload-submit-btn:not(:disabled):hover {
+  box-shadow:
+    0 10px 22px color-mix(in srgb, var(--accent) 40%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+[data-brand="bgi"] .btn-primary {
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  box-shadow: 0 10px 22px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+[data-brand="bgi"] .btn-primary:hover:not(:disabled) {
+  box-shadow: 0 14px 30px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .btn-primary {
+  background: linear-gradient(135deg, #00a8bd, #007a8a);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-brand="bgi"] .home-hero-badge::before {
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+
+[data-brand="bgi"] .hero-badge {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+/* BGI Theme - Form Elements */
+[data-brand="bgi"] .form-input:focus {
+  border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+[data-brand="bgi"] .upload-dropzone {
+  border: 1.5px dashed color-mix(in srgb, var(--accent) 50%, transparent);
+  background: linear-gradient(145deg, rgba(232, 250, 253, 0.85), rgba(255, 255, 255, 0.72));
+}
+
+[data-brand="bgi"] .upload-dropzone:hover {
+  border-color: color-mix(in srgb, var(--accent-deep) 68%, transparent);
+  box-shadow: 0 16px 30px color-mix(in srgb, var(--accent) 15%, transparent);
+}
+
+[data-brand="bgi"] .upload-dropzone.is-dragging {
+  border-color: color-mix(in srgb, var(--accent-deep) 92%, transparent);
+  box-shadow:
+    0 18px 38px color-mix(in srgb, var(--accent) 28%, transparent),
+    0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+  background: linear-gradient(145deg, rgba(0, 207, 235, 0.12), rgba(71, 234, 255, 0.08));
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-dropzone {
+  border-color: color-mix(in srgb, var(--accent) 52%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-dropzone:hover {
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 3px color-mix(in srgb, var(--accent) 23%, transparent);
+}
+
+/* BGI Theme - Upload Picker Button */
+[data-brand="bgi"] .upload-picker-btn {
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.92), rgba(232, 250, 253, 0.88));
+  color: #006b7a;
+}
+
+[data-brand="bgi"] .upload-picker-btn:hover {
+  border-color: color-mix(in srgb, var(--accent-deep) 72%, transparent);
+  box-shadow: 0 10px 20px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-picker-btn {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  background: linear-gradient(140deg, rgba(34, 37, 37, 0.9), rgba(26, 29, 29, 0.9));
+  color: #a8f7ff;
+}
+
+/* BGI Theme - Upload File List */
+[data-brand="bgi"] .upload-file-list {
+  border-top: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-file-list {
+  border-top-color: color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+[data-brand="bgi"] .upload-file-row {
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  background: rgba(255, 255, 255, 0.55);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-file-row {
+  border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  background: rgba(34, 37, 37, 0.72);
+}
+
+/* BGI Theme - Upload Submit Row */
+[data-brand="bgi"] .upload-submit-row {
+  border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+  background:
+    linear-gradient(120deg, rgba(232, 250, 253, 0.9), rgba(255, 255, 255, 0.85)), var(--surface);
+  box-shadow:
+    0 12px 32px color-mix(in srgb, var(--accent) 18%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-submit-row {
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  background:
+    linear-gradient(120deg, rgba(34, 37, 37, 0.9), rgba(26, 29, 29, 0.85)), var(--surface);
+  box-shadow:
+    0 12px 32px color-mix(in srgb, var(--accent) 15%, transparent),
+    inset 0 1px 0 rgba(71, 234, 255, 0.08);
+}
+
+[data-brand="bgi"] .upload-submit-btn {
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
+  box-shadow:
+    0 6px 16px color-mix(in srgb, var(--accent) 35%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  border: none;
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-submit-btn {
+  background: linear-gradient(135deg, #00a8bd, #007a8a);
+  box-shadow:
+    0 10px 22px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* BGI Theme - Upload License Card */
+[data-brand="bgi"] .upload-license-card {
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  background: rgba(242, 251, 252, 0.72);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-license-card {
+  border-color: color-mix(in srgb, var(--accent) 24%, transparent);
+  background: rgba(34, 37, 37, 0.76);
+}
+
+/* BGI Theme - Legacy Dropzone */
+[data-brand="bgi"] .dropzone {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .dropzone {
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .dropzone.is-dragging {
+  box-shadow: 0 20px 40px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+/* BGI Theme - Highlight Toggle */
+[data-brand="bgi"][data-theme="dark"] .highlight-toggle {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: #a8f7ff;
+}
+
+[data-brand="bgi"][data-theme="dark"] .highlight-toggle.is-active {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+}
+
+/* BGI Theme - Profile Tab */
+[data-brand="bgi"][data-theme="dark"] .profile-tab {
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+/* BGI Theme - Settings Input */
+[data-brand="bgi"] .settings-input {
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+[data-brand="bgi"] .settings-input:focus {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .settings-input {
+  background: var(--surface-muted);
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .settings-input:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+/* BGI Theme - Settings Avatar */
+[data-brand="bgi"] .settings-avatar {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .settings-avatar {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+/* BGI Theme - Markdown Code (Inline) */
+[data-brand="bgi"] .markdown :not(pre) > code {
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .markdown :not(pre) > code {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: #a8f7ff;
+}
+
+/* BGI Theme - Markdown Code Block (pre) */
+[data-brand="bgi"] .markdown pre {
+  background:
+    radial-gradient(1200px 220px at 12% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(232, 250, 253, 0.9));
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--accent) 55%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+[data-brand="bgi"][data-theme="dark"] .markdown pre {
+  background:
+    radial-gradient(900px 260px at 12% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%),
+    linear-gradient(180deg, rgba(26, 29, 29, 0.95), rgba(17, 19, 19, 0.92));
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  color: rgba(232, 250, 253, 0.96);
+  box-shadow:
+    inset 4px 0 0 color-mix(in srgb, var(--accent) 75%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* BGI Theme - Brand Mark (Logo) */
+[data-brand="bgi"] .brand-mark {
+  background: transparent;
+  box-shadow: none;
+  width: 46px;
+  height: 46px;
+}
+
+[data-brand="bgi"] .brand-mark img {
+  width: 95%;
+  height: 95%;
+  border-radius: 50%;
+}
+
+/* BGI Theme - Management Fields */
+[data-brand="bgi"][data-theme="dark"] .management-field:focus {
+  border-color: color-mix(in srgb, var(--accent) 75%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+/* BGI Theme - Star Toggle */
+[data-brand="bgi"] .star-toggle {
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+[data-brand="bgi"] .star-toggle:hover {
+  box-shadow: 0 10px 18px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+[data-brand="bgi"] .star-toggle:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .star-toggle {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: #a8f7ff;
+}
+
+/* BGI Theme - Skill Hero Note */
+[data-brand="bgi"] .skill-hero-note {
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .skill-hero-note {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* BGI Theme - Tag Accent */
+[data-brand="bgi"] .tag-accent {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: #006b7a;
+}
+
+[data-brand="bgi"][data-theme="dark"] .tag-accent {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+  color: #a8f7ff;
+}
+
+/* BGI Theme - Bundle Card */
+[data-brand="bgi"] .bundle-card {
+  border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), rgba(255, 255, 255, 0.7));
+  box-shadow: 0 18px 30px rgba(17, 19, 19, 0.08);
+}
+
+[data-brand="bgi"][data-theme="dark"] .bundle-card {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 20%, transparent), rgba(17, 19, 19, 0.7));
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.35);
+}
+
+[data-brand="bgi"][data-theme="dark"] .bundle-section {
+  background: rgba(34, 37, 37, 0.6);
+  border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+/* BGI Theme - Hero Install Code */
+[data-brand="bgi"] .hero-install-code {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(232, 250, 253, 0.9));
+}
+
+[data-brand="bgi"][data-theme="dark"] .hero-install-code {
+  background: linear-gradient(180deg, rgba(26, 29, 29, 0.9), rgba(17, 19, 19, 0.85));
+  color: #a8f7ff;
+}
+
+/* BGI Theme - Tag (Dark Mode) */
+[data-brand="bgi"][data-theme="dark"] .tag {
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+  color: #a8f7ff;
+}
+
+/* BGI Theme - Toggle Group (Dark Mode) */
+[data-brand="bgi"][data-theme="dark"] [data-state="on"].bg-\[color\:var\(--accent\)\],
+[data-brand="bgi"][data-theme="dark"] [data-state="on"] {
+  background: linear-gradient(135deg, #00a8bd, #007a8a) !important;
+}
+
+/* BGI Theme - Upload License Pill */
+[data-brand="bgi"] .upload-license-pill {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-license-pill {
+  background: color-mix(in srgb, var(--accent) 24%, transparent);
+  color: #a8f7ff;
+}
+
+[data-brand="bgi"] .upload-badge {
+  background: linear-gradient(140deg, rgba(0, 207, 235, 0.18), rgba(71, 234, 255, 0.12));
+  color: #006b7a;
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+[data-brand="bgi"][data-theme="dark"] .upload-badge {
+  background: linear-gradient(140deg, rgba(0, 207, 235, 0.28), rgba(71, 234, 255, 0.18));
+  color: #a8f7ff;
+  box-shadow: 0 12px 24px color-mix(in srgb, var(--accent) 22%, transparent);
 }
 
 * {
@@ -313,10 +789,10 @@ code {
 }
 
 [data-theme="dark"] .btn-primary {
-  background: linear-gradient(135deg, #c35640, #953827);
+  background: linear-gradient(135deg, var(--accent), var(--accent-deep));
   box-shadow:
-    0 10px 22px rgba(58, 23, 16, 0.42),
-    inset 0 1px 0 rgba(255, 201, 184, 0.18);
+    0 10px 22px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
 .hero {
@@ -426,8 +902,8 @@ code {
   height: 220px;
   pointer-events: none;
   background:
-    radial-gradient(circle at 22% 40%, rgba(255, 118, 84, 0.14), transparent 58%),
-    radial-gradient(circle at 78% 0%, rgba(255, 177, 136, 0.08), transparent 45%);
+    radial-gradient(circle at 22% 40%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 58%),
+    radial-gradient(circle at 78% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 45%);
 }
 
 .upload-page-header {
@@ -459,22 +935,22 @@ code {
 
 .upload-panel {
   border-radius: calc(var(--radius-md) + 2px);
-  border-color: rgba(255, 118, 84, 0.22);
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(255, 249, 245, 0.66)), var(--surface);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.76), color-mix(in srgb, var(--accent) 8%, transparent)), var(--surface);
   box-shadow:
-    0 18px 44px rgba(16, 10, 6, 0.08),
+    0 18px 44px color-mix(in srgb, var(--accent) 12%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.48);
   gap: 10px;
 }
 
 [data-theme="dark"] .upload-panel {
-  border-color: rgba(255, 131, 95, 0.28);
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   background:
-    linear-gradient(180deg, rgba(24, 41, 52, 0.78), rgba(18, 33, 44, 0.74)), var(--surface);
+    linear-gradient(180deg, rgba(34, 37, 37, 0.78), rgba(26, 29, 29, 0.74)), var(--surface);
   box-shadow:
     0 22px 46px rgba(0, 0, 0, 0.34),
-    inset 0 1px 0 rgba(255, 200, 176, 0.08);
+    inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 .upload-panel-title {
@@ -688,22 +1164,22 @@ code {
   justify-content: space-between;
   gap: 16px;
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 118, 84, 0.24);
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
   background:
-    linear-gradient(120deg, rgba(255, 243, 236, 0.74), rgba(255, 255, 255, 0.76)), var(--surface);
+    linear-gradient(120deg, color-mix(in srgb, var(--accent) 8%, transparent), rgba(255, 255, 255, 0.76)), var(--surface);
   box-shadow:
-    0 16px 34px rgba(16, 10, 6, 0.08),
+    0 16px 34px color-mix(in srgb, var(--accent) 12%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
   padding: 12px 14px;
 }
 
 [data-theme="dark"] .upload-submit-row {
-  border-color: rgba(255, 131, 95, 0.26);
+  border-color: color-mix(in srgb, var(--accent) 26%, transparent);
   background:
-    linear-gradient(120deg, rgba(24, 41, 53, 0.76), rgba(17, 31, 41, 0.8)), var(--surface);
+    linear-gradient(120deg, rgba(34, 37, 37, 0.76), rgba(26, 29, 29, 0.8)), var(--surface);
   box-shadow:
     0 20px 40px rgba(0, 0, 0, 0.36),
-    inset 0 1px 0 rgba(255, 200, 176, 0.08);
+    inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
 .upload-submit-notes {
@@ -718,8 +1194,8 @@ code {
   padding: 12px 22px;
   font-size: 0.96rem;
   box-shadow:
-    0 10px 22px rgba(229, 94, 60, 0.26),
-    inset 0 1px 0 rgba(255, 214, 198, 0.42);
+    0 10px 22px color-mix(in srgb, var(--accent) 26%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.42);
 }
 
 .upload-license-card {
@@ -774,8 +1250,8 @@ code {
 .upload-submit-btn:not(:disabled):hover {
   transform: translateY(-1px);
   box-shadow:
-    0 16px 28px rgba(229, 94, 60, 0.32),
-    inset 0 1px 0 rgba(255, 214, 198, 0.52);
+    0 16px 28px color-mix(in srgb, var(--accent) 30%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 .error {
@@ -2972,8 +3448,8 @@ code {
   width: 72px;
   height: 72px;
   border-radius: 22px;
-  background: rgba(255, 107, 74, 0.14);
-  border: 1px solid rgba(255, 107, 74, 0.3);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
   display: grid;
   place-items: center;
   font-weight: 700;
@@ -3119,7 +3595,7 @@ code {
 .settings-input {
   width: 100%;
   border-radius: 14px;
-  border: 1px solid rgba(255, 107, 74, 0.2);
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   background: var(--surface-muted);
   padding: 12px 14px;
   font-size: 1rem;
@@ -3131,8 +3607,8 @@ code {
 }
 
 .settings-input:focus {
-  border-color: rgba(255, 107, 74, 0.5);
-  box-shadow: 0 0 0 3px rgba(255, 107, 74, 0.15);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 15%, transparent);
 }
 
 .settings-actions {
@@ -3163,12 +3639,12 @@ code {
 }
 
 [data-theme="dark"] .settings-input {
-  background: #1d3340;
-  border-color: rgba(255, 131, 95, 0.25);
+  background: var(--surface-muted);
+  border-color: color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
 [data-theme="dark"] .settings-input:focus {
-  box-shadow: 0 0 0 3px rgba(255, 131, 95, 0.2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
 @media (max-width: 900px) {

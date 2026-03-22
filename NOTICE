@@ -1,0 +1,25 @@
+ClawHub - Skill Registry Platform
+Copyright (c) 2026 Peter Steinberger
+
+This software is licensed under the MIT License.
+See LICENSE file for the full license text.
+
+---
+
+MODIFICATIONS BY BGI (Beijing Genomics Institute)
+
+This is a modified version of the original ClawHub software for
+internal use at BGI (Beijing Genomics Institute).
+
+Modifications made:
+- Rebranded from "ClawHub" to "SkillHub" for internal BGI usage
+- Updated site URLs from clawhub.ai to skillhub.bgi.com
+- Updated GitHub repository references from openclaw/clawhub to bgi/skillhub
+- Modified CLI package name references from clawhub to skillhub
+
+These modifications are also licensed under the MIT License.
+The original copyright and license terms remain unchanged.
+
+Original repository: https://github.com/openclaw/clawhub
+Modified for: BGI internal skill registry platform
+Date of modifications: 2026-03-20

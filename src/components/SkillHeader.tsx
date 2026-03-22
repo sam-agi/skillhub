@@ -43,7 +43,7 @@ type SkillHeaderProps = {
   ownerHandle: string | null;
   latestVersion: Doc<"skillVersions"> | null;
   modInfo: SkillModerationInfo | null;
-  canManage: boolean;
+  can管理: boolean;
   isAuthenticated: boolean;
   isStaff: boolean;
   isStarred: boolean | undefined;
@@ -122,7 +122,7 @@ export function SkillHeader({
     !modInfo?.isMalwareBlocked &&
     !modInfo?.isSuspicious;
   const overrideScanMessage = suppressScanResults
-    ? "Security findings were reviewed by staff and cleared for public use."
+    ? "安全审查结果已由 staff 审核并批准公开使用。"
     : null;
 
   return (
@@ -132,9 +132,7 @@ export function SkillHeader({
           <div className="pending-banner-content">
             <strong>Security scan in progress</strong>
             <p>
-              Your skill is being scanned by VirusTotal. It will be visible to others once the scan
-              completes. This usually takes up to 5 minutes — grab a coffee or exfoliate your shell
-              while you wait.
+              您的 skill 正在被 VirusTotal 扫描。扫描完成后其他人将能看到它。这通常需要最多 5 分钟——喝杯咖啡或清理一下 shell 等待吧。
             </p>
           </div>
         </div>
@@ -143,8 +141,7 @@ export function SkillHeader({
           <div className="pending-banner-content">
             <strong>Skill blocked — malicious content detected</strong>
             <p>
-              ClawHub Security flagged this skill as malicious. Downloads are disabled. Review the
-              scan results below.
+              ClawHub Security 将此 skill 标记为恶意。下载已禁用。请查看下方的扫描结果。
             </p>
           </div>
         </div>
@@ -153,20 +150,19 @@ export function SkillHeader({
           <div className="pending-banner-content">
             <strong>Skill flagged — suspicious patterns detected</strong>
             <p>
-              ClawHub Security flagged this skill as suspicious. Review the scan results before
-              using.
+              ClawHub Security 将此 skill 标记为可疑。使用前请查看扫描结果。
             </p>
             {canManage ? (
               <p className="pending-banner-appeal">
-                If you believe this skill has been incorrectly flagged, please{" "}
+                如果您认为此 skill 被错误标记，请{" "}
                 <a
                   href="https://github.com/openclaw/clawhub/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  submit an issue on GitHub
+                  在 GitHub 上提交 issue
                 </a>{" "}
-                and we'll break down why it was flagged and what you can do.
+                我们会解释为什么被标记以及您可以做什么。
               </p>
             ) : null}
           </div>
@@ -175,14 +171,14 @@ export function SkillHeader({
         <div className="pending-banner pending-banner-blocked">
           <div className="pending-banner-content">
             <strong>Skill removed by moderator</strong>
-            <p>This skill has been removed and is not visible to others.</p>
+            <p>此 skill 已被移除，其他人无法看到。</p>
           </div>
         </div>
       ) : modInfo?.isHiddenByMod ? (
         <div className="pending-banner pending-banner-blocked">
           <div className="pending-banner-content">
             <strong>Skill hidden</strong>
-            <p>This skill is currently hidden and not visible to others.</p>
+            <p>此 skill 当前已隐藏，其他人无法看到。</p>
           </div>
         </div>
       ) : null}
@@ -197,14 +193,14 @@ export function SkillHeader({
                 </h1>
                 {nixPlugin ? <span className="tag tag-accent">Plugin bundle (nix)</span> : null}
               </div>
-              <p className="section-subtitle">{skill.summary ?? "No summary provided."}</p>
+              <p className="section-subtitle">{skill.summary ?? "未提供 summary。"}</p>
 
               {isStaff && staffModerationNote ? (
                 <div className="skill-hero-note">{staffModerationNote}</div>
               ) : null}
               {nixPlugin ? (
                 <div className="skill-hero-note">
-                  Bundles the skill pack, CLI binary, and config requirements in one Nix install.
+                  将 skill pack、CLI binary 和 config 需求捆绑在一个 Nix 安装中。
                 </div>
               ) : null}
               <div className="skill-hero-note">
@@ -213,7 +209,7 @@ export function SkillHeader({
               <div className="stat">
                 ⭐ {formattedStats.stars} · <Package size={14} aria-hidden="true" />{" "}
                 {formattedStats.downloads} · {formatCompactStat(skill.stats.installsCurrent ?? 0)}{" "}
-                current installs · {formattedStats.installsAllTime} all-time installs
+                当前安装 · {formattedStats.installsAllTime} 总安装
               </div>
               <div className="stat">
                 <UserBadge
@@ -260,7 +256,7 @@ export function SkillHeader({
                     className={`star-toggle${isStarred ? " is-active" : ""}`}
                     type="button"
                     onClick={onToggleStar}
-                    aria-label={isStarred ? "Unstar skill" : "Star skill"}
+                    aria-label={isStarred ? "取消 star skill" : "Star skill"}
                   >
                     <span aria-hidden="true">★</span>
                   </button>
@@ -293,13 +289,13 @@ export function SkillHeader({
                 latestVersion?.llmAnalysis ||
                 (latestVersion?.staticScan?.findings?.length ?? 0) > 0) ? (
                 <p className="scan-disclaimer">
-                  Like a lobster shell, security has layers — review code before you run it.
+                  像龙虾壳一样，安全有多层保护——运行前请审查代码。
                 </p>
               ) : null}
             </div>
             <div className="skill-hero-cta">
               <div className="skill-version-pill">
-                <span className="skill-version-label">Current version</span>
+                <span className="skill-version-label">当前版本</span>
                 <strong>v{latestVersion?.version ?? "—"}</strong>
               </div>
               {!nixPlugin && !modInfo?.isMalwareBlocked && !modInfo?.isRemoved ? (
@@ -307,7 +303,7 @@ export function SkillHeader({
                   className="btn btn-primary"
                   href={`${convexSiteUrl}/api/v1/download?slug=${skill.slug}`}
                 >
-                  Download zip
+                  下载 zip
                 </a>
               ) : null}
             </div>
@@ -325,11 +321,11 @@ export function SkillHeader({
               </div>
               {configRequirements ? (
                 <div className="bundle-section">
-                  <div className="bundle-section-title">Config requirements</div>
+                  <div className="bundle-section-title">Config 需求</div>
                   <div className="bundle-meta">
                     {configRequirements.requiredEnv?.length ? (
                       <div className="stat">
-                        <strong>Required env</strong>
+                        <strong>必需 env</strong>
                         <span>{configRequirements.requiredEnv.join(", ")}</span>
                       </div>
                     ) : null}
@@ -344,7 +340,7 @@ export function SkillHeader({
               ) : null}
               {cliHelp ? (
                 <details className="bundle-section bundle-details">
-                  <summary>CLI help (from plugin)</summary>
+                  <summary>CLI help（来自 plugin）</summary>
                   <pre className="hero-install-code mono">{cliHelp}</pre>
                 </details>
               ) : null}
@@ -355,7 +351,7 @@ export function SkillHeader({
         <div className="skill-tag-row">
           {tagEntries.length === 0 ? (
             <span className="section-subtitle" style={{ margin: 0 }}>
-              No tags yet.
+              暂无 tags。
             </span>
           ) : (
             tagEntries.map(([tag, versionId]) => (
@@ -395,7 +391,7 @@ export function SkillHeader({
               ))}
             </select>
             <button className="btn" type="submit">
-              Update tag
+              更新 tag
             </button>
           </form>
         ) : null}

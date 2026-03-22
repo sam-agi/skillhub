@@ -70,8 +70,8 @@ export function SkillsIndex() {
         </h1>
         <p className="section-subtitle" style={{ marginBottom: 0 }}>
           {model.isLoadingSkills
-            ? "Loading skills…"
-            : `Browse the skill library${model.activeFilters.length ? ` (${model.activeFilters.join(", ")})` : ""}.`}
+            ? "加载 skills…"
+            : `浏览 skill 库${model.activeFilters.length ? ` (${model.activeFilters.join(", ")})` : ""}.`}
         </p>
       </header>
       <div className="skills-container">

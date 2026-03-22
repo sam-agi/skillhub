@@ -113,10 +113,10 @@ export function ImportGitHub() {
         const only = items[0];
         if (only) await loadCandidate(only.path);
       } else {
-        setStatus(`Found ${items.length} skills. Pick one.`);
+        setStatus(`找到 ${items.length} 个 skills。选择一个。`);
       }
     } catch (e) {
-      setError(getUserFacingConvexError(e, "Preview failed"));
+      setError(getUserFacingConvexError(e, "预览失败"));
     } finally {
       setIsBusy(false);
     }
@@ -142,7 +142,7 @@ export function ImportGitHub() {
       const nextSelected: Record<string, boolean> = {};
       for (const file of result.files) nextSelected[file.path] = file.defaultSelected;
       setSelected(nextSelected);
-      setStatus("Ready to import.");
+      setStatus("准备导入。");
     } catch (e) {
       setError(getUserFacingConvexError(e, "Preview failed"));
     } finally {
@@ -180,7 +180,7 @@ export function ImportGitHub() {
     }
     setIsBusy(true);
     setError(null);
-    setStatus("Importing…");
+    setStatus("导入中…");
     try {
       const selectedPaths = preview.files.map((file) => file.path).filter((path) => selected[path]);
       const tagList = tags
@@ -198,11 +198,11 @@ export function ImportGitHub() {
         tags: tagList,
       });
       const nextSlug = result.slug;
-      setStatus("Imported.");
+      setStatus("已导入。");
       const ownerParam = me?.handle ?? (me?._id ? String(me._id) : "unknown");
       await navigate({ to: "/$owner/$slug", params: { owner: ownerParam, slug: nextSlug } });
     } catch (e) {
-      setError(getUserFacingConvexError(e, "Import failed"));
+      setError(getUserFacingConvexError(e, "导入失败"));
       setStatus(null);
     } finally {
       setIsBusy(false);
@@ -213,7 +213,7 @@ export function ImportGitHub() {
     return (
       <main className="section">
         <div className="card">
-          {isLoading ? "Loading…" : "Sign in to import and publish skills."}
+          {isLoading ? "加载中…" : "登录以导入并发布 skills。"}
         </div>
       </main>
     );
@@ -223,13 +223,13 @@ export function ImportGitHub() {
     <main className="section upload-shell">
       <div className="upload-header">
         <div>
-          <div className="upload-kicker">GitHub import</div>
-          <h1 className="upload-title">Import from GitHub</h1>
-          <p className="upload-subtitle">Public repos only. Detects SKILL.md automatically.</p>
+          <div className="upload-kicker">GitHub 导入</div>
+          <h1 className="upload-title">从 GitHub 导入</h1>
+          <p className="upload-subtitle">仅限公开仓库。自动检测 SKILL.md。</p>
         </div>
         <div className="upload-badge">
-          <div>Public only</div>
-          <div className="upload-badge-sub">Commit pinned</div>
+          <div>仅公开</div>
+          <div className="upload-badge-sub">Commit 已固定</div>
         </div>
       </div>
 
@@ -238,7 +238,7 @@ export function ImportGitHub() {
           <label className="upload-field" htmlFor="github-url">
             <div className="upload-field-header">
               <strong>GitHub URL</strong>
-              <span className="upload-field-hint">Repo, tree path, or blob</span>
+              <span className="upload-field-hint">仓库、tree 路径或 blob</span>
             </div>
             <input
               id="github-url"
@@ -260,7 +260,7 @@ export function ImportGitHub() {
             disabled={!url.trim() || isBusy}
             onClick={() => void detect()}
           >
-            Detect
+            检测
           </button>
           {status ? <p className="upload-muted">{status}</p> : null}
         </div>
@@ -274,7 +274,7 @@ export function ImportGitHub() {
 
       {candidates.length > 1 ? (
         <div className="card">
-          <h2 style={{ margin: 0 }}>Pick a skill</h2>
+          <h2 style={{ margin: 0 }}>选择 skill</h2>
           <div className="upload-filelist">
             {candidates.map((candidate) => (
               <label key={candidate.path} className="upload-file">
@@ -285,7 +285,7 @@ export function ImportGitHub() {
                   onChange={() => void loadCandidate(candidate.path)}
                   disabled={isBusy}
                 />
-                <span className="mono">{candidate.path || "(repo root)"}</span>
+                <span className="mono">{candidate.path || "（仓库根目录）"}</span>
                 <span>
                   {candidate.name
                     ? candidate.name
@@ -307,7 +307,7 @@ export function ImportGitHub() {
                 <label className="upload-field" htmlFor="slug">
                   <div className="upload-field-header">
                     <strong>Slug</strong>
-                    <span className="upload-field-hint">Unique, lowercase</span>
+                    <span className="upload-field-hint">唯一，小写</span>
                   </div>
                   <input
                     id="slug"
@@ -322,7 +322,7 @@ export function ImportGitHub() {
                 <label className="upload-field" htmlFor="name">
                   <div className="upload-field-header">
                     <strong>Display name</strong>
-                    <span className="upload-field-hint">Shown in listings</span>
+                    <span className="upload-field-hint">显示在列表中</span>
                   </div>
                   <input
                     id="name"
@@ -350,7 +350,7 @@ export function ImportGitHub() {
                   <label className="upload-field" htmlFor="tags">
                     <div className="upload-field-header">
                       <strong>Tags</strong>
-                      <span className="upload-field-hint">Comma-separated</span>
+                      <span className="upload-field-hint">逗号分隔</span>
                     </div>
                     <input
                       id="tags"
@@ -371,7 +371,7 @@ export function ImportGitHub() {
                     {preview.resolved.owner}/{preview.resolved.repo}@
                     {preview.resolved.commit.slice(0, 7)}
                   </div>
-                  <div className="upload-muted mono">{preview.candidate.path || "repo root"}</div>
+                  <div className="upload-muted mono">{preview.candidate.path || "仓库根目录"}</div>
                 </div>
               </aside>
             </div>
@@ -386,7 +386,7 @@ export function ImportGitHub() {
                 flexWrap: "wrap",
               }}
             >
-              <h2 style={{ margin: 0 }}>Files</h2>
+              <h2 style={{ margin: 0 }}>文件</h2>
               <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                 <button
                   className="btn"
@@ -394,18 +394,18 @@ export function ImportGitHub() {
                   disabled={isBusy}
                   onClick={applyDefaultSelection}
                 >
-                  Select referenced
+                  选择引用的
                 </button>
                 <button className="btn" type="button" disabled={isBusy} onClick={selectAll}>
-                  Select all
+                  全选
                 </button>
                 <button className="btn" type="button" disabled={isBusy} onClick={clearAll}>
-                  Clear
+                  清除
                 </button>
               </div>
             </div>
             <div className="upload-muted">
-              Selected: {selectedCount}/{preview.files.length} • {formatBytes(selectedBytes)}
+              已选择：{selectedCount}/{preview.files.length} • {formatBytes(selectedBytes)}
             </div>
             <div className="file-list">
               {preview.files.map((file) => (
@@ -437,7 +437,7 @@ export function ImportGitHub() {
                 }
                 onClick={() => void doImport()}
               >
-                Import + publish
+                导入并发布
               </button>
               {slugCollision ? (
                 <div className="upload-muted">

@@ -55,7 +55,7 @@ function formatReportError(error: unknown) {
     if (cleaned && cleaned !== "Server Error") return cleaned;
   }
 
-  return "Unable to submit report. Please try again.";
+  return "无法提交 report，请重试。";
 }
 
 export function SkillDetailPage({
@@ -143,7 +143,7 @@ export function SkillDetailPage({
     !modInfo?.isMalwareBlocked &&
     !modInfo?.isSuspicious;
   const scanResultsSuppressedMessage = suppressVersionScanResults
-    ? "Security findings on these releases were reviewed by staff and cleared for public use."
+    ? "这些版本的安全审查结果已由 staff 审核并批准公开使用。"
     : null;
   const forkOfLabel = forkOf?.kind === "duplicate" ? "duplicate of" : "fork of";
   const forkOfOwnerHandle = forkOf?.owner?.handle ?? null;
@@ -165,18 +165,18 @@ export function SkillDetailPage({
   const isRemoved = moderationStatus === "removed";
   const isAutoHidden = isHidden && staffSkill?.moderationReason === "auto.reports";
   const staffVisibilityTag = isRemoved
-    ? "Removed"
+    ? "已移除"
     : isAutoHidden
-      ? "Auto-hidden"
+      ? "自动隐藏"
       : isHidden
-        ? "Hidden"
+        ? "已隐藏"
         : null;
   const staffModerationNote = staffVisibilityTag
     ? isAutoHidden
-      ? "Auto-hidden after 4+ unique reports."
+      ? "在收到 4 个以上不同 report 后自动隐藏。"
       : isRemoved
-        ? "Removed from public view."
-        : "Hidden from public view."
+        ? "已从公开视图中移除。"
+        : "已从公开视图中隐藏。"
     : null;
 
   const versionById = new Map<Id<"skillVersions">, Doc<"skillVersions">>(
@@ -274,7 +274,7 @@ export function SkillDetailPage({
 
     const trimmedReason = reportReason.trim();
     if (!trimmedReason) {
-      setReportError("Report reason required.");
+      setReportError("需要 Report 原因。");
       return;
     }
 
@@ -284,9 +284,9 @@ export function SkillDetailPage({
       const submission = await reportSkill({ skillId: skill._id, reason: trimmedReason });
       closeReportDialog();
       if (submission.reported) {
-        window.alert("Thanks — your report has been submitted.");
+        window.alert("感谢 — 您的 report 已提交。");
       } else {
-        window.alert("You have already reported this skill.");
+        window.alert("您已经 report 过这个 skill 了。");
       }
     } catch (error) {
       console.error("Failed to report skill", error);
@@ -299,7 +299,7 @@ export function SkillDetailPage({
     return (
       <main className="section">
         <div className="card">
-          <div className="loading-indicator">Loading skill…</div>
+          <div className="loading-indicator">加载 skill…</div>
         </div>
       </main>
     );
@@ -308,7 +308,7 @@ export function SkillDetailPage({
   if (result === null || !skill) {
     return (
       <main className="section">
-        <div className="card">Skill not found.</div>
+        <div className="card">Skill 未找到。</div>
       </main>
     );
   }
@@ -370,7 +370,7 @@ export function SkillDetailPage({
         {nixSnippet ? (
           <div className="card">
             <h2 className="section-title" style={{ fontSize: "1.2rem", margin: 0 }}>
-              Install via Nix
+              通过 Nix 安装
             </h2>
             <p className="section-subtitle" style={{ margin: 0 }}>
               {nixSystems.length ? `Systems: ${nixSystems.join(", ")}` : "nix-clawdbot"}
@@ -384,10 +384,10 @@ export function SkillDetailPage({
         {configExample ? (
           <div className="card">
             <h2 className="section-title" style={{ fontSize: "1.2rem", margin: 0 }}>
-              Config example
+              配置示例
             </h2>
             <p className="section-subtitle" style={{ margin: 0 }}>
-              Starter config for this plugin bundle.
+              此 plugin bundle 的 starter 配置。
             </p>
             <pre className="hero-install-code" style={{ marginTop: 12 }}>
               {configExample}
@@ -415,10 +415,10 @@ export function SkillDetailPage({
           fallback={
             <div className="card">
               <h2 className="section-title" style={{ fontSize: "1.2rem", margin: 0 }}>
-                Comments
+                评论
               </h2>
               <p className="section-subtitle" style={{ marginTop: 12, marginBottom: 0 }}>
-                Loading comments…
+                加载评论中…
               </p>
             </div>
           }

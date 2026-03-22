@@ -1,10 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "convex/react";
 import { Clock, Package, Plus, Upload } from "lucide-react";
+import { useEffect, useState } from "react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { formatCompactStat } from "../lib/numberFormat";
 import type { PublicSkill } from "../lib/publicUser";
+import type { Id } from "../../convex/_generated/dataModel";
+import { getCurrentUser, isAuthenticated, type FlarumUser } from "../lib/flarumAuth";
 
 type DashboardSkill = PublicSkill & { pendingReview?: boolean };
 
@@ -13,16 +16,51 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function Dashboard() {
-  const me = useQuery(api.users.me) as Doc<"users"> | null | undefined;
+  const convexMe = useQuery(api.users.me) as Doc<"users"> | null | undefined;
+  const [flarumUser, setFlarumUser] = useState<FlarumUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // 检查 Flarum 登录状态
+    if (isAuthenticated()) {
+      getCurrentUser().then((user) => {
+        setFlarumUser(user);
+        setIsLoading(false);
+      });
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  // 优先使用 Convex 用户，如果没有则使用 Flarum 用户
+  const me = convexMe || (flarumUser ? {
+    _id: `flarum_${flarumUser.id}` as Id<"users">,
+    handle: flarumUser.username,
+    name: flarumUser.username,
+    displayName: flarumUser.username,
+    email: flarumUser.email,
+    image: flarumUser.avatarUrl,
+  } : null);
+
   const mySkills = useQuery(
     api.skills.list,
-    me?._id ? { ownerUserId: me._id, limit: 100 } : "skip",
+    convexMe?._id ? { ownerUserId: convexMe._id, limit: 100 } : "skip",
   ) as DashboardSkill[] | undefined;
+
+  if (isLoading) {
+    return (
+      <main className="section">
+        <div className="card">加载中…</div>
+      </main>
+    );
+  }
 
   if (!me) {
     return (
       <main className="section">
-        <div className="card">Sign in to access your dashboard.</div>
+        <div className="card">
+          请先<Link to="/login">登录</Link>访问您的 dashboard。
+        </div>
       </main>
     );
   }
@@ -34,22 +72,22 @@ function Dashboard() {
     <main className="section">
       <div className="dashboard-header">
         <h1 className="section-title" style={{ margin: 0 }}>
-          My Skills
+          我的 Skills
         </h1>
         <Link to="/upload" search={{ updateSlug: undefined }} className="btn btn-primary">
           <Plus className="h-4 w-4" aria-hidden="true" />
-          Upload New Skill
+          上传新 Skill
         </Link>
       </div>
 
       {skills.length === 0 ? (
         <div className="card dashboard-empty">
           <Package className="dashboard-empty-icon" aria-hidden="true" />
-          <h2>No skills yet</h2>
-          <p>Upload your first skill to share it with the community.</p>
+          <h2>还没有 Skills</h2>
+          <p>上传您的第一个 Skill 与社区分享。</p>
           <Link to="/upload" search={{ updateSlug: undefined }} className="btn btn-primary">
             <Upload className="h-4 w-4" aria-hidden="true" />
-            Upload a Skill
+            上传 Skill
           </Link>
         </div>
       ) : (
@@ -79,7 +117,7 @@ function SkillCard({ skill, ownerHandle }: { skill: DashboardSkill; ownerHandle:
           {skill.pendingReview ? (
             <span className="tag tag-pending">
               <Clock className="h-3 w-3" aria-hidden="true" />
-              Scanning
+              扫描中
             </span>
           ) : null}
         </div>
@@ -95,14 +133,14 @@ function SkillCard({ skill, ownerHandle }: { skill: DashboardSkill; ownerHandle:
       <div className="dashboard-skill-actions">
         <Link to="/upload" search={{ updateSlug: skill.slug }} className="btn btn-sm">
           <Upload className="h-3 w-3" aria-hidden="true" />
-          New Version
+          新版本
         </Link>
         <Link
           to="/$owner/$slug"
           params={{ owner: ownerHandle ?? "unknown", slug: skill.slug }}
           className="btn btn-ghost btn-sm"
         >
-          View
+          查看
         </Link>
       </div>
     </div>

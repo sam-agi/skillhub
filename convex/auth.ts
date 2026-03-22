@@ -1,4 +1,5 @@
 import GitHub from "@auth/core/providers/github";
+import { ConvexCredentials } from "@convex-dev/auth/providers/ConvexCredentials";
 import { convexAuth } from "@convex-dev/auth/server";
 import type { GenericMutationCtx } from "convex/server";
 import { ConvexError } from "convex/values";
@@ -69,6 +70,45 @@ export const { auth, signIn, signOut, store, isAuthenticated } = convexAuth({
           email: profile.email ?? undefined,
           image: profile.avatar_url,
         };
+      },
+    }),
+    ConvexCredentials({
+      id: "flarum-credentials",
+      authorize: async (credentials, ctx) => {
+        console.log("[FlarumCredentials] authorize called with:", Object.keys(credentials || {}));
+        
+        if (!credentials?.token || typeof credentials.token !== "string") {
+          console.log("[FlarumCredentials] missing or invalid token");
+          return null;
+        }
+        
+        // 验证 Flarum 登录令牌
+        console.log("[FlarumCredentials] verifying token...");
+        const result = await ctx.runQuery(internal.flarumAuthComplete.verifyLoginToken, {
+          token: credentials.token,
+        });
+        console.log("[FlarumCredentials] token verification result:", result.valid);
+        
+        if (!result.valid) return null;
+        
+        // 检查用户是否存在且未被删除/禁用
+        console.log("[FlarumCredentials] checking user active...");
+        const userCheck = await ctx.runQuery(internal.flarumAuthComplete.checkUserActive, {
+          userId: result.userId,
+        });
+        console.log("[FlarumCredentials] user active:", userCheck.active);
+        
+        if (!userCheck.active) return null;
+        
+        // 标记令牌为已使用
+        console.log("[FlarumCredentials] marking token as used...");
+        await ctx.runMutation(internal.flarumAuthComplete.verifyAndUseLoginToken, {
+          token: credentials.token,
+        });
+        
+        console.log("[FlarumCredentials] success, returning userId:", result.userId);
+        // ConvexCredentials 要求返回 userId
+        return { userId: result.userId };
       },
     }),
   ],

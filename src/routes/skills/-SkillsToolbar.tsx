@@ -11,7 +11,7 @@ type SkillsToolbarProps = {
   highlightedOnly: boolean;
   nonSuspiciousOnly: boolean;
   onQueryChange: (next: string) => void;
-  onToggleHighlighted: () => void;
+  onToggle精选: () => void;
   onToggleNonSuspicious: () => void;
   onSortChange: (value: string) => void;
   onToggleDir: () => void;
@@ -35,14 +35,14 @@ export function SkillsToolbar({
   onToggleView,
 }: SkillsToolbarProps) {
   return (
-    <div className="skills-toolbar">
+    <div class名称="skills-toolbar">
       <div className="skills-search">
         <input
           ref={searchInputRef}
           className="skills-search-input"
           value={query}
           onChange={(event) => onQueryChange(event.target.value)}
-          placeholder="Filter by name, slug, or summary…"
+          placeholder="按 name、slug 或 summary 筛选…"
         />
       </div>
       <div className="skills-toolbar-row">
@@ -60,19 +60,19 @@ export function SkillsToolbar({
           aria-pressed={nonSuspiciousOnly}
           onClick={onToggleNonSuspicious}
         >
-          Hide suspicious
+          隐藏可疑
         </button>
         <select
           className="skills-sort"
           value={sort}
           onChange={(event) => onSortChange(event.target.value)}
-          aria-label="Sort skills"
+          aria-label="排序 skills"
         >
-          {hasQuery ? <option value="relevance">Relevance</option> : null}
-          <option value="newest">Newest</option>
-          <option value="updated">Recently updated</option>
-          <option value="downloads">Downloads</option>
-          <option value="installs">Installs</option>
+          {hasQuery ? <option value="relevance">相关度</option> : null}
+          <option value="newest">最新</option>
+          <option value="updated">最近更新</option>
+          <option value="downloads">下载量</option>
+          <option value="installs">安装量</option>
           <option value="stars">Stars</option>
           <option value="name">Name</option>
         </select>
@@ -89,7 +89,7 @@ export function SkillsToolbar({
           type="button"
           onClick={onToggleView}
         >
-          {view === "cards" ? "List" : "Cards"}
+          {view === "cards" ? "列表" : "卡片"}
         </button>
       </div>
     </div>

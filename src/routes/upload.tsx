@@ -130,7 +130,7 @@ export function Upload() {
     ).slice(0, 3);
     const suffix = ignoredMacJunkPaths.length > 3 ? ", ..." : "";
     const count = ignoredMacJunkPaths.length;
-    return `Ignored ${count} macOS junk file${count === 1 ? "" : "s"} (${labels.join(", ")}${suffix})`;
+    return `已忽略 ${count} 个 macOS junk 文件${count === 1 ? "" : ""} (${labels.join(", ")}${suffix})`;
   }, [ignoredMacJunkPaths]);
   const trimmedSlug = slug.trim();
   const trimmedName = displayName.trim();
@@ -235,39 +235,39 @@ export function Upload() {
   const validation = useMemo(() => {
     const issues: string[] = [];
     if (!trimmedSlug) {
-      issues.push("Slug is required.");
+      issues.push("Slug 是必填项。");
     } else if (!SLUG_PATTERN.test(trimmedSlug)) {
-      issues.push("Slug must be lowercase and use dashes only.");
+      issues.push("Slug 必须是小写且只能使用连字符。");
     }
     if (!trimmedName) {
-      issues.push("Display name is required.");
+      issues.push("Display name 是必填项。");
     }
     if (!semver.valid(version)) {
-      issues.push("Version must be valid semver (e.g. 1.0.0).");
+      issues.push("Version 必须是有效的 semver（例如 1.0.0）。");
     }
     if (parsedTags.length === 0) {
-      issues.push("At least one tag is required.");
+      issues.push("至少需要填写一个 tag。");
     }
     if (!isSoulMode && !acceptedLicenseTerms) {
-      issues.push("Accept the MIT-0 license terms to publish this skill.");
+      issues.push("接受 MIT-0 license 条款以发布此 skill。");
     }
     if (files.length === 0) {
-      issues.push("Add at least one file.");
+      issues.push("至少添加一个文件。");
     }
     if (!hasRequiredFile) {
-      issues.push(`${requiredFileLabel} is required.`);
+      issues.push(`需要 ${requiredFileLabel}。`);
     }
     const invalidFiles = files.filter((file) => !isTextFile(file));
     if (invalidFiles.length > 0) {
       issues.push(
-        `Remove non-text files: ${invalidFiles
+        `移除非文本文件： ${invalidFiles
           .slice(0, 3)
           .map((file) => file.name)
           .join(", ")}`,
       );
     }
     if (totalBytes > maxBytes) {
-      issues.push("Total file size exceeds 50MB.");
+      issues.push("文件总大小超过 50MB。");
     }
     if (slugCollision) {
       issues.push(slugCollision.message);
@@ -296,7 +296,7 @@ export function Upload() {
   if (!isAuthenticated) {
     return (
       <main className="section">
-        <div className="card">Sign in to upload a {contentLabel}.</div>
+        <div className="card">登录以上传 {contentLabel}。</div>
       </main>
     );
   }
@@ -326,14 +326,14 @@ export function Upload() {
     }
     setError(null);
     if (totalBytes > maxBytes) {
-      setError("Total size exceeds 50MB per version.");
+      setError("每个版本的文件总大小超过 50MB。");
       return;
     }
     if (!hasRequiredFile) {
       setError(`${requiredFileLabel} is required.`);
       return;
     }
-    setStatus("Uploading files…");
+    setStatus("上传文件中…");
 
     const uploaded = [] as Array<{
       path: string;
@@ -361,7 +361,7 @@ export function Upload() {
       });
     }
 
-    setStatus("Publishing…");
+    setStatus("发布中…");
     try {
       const result = await publishVersion({
         slug: trimmedSlug,
@@ -393,9 +393,9 @@ export function Upload() {
     <main className="section upload-page">
       <header className="upload-page-header">
         <div>
-          <h1 className="upload-page-title">Publish a {contentLabel}</h1>
+          <h1 className="upload-page-title">发布 {contentLabel}</h1>
           <p className="upload-page-subtitle">
-            Drop a folder with {requiredFileLabel} and text files. We will handle the rest.
+            拖放包含 {requiredFileLabel} 和文本文件的文件夹。我们将处理其余部分。
           </p>
         </div>
       </header>
@@ -481,27 +481,27 @@ export function Upload() {
             />
             <div className="upload-dropzone-copy">
               <div className="upload-dropzone-title-row">
-                <strong>Drop a folder</strong>
+                <strong>拖放文件夹</strong>
                 <span className="upload-dropzone-count">
                   {files.length} files · {sizeLabel}
                 </span>
               </div>
               <span className="upload-dropzone-hint">
-                We keep folder paths and flatten the outer wrapper automatically.
+                我们保留文件夹路径并自动扁平化外层包装。
               </span>
               <button
                 className="btn upload-picker-btn"
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
               >
-                Choose folder
+                选择文件夹
               </button>
             </div>
           </label>
 
           <div className="upload-file-list">
             {files.length === 0 ? (
-              <div className="stat">No files selected.</div>
+              <div className="stat">未选择文件。</div>
             ) : (
               normalizedPaths.map((path) => (
                 <div key={path} className="upload-file-row">
@@ -514,9 +514,9 @@ export function Upload() {
         </div>
 
         <div className="card upload-panel" ref={validationRef}>
-          <h2 className="upload-panel-title">Validation</h2>
+          <h2 className="upload-panel-title">验证</h2>
           {validation.issues.length === 0 ? (
-            <div className="stat">All checks passed.</div>
+            <div className="stat">所有检查通过。</div>
           ) : (
             <ul className="validation-list">
               {validation.issues.map((issue) => (
@@ -526,7 +526,7 @@ export function Upload() {
           )}
           {slugCollision?.url ? (
             <div className="stat">
-              Existing skill:{" "}
+              已有 skill：{" "}
               <a href={slugCollision.url} className="upload-link">
                 {slugCollision.url}
               </a>
@@ -543,7 +543,7 @@ export function Upload() {
                   {PLATFORM_SKILL_LICENSE} · {PLATFORM_SKILL_LICENSE_NAME}
                 </div>
                 <p className="upload-license-copy">
-                  All skills published on ClawHub are licensed under {PLATFORM_SKILL_LICENSE}.{" "}
+                  所有发布在 ClawHub 上的 skills 都使用 {PLATFORM_SKILL_LICENSE} license。{" "}
                   {PLATFORM_SKILL_LICENSE_SUMMARY}
                 </p>
                 <label className="upload-license-check">
@@ -575,12 +575,12 @@ export function Upload() {
             }}
             placeholder={`Describe what changed in this ${contentLabel}...`}
           />
-          {changelogStatus === "loading" ? <div className="stat">Generating changelog…</div> : null}
+          {changelogStatus === "loading" ? <div className="stat">生成 changelog 中…</div> : null}
           {changelogStatus === "error" ? (
-            <div className="stat">Could not auto-generate changelog.</div>
+            <div className="stat">无法自动生成 changelog。</div>
           ) : null}
           {changelogSource === "auto" && changelog ? (
-            <div className="stat">Auto-generated changelog (edit as needed).</div>
+            <div className="stat">自动生成的 changelog（可按需编辑）。</div>
           ) : null}
         </div>
 
@@ -593,7 +593,7 @@ export function Upload() {
             ) : null}
             {status ? <div className="stat">{status}</div> : null}
             {hasAttempted && !validation.ready ? (
-              <div className="stat">Fix validation issues to continue.</div>
+              <div className="stat">修复验证问题以继续。</div>
             ) : null}
           </div>
           <button
@@ -601,7 +601,7 @@ export function Upload() {
             type="submit"
             disabled={!validation.ready || isSubmitting}
           >
-            Publish {contentLabel}
+            发布 {contentLabel}
           </button>
         </div>
       </form>

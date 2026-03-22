@@ -4,7 +4,7 @@ type SkillReportDialogProps = {
   reportReason: string;
   reportError: string | null;
   onReasonChange: (value: string) => void;
-  onCancel: () => void;
+  on取消: () => void;
   onSubmit: () => void;
 };
 
@@ -26,7 +26,7 @@ export function SkillReportDialog({
           Report skill
         </h2>
         <p className="section-subtitle" style={{ margin: 0 }}>
-          Describe the issue so moderators can review it quickly.
+          描述问题以便 moderators 快速审核。
         </p>
         <form
           className="report-dialog-form"
@@ -38,7 +38,7 @@ export function SkillReportDialog({
           <textarea
             className="report-dialog-textarea"
             aria-label="Report reason"
-            placeholder="What should moderators know?"
+            placeholder="Moderators 应该知道什么？"
             value={reportReason}
             onChange={(event) => onReasonChange(event.target.value)}
             rows={5}
@@ -57,7 +57,7 @@ export function SkillReportDialog({
               Cancel
             </button>
             <button type="submit" className="btn" disabled={isSubmitting}>
-              {isSubmitting ? "Submitting…" : "Submit report"}
+              {isSubmitting ? "提交中…" : "提交 report"}
             </button>
           </div>
         </form>

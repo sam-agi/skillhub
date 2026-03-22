@@ -1,14 +1,5 @@
-import type { Doc } from "../../convex/_generated/dataModel";
 import { getRuntimeEnv } from "../lib/runtimeEnv";
 import { type LlmAnalysis, SecurityScanResults } from "./SkillSecurityScanResults";
-
-type SkillVersionsPanelProps = {
-  versions: Doc<"skillVersions">[] | undefined;
-  nixPlugin: boolean;
-  skillSlug: string;
-  suppressScanResults: boolean;
-  suppressedMessage: string | null;
-};
 
 export function SkillVersionsPanel({
   versions,
@@ -26,8 +17,8 @@ export function SkillVersionsPanel({
         </h2>
         <p className="section-subtitle" style={{ margin: 0 }}>
           {nixPlugin
-            ? "Review release history and changelog."
-            : "Download older releases or scan the changelog."}
+            ? "查看 release 历史和 changelog。"
+            : "下载旧版本或查看 changelog。"}
         </p>
         {suppressedMessage ? <p className="section-subtitle">{suppressedMessage}</p> : null}
       </div>
@@ -38,7 +29,7 @@ export function SkillVersionsPanel({
               <div className="version-info">
                 <div>
                   v{version.version} · {new Date(version.createdAt).toLocaleDateString()}
-                  {version.changelogSource === "auto" ? (
+                  {version.changelogSource === "自动" ? (
                     <span style={{ color: "var(--ink-soft)" }}> · auto</span>
                   ) : null}
                 </div>

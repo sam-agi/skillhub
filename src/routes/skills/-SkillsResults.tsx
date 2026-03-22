@@ -36,11 +36,11 @@ export function SkillsResults({
     <>
       {isLoadingSkills ? (
         <div className="card">
-          <div className="loading-indicator">Loading skills…</div>
+          <div className="loading-indicator">加载 skills…</div>
         </div>
       ) : sorted.length === 0 ? (
         <div className="card">
-          {listDoneLoading || hasQuery ? "No skills match that filter." : "Loading skills…"}
+          {listDoneLoading || hasQuery ? "没有符合该筛选条件的 skills。" : "Loading skills…"}
         </div>
       ) : view === "cards" ? (
         <div className="grid">
@@ -109,7 +109,7 @@ export function SkillsResults({
                     ))}
                   </div>
                   <div className="skills-row-summary">
-                    {skill.summary ?? "No summary provided."}
+                    {skill.summary ?? "未提供 summary。"}
                   </div>
                   <div className="skills-row-owner">
                     <UserBadge
@@ -137,13 +137,13 @@ export function SkillsResults({
         >
           {canAutoLoad ? (
             isLoadingMore ? (
-              "Loading more…"
+              "加载更多…"
             ) : (
-              "Scroll to load more"
+              "滚动加载更多"
             )
           ) : (
             <button className="btn" type="button" onClick={loadMore} disabled={isLoadingMore}>
-              {isLoadingMore ? "Loading…" : "Load more"}
+              {isLoadingMore ? "加载中…" : "加载更多"}
             </button>
           )}
         </div>

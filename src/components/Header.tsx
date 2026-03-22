@@ -1,14 +1,14 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { Link } from "@tanstack/react-router";
 import { Menu, Monitor, Moon, Sun } from "lucide-react";
-import { useMemo, useRef } from "react";
-import { getUserFacingConvexError } from "../lib/convexError";
+import { useMemo, useRef, useState, useEffect } from "react";
+
 import { gravatarUrl } from "../lib/gravatar";
 import { isModerator } from "../lib/roles";
 import { getClawHubSiteUrl, getSiteMode, getSiteName } from "../lib/site";
 import { applyTheme, useThemeMode } from "../lib/theme";
 import { startThemeTransition } from "../lib/theme-transition";
-import { setAuthError, useAuthError } from "../lib/useAuthError";
+import { useAuthError } from "../lib/useAuthError";
 import { useAuthStatus } from "../lib/useAuthStatus";
 import {
   DropdownMenu,
@@ -19,8 +19,10 @@ import {
 } from "./ui/dropdown-menu";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 
+
+
 export default function Header() {
-  const { isAuthenticated, isLoading, me } = useAuthStatus();
+  const { me } = useAuthStatus();
   const { signIn, signOut } = useAuthActions();
   const { mode, setMode } = useThemeMode();
   const toggleRef = useRef<HTMLDivElement | null>(null);
@@ -261,72 +263,7 @@ export default function Header() {
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
-          {isAuthenticated && me ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button className="user-trigger" type="button">
-                  {avatar ? (
-                    <img src={avatar} alt={me.displayName ?? me.name ?? "User avatar"} />
-                  ) : (
-                    <span className="user-menu-fallback">{initial}</span>
-                  )}
-                  <span className="mono">@{handle}</span>
-                  <span className="user-menu-chevron">▾</span>
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem asChild>
-                  <Link to="/dashboard">仪表板</Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/settings">设置</Link>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => void signOut()}>退出登录</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <>
-              {authError ? (
-                <div className="error" role="alert" style={{ fontSize: "0.85rem", marginRight: 8 }}>
-                  {authError}{" "}
-                  <button
-                    type="button"
-                    onClick={clearAuthError}
-                    aria-label="Dismiss"
-                    style={{
-                      background: "none",
-                      border: "none",
-                      cursor: "pointer",
-                      color: "inherit",
-                      padding: "0 2px",
-                    }}
-                  >
-                    &times;
-                  </button>
-                </div>
-              ) : null}
-              <button
-                className="btn btn-primary"
-                type="button"
-                disabled={isLoading}
-                onClick={() => {
-                  clearAuthError();
-                  void signIn(
-                    "github",
-                    signInRedirectTo ? { redirectTo: signInRedirectTo } : undefined,
-                  ).catch((error) => {
-                    setAuthError(
-                      getUserFacingConvexError(error, "Sign in failed. Please try again."),
-                    );
-                  });
-                }}
-              >
-                <span className="sign-in-label">Sign in</span>
-                <span className="sign-in-provider">with GitHub</span>
-              </button>
-            </>
-          )}
+          <ClientLoginButton />
         </div>
       </div>
     </header>
@@ -336,4 +273,66 @@ export default function Header() {
 function getCurrentRelativeUrl() {
   if (typeof window === "undefined") return "/";
   return `${window.location.pathname}${window.location.search}${window.location.hash}`;
+}
+
+// 客户端登录按钮组件
+function ClientLoginButton() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState<{ username: string; avatarUrl?: string } | null>(null);
+
+  useEffect(() => {
+    // 检查登录状态
+    import("../lib/flarumAuth").then(({ getCurrentUser, isAuthenticated }) => {
+      if (isAuthenticated()) {
+        getCurrentUser().then((u) => {
+          if (u) {
+            setUser(u);
+            setIsLoggedIn(true);
+          }
+        });
+      }
+    });
+  }, []);
+
+  const handleLogout = async () => {
+    const { logout } = await import("../lib/flarumAuth");
+    await logout();
+    setIsLoggedIn(false);
+    setUser(null);
+    window.location.reload();
+  };
+
+  if (isLoggedIn && user) {
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button className="user-trigger" type="button">
+            <img 
+              src={user.avatarUrl || "/default-avatar.png"} 
+              alt={user.username}
+              style={{ width: 32, height: 32, borderRadius: "50%", marginRight: 8, objectFit: "cover", objectPosition: "center" }}
+            />
+            <span className="mono">@{user.username}</span>
+            <span className="user-menu-chevron">▾</span>
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem asChild>
+            <Link to="/dashboard">仪表板</Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link to="/settings">设置</Link>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleLogout}>退出登录</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    );
+  }
+
+  return (
+    <Link to="/login" className="btn btn-primary">
+      登录
+    </Link>
+  );
 }

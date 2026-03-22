@@ -14,7 +14,7 @@ import { useAuthStatus } from "../lib/useAuthStatus";
 
 const SKILL_AUDIT_LOG_LIMIT = 10;
 
-type ManagementUserSummary = {
+type 管理mentUserSummary = {
   _id: Id<"users">;
   handle?: string | null;
   name?: string | null;
@@ -26,10 +26,10 @@ type SkillAuditLogEntry = {
   action: string;
   metadata?: unknown;
   createdAt: number;
-  actor: ManagementUserSummary | null;
+  actor: 管理mentUserSummary | null;
 };
 
-type ManagementSkillEntry = {
+type 管理mentSkillEntry = {
   skill: Doc<"skills">;
   latestVersion: Doc<"skillVersions"> | null;
   owner: Doc<"users"> | null;
@@ -42,7 +42,7 @@ type ReportReasonEntry = {
   reporterId: Id<"users">;
 };
 
-type ReportedSkillEntry = ManagementSkillEntry & {
+type ReportedSkillEntry = 管理mentSkillEntry & {
   reports: ReportReasonEntry[];
 };
 
@@ -64,7 +64,7 @@ type SkillBySlugResult = {
   skill: Doc<"skills">;
   latestVersion: Doc<"skillVersions"> | null;
   owner: Doc<"users"> | null;
-  overrideReviewer: ManagementUserSummary | null;
+  overrideReviewer: 管理mentUserSummary | null;
   auditLogs: SkillAuditLogEntry[];
   canonical: {
     skill: { slug: string; displayName: string };
@@ -87,10 +87,10 @@ export const Route = createFileRoute("/management")({
   validateSearch: (search) => ({
     skill: typeof search.skill === "string" && search.skill.trim() ? search.skill : undefined,
   }),
-  component: Management,
+  component: 管理ment,
 });
 
-function Management() {
+function 管理ment() {
   const { me } = useAuthStatus();
   const search = Route.useSearch();
   const staff = isModerator(me);
@@ -165,7 +165,7 @@ function Management() {
   if (!staff) {
     return (
       <main className="section">
-        <div className="card">Management only.</div>
+        <div className="card">仅限管理员。</div>
       </main>
     );
   }
@@ -173,7 +173,7 @@ function Management() {
   if (!recentVersions || !reportedSkills || !duplicateCandidates) {
     return (
       <main className="section">
-        <div className="card">Loading management console…</div>
+        <div className="card">加载管理控制台…</div>
       </main>
     );
   }
@@ -202,22 +202,22 @@ function Management() {
     : reportedSkills;
   const reportCountLabel =
     filteredReportedSkills.length === 0 && reportedSkills.length > 0
-      ? "No matching reports."
-      : "No reports yet.";
-  const reportSummary = `Showing ${filteredReportedSkills.length} of ${reportedSkills.length}`;
+      ? "无匹配的 reports。"
+      : "暂无 reports。";
+  const reportSummary = `显示 ${filteredReportedSkills.length} / ${reportedSkills.length}`;
 
   const filteredUsers = userResult?.items ?? [];
   const userTotal = userResult?.total ?? 0;
   const userSummary = userResult
-    ? `Showing ${filteredUsers.length} of ${userTotal}`
-    : "Loading users…";
+    ? `显示 ${filteredUsers.length} / ${userTotal}`
+    : "加载用户中…";
   const userEmptyLabel = userResult
     ? filteredUsers.length === 0
       ? userQuery
-        ? "No matching users."
-        : "No users yet."
+        ? "无匹配用户。"
+        : "暂无用户。"
       : ""
-    : "Loading users…";
+    : "加载用户中…";
 
   const applySkillOverride = () => {
     if (!selectedSkill?.skill) return;
@@ -245,19 +245,19 @@ function Management() {
 
   return (
     <main className="section">
-      <h1 className="section-title">Management console</h1>
-      <p className="section-subtitle">Moderation, curation, and ownership tools.</p>
+      <h1 className="section-title">管理控制台</h1>
+      <p className="section-subtitle">审核、策展和所有权工具。</p>
 
       <div className="card">
         <h2 className="section-title" style={{ fontSize: "1.2rem", margin: 0 }}>
-          Reported skills
+          被 Report 的 Skills
         </h2>
         <div className="management-controls">
           <div className="management-control management-search">
-            <span className="mono">Filter</span>
+            <span className="mono">筛选</span>
             <input
               type="search"
-              placeholder="Search reported skills"
+              placeholder="搜索被 report 的 skills"
               value={reportSearch}
               onChange={(event) => setReportSearch(event.target.value)}
             />
@@ -283,9 +283,9 @@ function Management() {
                     </Link>
                     <div className="section-subtitle" style={{ margin: 0 }}>
                       @{owner?.handle ?? owner?.name ?? "user"} · v{latestVersion?.version ?? "—"} ·
-                      {skill.reportCount ?? 0} report{(skill.reportCount ?? 0) === 1 ? "" : "s"}
+                      {skill.reportCount ?? 0} 个 report
                       {skill.lastReportedAt
-                        ? ` · last ${formatTimestamp(skill.lastReportedAt)}`
+                        ? ` · 最后 ${formatTimestamp(skill.lastReportedAt)}`
                         : ""}
                     </div>
                     {reportEntries.length > 0 ? (
@@ -305,13 +305,13 @@ function Management() {
                       </div>
                     ) : (
                       <div className="section-subtitle" style={{ margin: 0 }}>
-                        No report reasons yet.
+                        暂无 report 原因。
                       </div>
                     )}
                   </div>
                   <div className="management-actions">
                     <Link className="btn" to="/management" search={{ skill: skill.slug }}>
-                      Manage
+                      管理
                     </Link>
                     <button
                       className="btn"
@@ -323,18 +323,18 @@ function Management() {
                         })
                       }
                     >
-                      {skill.softDeletedAt ? "Restore" : "Hide"}
+                      {skill.softDeletedAt ? "恢复" : "隐藏"}
                     </button>
                     {admin ? (
                       <button
                         className="btn"
                         type="button"
                         onClick={() => {
-                          if (!window.confirm(`Hard delete ${skill.displayName}?`)) return;
+                          if (!window.confirm(`硬删除 ${skill.displayName}?`)) return;
                           void hardDelete({ skillId: skill._id });
                         }}
                       >
-                        Hard delete
+                        硬删除
                       </button>
                     ) : null}
                   </div>
@@ -347,23 +347,23 @@ function Management() {
 
       <div className="card" style={{ marginTop: 20 }}>
         <h2 className="section-title" style={{ fontSize: "1.2rem", margin: 0 }}>
-          Skill tools
+          Skill 工具
         </h2>
         {selectedSlug ? (
           <div className="section-subtitle" style={{ marginTop: 8 }}>
-            Managing "{selectedSlug}" ·{" "}
+            管理 "{selectedSlug}" ·{" "}
             <Link to="/management" search={{ skill: undefined }}>
-              Clear selection
+              清除选择
             </Link>
           </div>
         ) : null}
         <div className="management-list">
           {!selectedSlug ? (
-            <div className="stat">Use the Manage button on a skill to open tooling here.</div>
+            <div className="stat">点击 skill 上的管理按钮在此打开工具。</div>
           ) : selectedSkill === undefined ? (
-            <div className="stat">Loading skill…</div>
+            <div className="stat">加载 skill…</div>
           ) : !selectedSkill?.skill ? (
-            <div className="stat">No skill found for "{selectedSlug}".</div>
+            <div className="stat">未找到 "{selectedSlug}" 的 skill。</div>
           ) : (
             (() => {
               const { skill, latestVersion, owner, canonical, overrideReviewer, auditLogs } =
@@ -372,8 +372,14 @@ function Management() {
                 owner?.handle ?? null,
                 owner?._id ?? skill.ownerUserId,
               );
-              const moderationStatus =
+              const moderationStatusRaw =
                 skill.moderationStatus ?? (skill.softDeletedAt ? "hidden" : "active");
+              const moderationStatusMap: Record<string, string> = {
+                active: "活跃",
+                hidden: "隐藏",
+                removed: "已移除",
+              };
+              const moderationStatus = moderationStatusMap[moderationStatusRaw] || moderationStatusRaw;
               const isHighlighted = isSkillHighlighted(skill);
               const isOfficial = isSkillOfficial(skill);
               const isDeprecated = isSkillDeprecated(skill);
@@ -392,8 +398,15 @@ function Management() {
                     </Link>
                     <div className="section-subtitle" style={{ margin: 0 }}>
                       @{owner?.handle ?? owner?.name ?? "user"} · v{latestVersion?.version ?? "—"} ·
-                      updated {formatTimestamp(skill.updatedAt)} · {moderationStatus}
-                      {badges.length ? ` · ${badges.join(", ").toLowerCase()}` : ""}
+                      更新于 {formatTimestamp(skill.updatedAt)} · {moderationStatus}
+                      {badges.length ? ` · ${badges.map(b => {
+                const badgeMap: Record<string, string> = {
+                  official: "官方",
+                  highlighted: "精选",
+                  deprecated: "已弃用",
+                };
+                return badgeMap[b] || b;
+              }).join(", ")}` : ""}
                     </div>
                     {skill.moderationFlags?.length ? (
                       <div className="management-tags">
@@ -406,32 +419,32 @@ function Management() {
                     ) : null}
                     <div className="management-sublist">
                       <div className="section-subtitle" style={{ margin: 0 }}>
-                        Manual overrides
+                        手动覆盖
                       </div>
                       <section className="management-override-panel">
                         <div className="management-report-item">
-                          <span className="management-report-meta">Current override</span>
+                          <span className="management-report-meta">当前覆盖</span>
                           <span>
                             {formatManualOverrideState(skill.manualOverride, overrideReviewer)}
                           </span>
                         </div>
                         <div className="management-report-item">
-                          <span className="management-report-meta">Latest version</span>
+                          <span className="management-report-meta">最新版本</span>
                           <span>
-                            {latestVersion ? `v${latestVersion.version}` : "No published version."}
+                            {latestVersion ? `v${latestVersion.version}` : "无已发布版本。"}
                           </span>
                         </div>
                         <div className="management-report-item">
-                          <span className="management-report-meta">Behavior</span>
-                          <span>Applies to the full skill until a moderator clears it.</span>
+                          <span className="management-report-meta">行为</span>
+                          <span>适用于整个 skill，直到 moderator 清除它。</span>
                         </div>
                         <textarea
                           className="form-input management-textarea"
                           rows={4}
                           placeholder={
                             skill.manualOverride
-                              ? "Audit note required to update or clear the okay override"
-                              : "Audit note required to mark this skill okay"
+                              ? "需要审计备注以更新或清除 okay 覆盖"
+                              : "需要审计备注以将此 skill 标记为 okay"
                           }
                           value={skillOverrideNote}
                           onChange={(event) => setSkillOverrideNote(event.target.value)}
@@ -443,7 +456,7 @@ function Management() {
                             disabled={!skillOverrideNote.trim()}
                             onClick={applySkillOverride}
                           >
-                            {skill.manualOverride ? "Update okay override" : "Mark skill okay"}
+                            {skill.manualOverride ? "更新 okay 覆盖" : "标记 skill 为 okay"}
                           </button>
                           {skill.manualOverride ? (
                             <button
@@ -452,7 +465,7 @@ function Management() {
                               disabled={!skillOverrideNote.trim()}
                               onClick={clearSkillOverride}
                             >
-                              Clear skill override
+                              清除 skill 覆盖
                             </button>
                           ) : null}
                         </div>
@@ -460,16 +473,16 @@ function Management() {
                     </div>
                     <div className="management-sublist">
                       <div className="section-subtitle" style={{ margin: 0 }}>
-                        Recent audit activity
+                        最近审计活动
                       </div>
                       <section className="management-override-panel management-audit-panel">
                         <div className="management-report-item">
-                          <span className="management-report-meta">Window</span>
-                          <span>Last {SKILL_AUDIT_LOG_LIMIT} entries for this skill.</span>
+                          <span className="management-report-meta">窗口</span>
+                          <span>此 skill 最近 {SKILL_AUDIT_LOG_LIMIT} 条记录。</span>
                         </div>
                         {auditLogs.length === 0 ? (
                           <div className="section-subtitle" style={{ margin: 0 }}>
-                            No audit activity yet.
+                            暂无审计活动。
                           </div>
                         ) : (
                           <div className="management-audit-list">
@@ -483,7 +496,7 @@ function Management() {
                                   <div className="management-report-item">
                                     <span className="management-report-meta">
                                       {formatTimestamp(entry.createdAt)} ·{" "}
-                                      {formatManagementUserLabel(entry.actor)}
+                                      {format管理mentUserLabel(entry.actor)}
                                     </span>
                                     <span>
                                       {formatAuditActionLabel(entry.action, entry.metadata)}
@@ -520,7 +533,7 @@ function Management() {
                         />
                       </label>
                       <div className="management-control management-control-stack">
-                        <span className="mono">duplicate action</span>
+                        <span className="mono">duplicate 操作</span>
                         <button
                           className="btn management-action-btn"
                           type="button"
@@ -531,7 +544,7 @@ function Management() {
                             })
                           }
                         >
-                          Set duplicate
+                          设置 duplicate
                         </button>
                       </div>
                       {admin ? (
@@ -551,7 +564,7 @@ function Management() {
                             </select>
                           </label>
                           <div className="management-control management-control-stack">
-                            <span className="mono">owner action</span>
+                            <span className="mono">所有者操作</span>
                             <button
                               className="btn management-action-btn"
                               type="button"
@@ -562,7 +575,7 @@ function Management() {
                                 })
                               }
                             >
-                              Change owner
+                              更改所有者
                             </button>
                           </div>
                         </>
@@ -575,7 +588,7 @@ function Management() {
                       to="/$owner/$slug"
                       params={{ owner: ownerParam, slug: skill.slug }}
                     >
-                      View
+                      查看
                     </Link>
                     <button
                       className="btn management-action-btn"
@@ -587,7 +600,7 @@ function Management() {
                         })
                       }
                     >
-                      {skill.softDeletedAt ? "Restore" : "Hide"}
+                      {skill.softDeletedAt ? "恢复" : "隐藏"}
                     </button>
                     <button
                       className="btn management-action-btn"
@@ -599,18 +612,18 @@ function Management() {
                         })
                       }
                     >
-                      {isHighlighted ? "Unhighlight" : "Highlight"}
+                      {isHighlighted ? "取消精选" : "精选"}
                     </button>
                     {admin ? (
                       <button
                         className="btn management-action-btn"
                         type="button"
                         onClick={() => {
-                          if (!window.confirm(`Hard delete ${skill.displayName}?`)) return;
+                          if (!window.confirm(`硬删除 ${skill.displayName}?`)) return;
                           void hardDelete({ skillId: skill._id });
                         }}
                       >
-                        Hard delete
+                        硬删除
                       </button>
                     ) : null}
                     {staff ? (
@@ -628,7 +641,7 @@ function Management() {
                           void banUser({ userId: ownerUserId, reason });
                         }}
                       >
-                        Ban user
+                        封禁用户
                       </button>
                     ) : null}
                     {admin ? (
@@ -643,7 +656,7 @@ function Management() {
                             })
                           }
                         >
-                          {isOfficial ? "Remove official" : "Mark official"}
+                          {isOfficial ? "移除官方" : "标记为官方"}
                         </button>
                         <button
                           className="btn management-action-btn"
@@ -655,7 +668,7 @@ function Management() {
                             })
                           }
                         >
-                          {isDeprecated ? "Remove deprecated" : "Mark deprecated"}
+                          {isDeprecated ? "移除弃用" : "标记为弃用"}
                         </button>
                       </>
                     ) : null}
@@ -669,11 +682,11 @@ function Management() {
 
       <div className="card" style={{ marginTop: 20 }}>
         <h2 className="section-title" style={{ fontSize: "1.2rem", margin: 0 }}>
-          Duplicate candidates
+          Duplicate 候选
         </h2>
         <div className="management-list">
           {duplicateCandidates.length === 0 ? (
-            <div className="stat">No duplicate candidates.</div>
+            <div className="stat">无 duplicate 候选。</div>
           ) : (
             duplicateCandidates.map((entry) => (
               <div key={entry.skill._id} className="management-item">
@@ -729,7 +742,7 @@ function Management() {
                               })
                             }
                           >
-                            Mark duplicate
+                            标记为 duplicate
                           </button>
                         </div>
                       </div>
@@ -759,16 +772,16 @@ function Management() {
 
       <div className="card" style={{ marginTop: 20 }}>
         <h2 className="section-title" style={{ fontSize: "1.2rem", margin: 0 }}>
-          Recent pushes
+          最近推送
         </h2>
         <div className="management-list">
           {recentVersions.length === 0 ? (
-            <div className="stat">No recent versions.</div>
+            <div className="stat">无最近版本。</div>
           ) : (
             recentVersions.map((entry) => (
               <div key={entry.version._id} className="management-item">
                 <div className="management-item-main">
-                  <strong>{entry.skill?.displayName ?? "Unknown skill"}</strong>
+                  <strong>{entry.skill?.displayName ?? "未知 skill"}</strong>
                   <div className="section-subtitle" style={{ margin: 0 }}>
                     v{entry.version.version} · @{entry.owner?.handle ?? entry.owner?.name ?? "user"}
                   </div>
@@ -776,7 +789,7 @@ function Management() {
                 <div className="management-actions">
                   {entry.skill ? (
                     <Link className="btn" to="/management" search={{ skill: entry.skill.slug }}>
-                      Manage
+                      管理
                     </Link>
                   ) : null}
                   {entry.skill ? (
@@ -811,7 +824,7 @@ function Management() {
               <span className="mono">Filter</span>
               <input
                 type="search"
-                placeholder="Search users"
+                placeholder="搜索用户"
                 value={userSearch}
                 onChange={(event) => setUserSearch(event.target.value)}
               />
@@ -844,7 +857,7 @@ function Management() {
                         }
                       }}
                     >
-                      <option value="user">User</option>
+                      <option value="user">用户</option>
                       <option value="moderator">Moderator</option>
                       <option value="admin">Admin</option>
                     </select>
@@ -856,7 +869,7 @@ function Management() {
                         if (user._id === me?._id) return;
                         if (
                           !window.confirm(
-                            `Ban @${user.handle ?? user.name ?? "user"} and delete their skills?`,
+                            `封禁 @${user.handle ?? user.name ?? "user"} 并删除其 skills？`,
                           )
                         ) {
                           return;
@@ -867,7 +880,7 @@ function Management() {
                         void banUser({ userId: user._id, reason });
                       }}
                     >
-                      Ban user
+                      封禁用户
                     </button>
                   </div>
                 </div>
@@ -888,7 +901,7 @@ function formatMutationError(error: unknown) {
   if (error instanceof Error && error.message.trim()) {
     return error.message.trim();
   }
-  return "Request failed.";
+  return "请求失败。";
 }
 
 function formatManualOverrideState(
@@ -903,8 +916,8 @@ function formatManualOverrideState(
     | undefined,
   reviewer?: ManagementUserSummary | null,
 ) {
-  if (!override) return "No override.";
-  return `${formatVerdictLabel(override.verdict)} · reviewer ${formatManagementUserLabel(reviewer, override.reviewerUserId)} · updated ${formatTimestamp(
+  if (!override) return "无覆盖。";
+  return `${formatVerdictLabel(override.verdict)} · reviewer ${format管理mentUserLabel(reviewer, override.reviewerUserId)} · updated ${formatTimestamp(
     override.updatedAt,
   )} · ${override.note}`;
 }
@@ -917,35 +930,35 @@ function formatManagementUserLabel(
   if (user?.displayName?.trim()) return user.displayName.trim();
   if (user?.name?.trim()) return user.name.trim();
   if (fallbackId?.trim()) return fallbackId.trim();
-  return "unknown user";
+  return "未知用户";
 }
 
 function formatAuditActionLabel(action: string, metadata?: unknown) {
   const record = asAuditMetadataRecord(metadata);
   if (action === "skill.manual_override.set") {
     const verdict = typeof record?.verdict === "string" ? record.verdict : "unknown";
-    return `Override set to ${formatVerdictLabel(verdict)}`;
+    return `覆盖设置为 ${formatVerdictLabel(verdict)}`;
   }
   if (action === "skill.manual_override.clear") {
-    return "Override cleared";
+    return "覆盖已清除";
   }
   if (action === "skill.owner.change") {
-    return "Owner changed";
+    return "所有者已更改";
   }
   if (action === "skill.duplicate.set") {
-    return "Duplicate target set";
+    return "Duplicate 目标已设置";
   }
   if (action === "skill.duplicate.clear") {
-    return "Duplicate target cleared";
+    return "Duplicate 目标已清除";
   }
   if (action === "skill.auto_hide") {
-    return "Skill auto-hidden";
+    return "Skill 已自动隐藏";
   }
   if (action === "skill.hard_delete") {
-    return "Skill hard-deleted";
+    return "Skill 已硬删除";
   }
   if (action.startsWith("skill.transfer.")) {
-    return `Transfer ${action.slice("skill.transfer.".length).replaceAll("_", " ")}`;
+    return `转移 ${action.slice("skill.transfer.".length).replaceAll("_", " ")}`;
   }
   if (action.startsWith("skill.")) {
     return action.slice("skill.".length).replaceAll(".", " ").replaceAll("_", " ");
@@ -962,7 +975,7 @@ function formatAuditMetadataSummary(action: string, metadata?: unknown) {
     if (note) return note;
     const previousVerdict =
       typeof record.previousVerdict === "string" ? record.previousVerdict : null;
-    return previousVerdict ? `Previous verdict: ${formatVerdictLabel(previousVerdict)}` : null;
+    return previousVerdict ? `之前裁决： ${formatVerdictLabel(previousVerdict)}` : null;
   }
 
   if (action === "skill.manual_override.clear") {
@@ -971,32 +984,32 @@ function formatAuditMetadataSummary(action: string, metadata?: unknown) {
     const previousVerdict =
       typeof record.previousVerdict === "string" ? record.previousVerdict : null;
     return previousVerdict
-      ? `Previous override verdict: ${formatVerdictLabel(previousVerdict)}`
+      ? `之前覆盖裁决： ${formatVerdictLabel(previousVerdict)}`
       : null;
   }
 
   if (action === "skill.owner.change") {
     const from = typeof record.from === "string" ? record.from : null;
     const to = typeof record.to === "string" ? record.to : null;
-    if (from || to) return `from ${from ?? "unknown"} to ${to ?? "unknown"}`;
+    if (from || to) return `从 ${from ?? "未知"} 到 ${to ?? "未知"}`;
   }
 
   if (action === "skill.duplicate.set") {
     return typeof record.canonicalSlug === "string"
-      ? `Canonical skill: ${record.canonicalSlug}`
+      ? `Canonical skill： ${record.canonicalSlug}`
       : null;
   }
 
   if (action === "skill.duplicate.clear") {
-    return "Canonical skill cleared.";
+    return "Canonical skill 已清除。";
   }
 
   if (action === "skill.auto_hide") {
-    return typeof record.reportCount === "number" ? `${record.reportCount} active reports` : null;
+    return typeof record.reportCount === "number" ? `${record.reportCount} 个活跃 reports` : null;
   }
 
   if (action === "skill.hard_delete") {
-    return typeof record.slug === "string" ? `Deleted slug: ${record.slug}` : null;
+    return typeof record.slug === "string" ? `已删除 slug： ${record.slug}` : null;
   }
 
   if (typeof record.note === "string" && record.note.trim()) {
@@ -1014,5 +1027,11 @@ function asAuditMetadataRecord(metadata: unknown) {
 }
 
 function formatVerdictLabel(verdict: string) {
-  return verdict === "clean" ? "okay" : verdict;
+  const verdictMap: Record<string, string> = {
+    clean: "干净",
+    okay: "正常",
+    suspicious: "可疑",
+    malicious: "恶意",
+  };
+  return verdictMap[verdict] || verdict;
 }

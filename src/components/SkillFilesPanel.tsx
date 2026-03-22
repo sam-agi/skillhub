@@ -100,9 +100,9 @@ export function SkillFilesPanel({
           {readmeContent ? (
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{readmeContent}</ReactMarkdown>
           ) : readmeError ? (
-            <div className="stat">Failed to load SKILL.md: {readmeError}</div>
+            <div className="stat">加载 SKILL.md 失败： {readmeError}</div>
           ) : (
-            <div>Loading…</div>
+            <div>加载中…</div>
           )}
         </div>
       </div>
@@ -113,12 +113,12 @@ export function SkillFilesPanel({
               Files
             </h3>
             <span className="section-subtitle" style={{ margin: 0 }}>
-              {latestFiles.length} total
+              {latestFiles.length} 总计
             </span>
           </div>
           <div className="file-list-body">
             {latestFiles.length === 0 ? (
-              <div className="stat">No files available.</div>
+              <div className="stat">没有可用文件。</div>
             ) : (
               latestFiles.map((file) => (
                 <button
@@ -139,7 +139,7 @@ export function SkillFilesPanel({
         </div>
         <div className="file-viewer">
           <div className="file-viewer-header">
-            <div className="file-path">{selectedPath ?? "Select a file"}</div>
+            <div className="file-path">{selectedPath ?? "选择一个文件"}</div>
             {fileMeta ? (
               <span className="file-meta">
                 {formatBytes(fileMeta.size)} · {fileMeta.sha256.slice(0, 12)}…

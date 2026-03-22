@@ -261,7 +261,7 @@ function OnlyCrabsHome() {
         <p className="section-subtitle">平台上最新的 SOUL.md 包。</p>
         <div className="grid">
           {latest.length === 0 ? (
-            <div className="card">暂无 Souls。成为第一个发布者！
+            <div className="card">暂无 Souls。成为第一个发布者！</div>
           ) : (
             latest.map((soul) => (
               <SoulCard

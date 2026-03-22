@@ -244,18 +244,18 @@ export function SoulDetailPage({ slug }: SoulDetailPageProps) {
                 rows={4}
                 value={comment}
                 onChange={(event) => setComment(event.target.value)}
-                placeholder="Leave a note…"
+                placeholder="留下一条备注…"
               />
               <button className="btn comment-submit" type="submit">
-                Post comment
+                发布 comment
               </button>
             </form>
           ) : (
-            <p className="section-subtitle">Sign in to comment.</p>
+            <p className="section-subtitle">登录以发表评论。</p>
           )}
           <div style={{ display: "grid", gap: 12, marginTop: 16 }}>
             {(comments ?? []).length === 0 ? (
-              <div className="stat">No comments yet.</div>
+              <div className="stat">暂无评论。</div>
             ) : (
               (comments ?? []).map((entry) => (
                 <div key={entry.comment._id} className="comment-item">

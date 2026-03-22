@@ -16,6 +16,7 @@ import type * as crons from "../crons.js";
 import type * as devSeed from "../devSeed.js";
 import type * as devSeedExtra from "../devSeedExtra.js";
 import type * as downloads from "../downloads.js";
+import type * as flarumAuthComplete from "../flarumAuthComplete.js";
 import type * as functions from "../functions.js";
 import type * as githubBackups from "../githubBackups.js";
 import type * as githubBackupsNode from "../githubBackupsNode.js";
@@ -119,6 +120,7 @@ declare const fullApi: ApiFromModules<{
   devSeed: typeof devSeed;
   devSeedExtra: typeof devSeedExtra;
   downloads: typeof downloads;
+  flarumAuthComplete: typeof flarumAuthComplete;
   functions: typeof functions;
   githubBackups: typeof githubBackups;
   githubBackupsNode: typeof githubBackupsNode;

@@ -83,7 +83,7 @@ export function SkillDiffCard({ skill, versions, variant = "card" }: SkillDiffCa
       const version = versionById.get(latestId)?.version;
       options.push({
         value: latestId,
-        label: version ? `latest (v${version})` : "latest",
+        label: version ? `最新 (v${version})` : "最新",
         group: "Special",
       });
     }
@@ -91,13 +91,13 @@ export function SkillDiffCard({ skill, versions, variant = "card" }: SkillDiffCa
       const version = versionById.get(previousId)?.version;
       options.push({
         value: previousId,
-        label: version ? `previous (v${version})` : "previous",
+        label: version ? `上一个 (v${version})` : "上一个",
         group: "Special",
       });
     } else if (versions.length > 0) {
       options.push({
         value: versions[0]._id,
-        label: "previous (unavailable)",
+        label: "上一个 (不可用)",
         group: "Special",
         disabled: true,
       });
@@ -279,34 +279,34 @@ export function SkillDiffCard({ skill, versions, variant = "card" }: SkillDiffCa
       <div className="diff-header">
         <div>
           <h2 className="section-title" style={{ fontSize: "1.2rem", margin: 0 }}>
-            Compare versions
+            对比版本
           </h2>
           <p className="section-subtitle" style={{ margin: 0 }}>
-            Inline or side-by-side diff for any file.
+            任何文件的行内或并排 diff。
           </p>
         </div>
         <fieldset className="diff-toggle-group">
-          <legend className="sr-only">Diff layout</legend>
+          <legend className="sr-only">Diff 布局</legend>
           <button
             className={`diff-toggle${viewMode === "split" ? " is-active" : ""}`}
             type="button"
             onClick={() => updateViewMode("split")}
           >
-            Side-by-side
+            并排
           </button>
           <button
             className={`diff-toggle${viewMode === "inline" ? " is-active" : ""}`}
             type="button"
             onClick={() => updateViewMode("inline")}
           >
-            Inline
+            行内
           </button>
         </fieldset>
       </div>
 
       <div className="diff-controls">
         <div className="diff-select">
-          <label htmlFor="diff-left">Left</label>
+          <label htmlFor="diff-left">左侧</label>
           <select
             id="diff-left"
             className="search-input"
@@ -314,7 +314,7 @@ export function SkillDiffCard({ skill, versions, variant = "card" }: SkillDiffCa
             onChange={(event) => setLeftVersionId(event.target.value as Id<"skillVersions">)}
           >
             <option value="" disabled>
-              Select version
+              选择版本
             </option>
             {renderOptions(versionOptions)}
           </select>
@@ -328,10 +328,10 @@ export function SkillDiffCard({ skill, versions, variant = "card" }: SkillDiffCa
           }}
           disabled={!leftVersionId || !rightVersionId}
         >
-          Swap
+          交换
         </button>
         <div className="diff-select">
-          <label htmlFor="diff-right">Right</label>
+          <label htmlFor="diff-right">右侧</label>
           <select
             id="diff-right"
             className="search-input"
@@ -348,15 +348,15 @@ export function SkillDiffCard({ skill, versions, variant = "card" }: SkillDiffCa
 
       <div className="diff-meta">
         <span>
-          Left {leftLabel} • Right {rightLabel}
+          左侧 {leftLabel} • 右侧 {rightLabel}
         </span>
-        {diffUnavailable ? <span>Need at least 2 versions.</span> : null}
+        {diffUnavailable ? <span>至少需要 2 个版本。</span> : null}
       </div>
 
       <div className="diff-layout">
         <div className="diff-files">
           {fileDiffItems.length === 0 ? (
-            <div className="diff-empty">No files to compare.</div>
+            <div className="diff-empty">没有可对比的文件。</div>
           ) : (
             fileDiffItems.map((item) => (
               <button
@@ -380,20 +380,20 @@ export function SkillDiffCard({ skill, versions, variant = "card" }: SkillDiffCa
               {sizeWarning.path}
             </div>
           ) : diffUnavailable ? (
-            <div className="diff-empty">Publish another version to compare.</div>
+            <div className="diff-empty">发布另一个版本以进行对比。</div>
           ) : !selectionReady ? (
-            <div className="diff-empty">Select two versions to compare.</div>
+            <div className="diff-empty">选择两个版本进行对比。</div>
           ) : !fileSelected ? (
-            <div className="diff-empty">Select a file to compare.</div>
+            <div className="diff-empty">选择一个文件进行对比。</div>
           ) : (
-            <ClientOnly fallback={<div className="diff-empty">Preparing diff…</div>}>
+            <ClientOnly fallback={<div className="diff-empty">准备 diff…</div>}>
               <DiffEditor
                 key={`diff-${viewMode}`}
                 className={`diff-monaco diff-monaco-${viewMode}`}
                 original={leftText}
                 modified={rightText}
                 theme={getMonacoThemeName()}
-                loading={<div className="diff-empty">Loading diff…</div>}
+                loading={<div className="diff-empty">加载 diff…</div>}
                 options={diffOptions}
               />
               {isLoading ? <div className="diff-loading">Loading…</div> : null}
@@ -416,15 +416,22 @@ function renderOptions(options: VersionOption[]) {
   }
   return (["Special", "Tags", "Versions"] as const)
     .filter((group) => groups[group].length > 0)
-    .map((group) => (
-      <optgroup key={group} label={group}>
-        {groups[group].map((option) => (
-          <option key={`${group}-${option.value}`} value={option.value} disabled={option.disabled}>
-            {option.label}
-          </option>
-        ))}
-      </optgroup>
-    ));
+    .map((group) => {
+      const groupLabels: Record<string, string> = {
+        Special: "特殊",
+        Tags: "Tags",
+        Versions: "版本",
+      };
+      return (
+        <optgroup key={group} label={groupLabels[group] || group}>
+          {groups[group].map((option) => (
+            <option key={`${group}-${option.value}`} value={option.value} disabled={option.disabled}>
+              {option.label}
+            </option>
+          ))}
+        </optgroup>
+      );
+    });
 }
 
 function getMonacoThemeName() {
