@@ -21,7 +21,6 @@
         "@tanstack/react-start": "1.157.18",
         "@tanstack/router-plugin": "1.157.18",
         "@vercel/analytics": "^2.0.1",
-        "clawhub-schema": "workspace:*",
         "clsx": "^2.1.1",
         "convex": "^1.33.1",
         "convex-helpers": "^0.1.114",
@@ -35,6 +34,7 @@
         "react-markdown": "^10.1.0",
         "remark-gfm": "^4.0.1",
         "semver": "^7.7.4",
+        "skillhub-schema": "workspace:*",
         "tailwind-merge": "^3.5.0",
         "tailwindcss": "^4.2.1",
         "vite-tsconfig-paths": "^6.1.1",
@@ -63,11 +63,10 @@
       },
     },
     "packages/clawdhub": {
-      "name": "clawhub",
+      "name": "@bgicli/skillhub",
       "version": "0.8.0",
       "bin": {
-        "clawhub": "bin/clawdhub.js",
-        "clawdhub": "bin/clawdhub.js",
+        "skillhub": "bin/skillhub.js",
       },
       "dependencies": {
         "@clack/prompts": "^1.1.0",
@@ -88,7 +87,7 @@
       },
     },
     "packages/schema": {
-      "name": "clawhub-schema",
+      "name": "skillhub-schema",
       "version": "0.0.2",
       "dependencies": {
         "arktype": "^2.2.0",
@@ -156,6 +155,8 @@
     "@babel/types": ["@babel/types@7.29.0", "", { "dependencies": { "@babel/helper-string-parser": "^7.27.1", "@babel/helper-validator-identifier": "^7.28.5" } }, "sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A=="],
 
     "@bcoe/v8-coverage": ["@bcoe/v8-coverage@1.0.2", "", {}, "sha512-6zABk/ECA/QYSCQ1NGiVwwbQerUCZ+TQbp64Q3AgmfNvurHH0j8TtXa1qbShXA6qqkpAj4V5W8pP6mLe1mcMqA=="],
+
+    "@bgicli/skillhub": ["@bgicli/skillhub@workspace:packages/clawdhub"],
 
     "@bramus/specificity": ["@bramus/specificity@2.4.2", "", { "dependencies": { "css-tree": "^3.0.0" }, "bin": { "specificity": "bin/cli.js" } }, "sha512-ctxtJ/eA+t+6q2++vj5j7FYX3nRu311q1wfYH3xjlLOsczhlhxAg2FWNUXhpGvAw3BWo1xBcvOV6/YLc2r5FJw=="],
 
@@ -825,10 +826,6 @@
 
     "chokidar": ["chokidar@3.6.0", "", { "dependencies": { "anymatch": "~3.1.2", "braces": "~3.0.2", "glob-parent": "~5.1.2", "is-binary-path": "~2.1.0", "is-glob": "~4.0.1", "normalize-path": "~3.0.0", "readdirp": "~3.6.0" }, "optionalDependencies": { "fsevents": "~2.3.2" } }, "sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw=="],
 
-    "clawhub": ["clawhub@workspace:packages/clawdhub"],
-
-    "clawhub-schema": ["clawhub-schema@workspace:packages/schema"],
-
     "cli-cursor": ["cli-cursor@5.0.0", "", { "dependencies": { "restore-cursor": "^5.0.0" } }, "sha512-aCj4O5wKyszjMmDT4tZj93kxyydN/K5zPWSCe6/0AV/AA1pqe5ZBIw0a2ZfPQV7lL5/yb5HsUreJ6UFAF1tEQw=="],
 
     "cli-spinners": ["cli-spinners@3.4.0", "", {}, "sha512-bXfOC4QcT1tKXGorxL3wbJm6XJPDqEnij2gQ2m7ESQuE+/z9YFIWnl/5RpTiKWbMq3EVKR4fRLJGn6DVfu0mpw=="],
@@ -1296,6 +1293,8 @@
     "signal-exit": ["signal-exit@4.1.0", "", {}, "sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw=="],
 
     "sisteransi": ["sisteransi@1.0.5", "", {}, "sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg=="],
+
+    "skillhub-schema": ["skillhub-schema@workspace:packages/schema"],
 
     "solid-js": ["solid-js@1.9.11", "", { "dependencies": { "csstype": "^3.1.0", "seroval": "~1.5.0", "seroval-plugins": "~1.5.0" } }, "sha512-WEJtcc5mkh/BnHA6Yrg4whlF8g6QwpmXXRg4P2ztPmcKeHHlH4+djYecBLhSpecZY2RRECXYUwIc/C2r3yzQ4Q=="],
 

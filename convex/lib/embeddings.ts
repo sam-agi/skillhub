@@ -1,7 +1,7 @@
-export const EMBEDDING_MODEL = "text-embedding-3-small";
-export const EMBEDDING_DIMENSIONS = 1536;
+export const EMBEDDING_MODEL = "Qwen3-Embedding-4B";
+export const EMBEDDING_DIMENSIONS = 1024;
 
-const EMBEDDING_ENDPOINT = "https://api.openai.com/v1/embeddings";
+const EMBEDDING_ENDPOINT = "https://ai.gitee.com/v1/embeddings";
 const REQUEST_TIMEOUT_MS = 10_000;
 const MAX_ATTEMPTS = 3;
 const BASE_RETRY_DELAY_MS = 1_000;
@@ -87,6 +87,8 @@ export async function generateEmbedding(text: string) {
         body: JSON.stringify({
           model: EMBEDDING_MODEL,
           input: text,
+          encoding_format: "float",
+          dimensions: EMBEDDING_DIMENSIONS,
         }),
         signal: controller.signal,
       });

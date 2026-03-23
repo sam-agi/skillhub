@@ -1,4 +1,4 @@
-import type { SkillInstallSpec } from "clawhub-schema";
+import type { SkillInstallSpec } from "skillhub-schema";
 import type { Id } from "../../convex/_generated/dataModel";
 
 export function buildSkillHref(

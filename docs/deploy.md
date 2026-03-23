@@ -7,7 +7,7 @@ read_when:
 
 # Deploy
 
-ClawHub is two deployables:
+SkillHub is two deployables:
 
 - Web app (TanStack Start) → typically Vercel.
 - Convex backend → Convex deployment (serves `/api/...` routes).
@@ -80,13 +80,13 @@ For self-host:
 
 The CLI can discover the API base from:
 
-- `/.well-known/clawhub.json` (preferred)
+- `/.well-known/skillhub.json` (preferred)
 - `/.well-known/clawdhub.json` (legacy)
 
 If you don’t serve that file, users must set:
 
 ```bash
-export CLAWHUB_REGISTRY=https://your-site.example
+export SKILLHUB_REGISTRY=https://your-site.example
 ```
 
 ## 5) Post-deploy checks
@@ -99,8 +99,8 @@ curl -i "https://<site>/api/v1/skills/gifgrep"
 Then:
 
 ```bash
-clawhub login --site https://<site>
-clawhub whoami
+skillhub login --site https://<site>
+skillhub whoami
 ```
 
 Rate-limit sanity checks:
@@ -119,7 +119,7 @@ Drift checks:
 
 ```bash
 bun run verify:convex-contract -- --prod
-PLAYWRIGHT_BASE_URL=https://clawhub.ai bunx playwright test e2e/menu-smoke.pw.test.ts e2e/upload-auth-smoke.pw.test.ts
+PLAYWRIGHT_BASE_URL=https://skillhub.ai bunx playwright test e2e/menu-smoke.pw.test.ts e2e/upload-auth-smoke.pw.test.ts
 ```
 
 The Playwright smoke suite should fail on visible error UI, page errors, and

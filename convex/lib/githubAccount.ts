@@ -23,7 +23,7 @@ function assertGitHubNumericId(providerAccountId: string) {
 }
 
 function buildGitHubHeaders() {
-  const headers: Record<string, string> = { "User-Agent": "clawhub" };
+  const headers: Record<string, string> = { "User-Agent": "skillhub" };
   const token = process.env.GITHUB_TOKEN;
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -34,6 +34,11 @@ function buildGitHubHeaders() {
 export async function requireGitHubAccountAge(ctx: GitHubAccountGateCtx, userId: Id<"users">) {
   const user = await ctx.runQuery(internal.users.getByIdInternal, { userId });
   if (!user || user.deletedAt || user.deactivatedAt) throw new ConvexError("User not found");
+
+  // Allow staff/admin to bypass GitHub account age check in development
+  if (user.role === "admin" || user.role === "moderator") {
+    return;
+  }
 
   const now = Date.now();
   let createdAt = user.githubCreatedAt ?? null;

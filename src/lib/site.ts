@@ -2,17 +2,17 @@ export type SiteMode = "skills" | "souls";
 
 import { getRuntimeEnv } from "./runtimeEnv";
 
-const DEFAULT_CLAWHUB_SITE_URL = "https://clawhub.ai";
+const DEFAULT_SKILLHUB_SITE_URL = "https://skillhub.ai";
 const DEFAULT_ONLYCRABS_SITE_URL = "https://onlycrabs.ai";
 const DEFAULT_ONLYCRABS_HOST = "onlycrabs.ai";
 const LEGACY_CLAWDHUB_HOSTS = new Set(["clawdhub.com", "www.clawdhub.com", "auth.clawdhub.com"]);
 
-export function normalizeClawHubSiteOrigin(value?: string | null) {
+export function normalizeSkillHubSiteOrigin(value?: string | null) {
   if (!value) return null;
   try {
     const url = new URL(value);
     if (LEGACY_CLAWDHUB_HOSTS.has(url.hostname.toLowerCase())) {
-      return DEFAULT_CLAWHUB_SITE_URL;
+      return DEFAULT_SKILLHUB_SITE_URL;
     }
     return url.origin;
   } catch {
@@ -20,8 +20,8 @@ export function normalizeClawHubSiteOrigin(value?: string | null) {
   }
 }
 
-export function getClawHubSiteUrl() {
-  return normalizeClawHubSiteOrigin(getRuntimeEnv("VITE_SITE_URL")) ?? DEFAULT_CLAWHUB_SITE_URL;
+export function getSkillHubSiteUrl() {
+  return normalizeSkillHubSiteOrigin(getRuntimeEnv("VITE_SITE_URL")) ?? DEFAULT_SKILLHUB_SITE_URL;
 }
 
 export function getOnlyCrabsSiteUrl() {
@@ -96,5 +96,5 @@ export function getSiteDescription(mode: SiteMode = getSiteMode()) {
 }
 
 export function getSiteUrlForMode(mode: SiteMode = getSiteMode()) {
-  return mode === "souls" ? getOnlyCrabsSiteUrl() : getClawHubSiteUrl();
+  return mode === "souls" ? getOnlyCrabsSiteUrl() : getSkillHubSiteUrl();
 }

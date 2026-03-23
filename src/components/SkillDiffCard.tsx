@@ -435,8 +435,8 @@ function renderOptions(options: VersionOption[]) {
 }
 
 function getMonacoThemeName() {
-  if (typeof document === "undefined") return "clawhub-light";
-  return document.documentElement.dataset.theme === "dark" ? "clawhub-dark" : "clawhub-light";
+  if (typeof document === "undefined") return "skillhub-light";
+  return document.documentElement.dataset.theme === "dark" ? "skillhub-dark" : "skillhub-light";
 }
 
 function buildDiffOptions(viewMode: "split" | "inline"): DiffEditorProps["options"] {

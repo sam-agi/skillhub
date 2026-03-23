@@ -361,7 +361,7 @@ function mergeSourceIntoMetadata(
   }
 
   if (qualityAssessment) {
-    base._clawhubQuality = {
+    base._skillhubQuality = {
       score: qualityAssessment.score,
       decision: qualityAssessment.decision,
       trustTier: qualityAssessment.trustTier,

@@ -3,7 +3,7 @@ import { basename, join, resolve } from "node:path";
 import JSON5 from "json5";
 import { resolveHome } from "../homedir.js";
 
-type ClawdbotConfig = {
+type SkillbotConfig = {
   agent?: { workspace?: string };
   agents?: {
     defaults?: { workspace?: string };
@@ -30,43 +30,43 @@ type ClawdbotConfig = {
   };
 };
 
-export type ClawdbotSkillRoots = {
+export type SkillbotSkillRoots = {
   roots: string[];
   labels: Record<string, string>;
 };
 
-export async function resolveClawdbotSkillRoots(): Promise<ClawdbotSkillRoots> {
+export async function resolveSkillbotSkillRoots(): Promise<SkillbotSkillRoots> {
   const roots: string[] = [];
   const labels: Record<string, string> = {};
 
-  const clawdbotStateDir = resolveClawdbotStateDir();
-  const sharedSkills = resolveUserPath(join(clawdbotStateDir, "skills"));
+  const skillbotStateDir = resolveSkillbotStateDir();
+  const sharedSkills = resolveUserPath(join(skillbotStateDir, "skills"));
   pushRoot(roots, labels, sharedSkills, "Shared skills");
 
-  const openclawStateDir = resolveOpenclawStateDir();
-  const openclawShared = resolveUserPath(join(openclawStateDir, "skills"));
-  pushRoot(roots, labels, openclawShared, "OpenClaw: Shared skills");
+  const openskillStateDir = resolveOpenskillStateDir();
+  const openskillShared = resolveUserPath(join(openskillStateDir, "skills"));
+  pushRoot(roots, labels, openskillShared, "OpenSkill: Shared skills");
 
-  const [clawdbotConfig, openclawConfig] = await Promise.all([
-    readClawdbotConfig(),
-    readOpenclawConfig(),
+  const [skillbotConfig, openskillConfig] = await Promise.all([
+    readSkillbotConfig(),
+    readOpenskillConfig(),
   ]);
-  if (!clawdbotConfig && !openclawConfig) return { roots, labels };
+  if (!skillbotConfig && !openskillConfig) return { roots, labels };
 
-  if (clawdbotConfig) {
-    addConfigRoots(clawdbotConfig, roots, labels);
+  if (skillbotConfig) {
+    addConfigRoots(skillbotConfig, roots, labels);
   }
-  if (openclawConfig) {
-    addConfigRoots(openclawConfig, roots, labels, "OpenClaw");
+  if (openskillConfig) {
+    addConfigRoots(openskillConfig, roots, labels, "OpenSkill");
   }
 
   return { roots, labels };
 }
 
-export async function resolveClawdbotDefaultWorkspace(): Promise<string | null> {
-  const config = await readClawdbotConfig();
-  const openclawConfig = await readOpenclawConfig();
-  if (!config && !openclawConfig) return null;
+export async function resolveSkillbotDefaultWorkspace(): Promise<string | null> {
+  const config = await readSkillbotConfig();
+  const openskillConfig = await readOpenskillConfig();
+  if (!config && !openskillConfig) return null;
 
   const defaultsWorkspace = resolveUserPath(
     config?.agents?.defaults?.workspace ?? config?.agent?.workspace ?? "",
@@ -80,73 +80,73 @@ export async function resolveClawdbotDefaultWorkspace(): Promise<string | null> 
   const listWorkspace = resolveUserPath(defaultAgent?.workspace ?? "");
   if (listWorkspace) return listWorkspace;
 
-  if (!openclawConfig) return null;
-  const openclawDefaults = resolveUserPath(
-    openclawConfig.agents?.defaults?.workspace ?? openclawConfig.agent?.workspace ?? "",
+  if (!openskillConfig) return null;
+  const openskillDefaults = resolveUserPath(
+    openskillConfig.agents?.defaults?.workspace ?? openskillConfig.agent?.workspace ?? "",
   );
-  if (openclawDefaults) return openclawDefaults;
-  const openclawAgents = openclawConfig.agents?.list ?? [];
-  const openclawDefaultAgent =
-    openclawAgents.find((entry) => entry.default) ??
-    openclawAgents.find((entry) => entry.id === "main");
-  const openclawWorkspace = resolveUserPath(openclawDefaultAgent?.workspace ?? "");
-  return openclawWorkspace || null;
+  if (openskillDefaults) return openskillDefaults;
+  const openskillAgents = openskillConfig.agents?.list ?? [];
+  const openskillDefaultAgent =
+    openskillAgents.find((entry) => entry.default) ??
+    openskillAgents.find((entry) => entry.id === "main");
+  const openskillWorkspace = resolveUserPath(openskillDefaultAgent?.workspace ?? "");
+  return openskillWorkspace || null;
 }
 
-function resolveClawdbotStateDir() {
-  const override = process.env.CLAWDBOT_STATE_DIR?.trim();
+function resolveSkillbotStateDir() {
+  const override = process.env.SKILLBOT_STATE_DIR?.trim();
   if (override) return resolveUserPath(override);
-  return join(resolveHome(), ".clawdbot");
+  return join(resolveHome(), ".skillbot");
 }
 
-function resolveClawdbotConfigPath() {
-  const override = process.env.CLAWDBOT_CONFIG_PATH?.trim();
+function resolveSkillbotConfigPath() {
+  const override = process.env.SKILLBOT_CONFIG_PATH?.trim();
   if (override) return resolveUserPath(override);
-  return join(resolveClawdbotStateDir(), "clawdbot.json");
+  return join(resolveSkillbotStateDir(), "skillbot.json");
 }
 
-function resolveOpenclawStateDir() {
-  const override = process.env.OPENCLAW_STATE_DIR?.trim();
+function resolveOpenskillStateDir() {
+  const override = process.env.OPENSKILL_STATE_DIR?.trim();
   if (override) return resolveUserPath(override);
-  return join(resolveHome(), ".openclaw");
+  return join(resolveHome(), ".openskill");
 }
 
-function resolveOpenclawConfigPath() {
-  const override = process.env.OPENCLAW_CONFIG_PATH?.trim();
+function resolveOpenskillConfigPath() {
+  const override = process.env.OPENSKILL_CONFIG_PATH?.trim();
   if (override) return resolveUserPath(override);
-  return join(resolveOpenclawStateDir(), "openclaw.json");
+  return join(resolveOpenskillStateDir(), "openskill.json");
 }
 
 function resolveUserPath(input: string) {
   const trimmed = input.trim();
   if (!trimmed) return "";
   if (trimmed.startsWith("~")) {
-    return resolve(trimmed.replace(/^~(?=$|[\\/])/, resolveHome()));
+    return resolve(trimmed.replace(/^~(?=$|[\/])/, resolveHome()));
   }
   return resolve(trimmed);
 }
 
-async function readClawdbotConfig(): Promise<ClawdbotConfig | null> {
-  return readConfigFile(resolveClawdbotConfigPath());
+async function readSkillbotConfig(): Promise<SkillbotConfig | null> {
+  return readConfigFile(resolveSkillbotConfigPath());
 }
 
-async function readOpenclawConfig(): Promise<ClawdbotConfig | null> {
-  return readConfigFile(resolveOpenclawConfigPath());
+async function readOpenskillConfig(): Promise<SkillbotConfig | null> {
+  return readConfigFile(resolveOpenskillConfigPath());
 }
 
-async function readConfigFile(path: string): Promise<ClawdbotConfig | null> {
+async function readConfigFile(path: string): Promise<SkillbotConfig | null> {
   try {
     const raw = await readFile(path, "utf8");
     const parsed = JSON5.parse(raw);
     if (!parsed || typeof parsed !== "object") return null;
-    return parsed as ClawdbotConfig;
+    return parsed as SkillbotConfig;
   } catch {
     return null;
   }
 }
 
 function addConfigRoots(
-  config: ClawdbotConfig,
+  config: SkillbotConfig,
   roots: string[],
   labels: Record<string, string>,
   labelPrefix?: string,

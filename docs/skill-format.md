@@ -18,16 +18,16 @@ Required:
 Optional:
 
 - any supporting _text-based_ files (see “Allowed files”)
-- `.clawhubignore` (ignore patterns for publish/sync, legacy `.clawdhubignore`)
+- `.skillhubignore` (ignore patterns for publish/sync, legacy `.clawdhubignore`)
 - `.gitignore` (also honored)
 
 Local install metadata (written by the CLI):
 
-- `<skill>/.clawhub/origin.json` (legacy `.clawdhub`)
+- `<skill>/.skillhub/origin.json` (legacy `.clawdhub`)
 
 Workdir install state (written by the CLI):
 
-- `<workdir>/.clawhub/lock.json` (legacy `.clawdhub`)
+- `<workdir>/.skillhub/lock.json` (legacy `.clawdhub`)
 
 ## `SKILL.md`
 
@@ -106,7 +106,7 @@ Supported install kinds: `brew`, `node`, `go`, `uv`.
 
 ### Why this matters
 
-ClawHub's security analysis checks that what your skill declares matches what it actually does. If your code references `TODOIST_API_KEY` but your frontmatter doesn't declare it under `requires.env`, the analysis will flag a metadata mismatch. Keeping declarations accurate helps your skill pass review and helps users understand what they're installing.
+SkillHub's security analysis checks that what your skill declares matches what it actually does. If your code references `TODOIST_API_KEY` but your frontmatter doesn't declare it under `requires.env`, the analysis will flag a metadata mismatch. Keeping declarations accurate helps your skill pass review and helps users understand what they're installing.
 
 ### Example: complete frontmatter
 
@@ -152,7 +152,7 @@ Limits (server-side):
 
 ## License
 
-- All skills published on ClawHub are licensed under `MIT-0`.
+- All skills published on SkillHub are licensed under `MIT-0`.
 - Anyone may use, modify, and redistribute published skills, including commercially.
 - Attribution is not required.
-- Do not add conflicting license terms in `SKILL.md`; ClawHub does not support per-skill license overrides.
+- Do not add conflicting license terms in `SKILL.md`; SkillHub does not support per-skill license overrides.

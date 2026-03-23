@@ -1,4 +1,4 @@
-# ClawHub — Project Rules
+# SkillHub — Project Rules
 
 ## Convex Performance Rules
 

@@ -9,7 +9,7 @@ import {
   ApiV1SearchResponseSchema,
   ApiV1WhoamiResponseSchema,
   parseArk,
-} from "clawhub-schema";
+} from "skillhub-schema";
 import { unzipSync } from "fflate";
 import { Agent, setGlobalDispatcher } from "undici";
 import { describe, expect, it } from "vitest";
@@ -37,18 +37,18 @@ function getRegistry() {
   return (
     process.env.CLAWHUB_REGISTRY?.trim() ||
     process.env.CLAWDHUB_REGISTRY?.trim() ||
-    "https://clawhub.ai"
+    "https://skillhub.ai"
   );
 }
 
 function getSite() {
   return (
-    process.env.CLAWHUB_SITE?.trim() || process.env.CLAWDHUB_SITE?.trim() || "https://clawhub.ai"
+    process.env.SKILLHUB_SITE?.trim() || process.env.SKILLHUB_SITE?.trim() || "https://skillhub.ai"
   );
 }
 
 async function makeTempConfig(registry: string, token: string | null) {
-  const dir = await mkdtemp(join(tmpdir(), "clawhub-e2e-"));
+  const dir = await mkdtemp(join(tmpdir(), "skillhub-e2e-"));
   const path = join(dir, "config.json");
   await writeFile(
     path,
@@ -68,7 +68,7 @@ async function fetchWithTimeout(input: RequestInfo | URL, init?: RequestInit) {
   }
 }
 
-describe("clawhub e2e", () => {
+describe("skillhub e2e", () => {
   it("prints CLI version via --cli-version", async () => {
     const result = spawnSync("bun", ["clawhub", "--cli-version"], {
       cwd: process.cwd(),
@@ -100,7 +100,7 @@ describe("clawhub e2e", () => {
 
     const cfg = await makeTempConfig(registry, token);
     try {
-      const workdir = await mkdtemp(join(tmpdir(), "clawhub-e2e-workdir-"));
+      const workdir = await mkdtemp(join(tmpdir(), "skillhub-e2e-workdir-"));
       const result = spawnSync(
         "bun",
         [
@@ -178,7 +178,7 @@ describe("clawhub e2e", () => {
     }
 
     const cfg = await makeTempConfig(registry, token);
-    const root = await mkdtemp(join(tmpdir(), "clawhub-e2e-sync-"));
+    const root = await mkdtemp(join(tmpdir(), "skillhub-e2e-sync-"));
     try {
       const skillDir = join(root, "cool-skill");
       await mkdir(skillDir, { recursive: true });
@@ -222,7 +222,7 @@ describe("clawhub e2e", () => {
     }
 
     const cfg = await makeTempConfig(registry, token);
-    const root = await mkdtemp(join(tmpdir(), "clawhub-e2e-clawdbot-"));
+    const root = await mkdtemp(join(tmpdir(), "skillhub-e2e-clawdbot-"));
     const stateDir = join(root, "state");
     const configPath = join(root, "clawdbot.json");
     const workspace = join(root, "clawd-work");
@@ -277,8 +277,8 @@ describe("clawhub e2e", () => {
     }
 
     const cfg = await makeTempConfig(registry, token);
-    const workdir = await mkdtemp(join(tmpdir(), "clawhub-e2e-publish-"));
-    const installWorkdir = await mkdtemp(join(tmpdir(), "clawhub-e2e-install-"));
+    const workdir = await mkdtemp(join(tmpdir(), "skillhub-e2e-publish-"));
+    const installWorkdir = await mkdtemp(join(tmpdir(), "skillhub-e2e-install-"));
     const slug = `e2e-${Date.now()}`;
     const skillDir = join(workdir, slug);
 
@@ -507,7 +507,7 @@ describe("clawhub e2e", () => {
 
   it("delete returns proper error for non-existent skill", async () => {
     const registry = process.env.CLAWDHUB_REGISTRY?.trim() || "https://clawdhub.com";
-    const site = process.env.CLAWDHUB_SITE?.trim() || "https://clawdhub.com";
+    const site = process.env.SKILLHUB_SITE?.trim() || "https://clawdhub.com";
     const token = mustGetToken() ?? (await readGlobalConfig())?.token ?? null;
     if (!token) {
       throw new Error("Missing token. Set CLAWDHUB_E2E_TOKEN or run: bun clawdhub auth login");

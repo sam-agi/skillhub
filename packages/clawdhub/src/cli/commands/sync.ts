@@ -1,7 +1,7 @@
 import { intro, outro } from "@clack/prompts";
 import { hashSkillFiles, listTextFiles, readSkillOrigin } from "../../skills.js";
 import { requireAuthToken } from "../authToken.js";
-import { resolveClawdbotSkillRoots } from "../clawdbotConfig.js";
+import { resolveSkillbotSkillRoots } from "../skillbotConfig.js";
 import { getFallbackSkillRoots } from "../scanSkills.js";
 import type { GlobalOpts } from "../types.js";
 import { createSpinner, fail, formatError, isInteractive } from "../ui.js";
@@ -30,20 +30,20 @@ import type { Candidate, LocalSkill, SyncOptions } from "./syncTypes.js";
 
 export async function cmdSync(opts: GlobalOpts, options: SyncOptions, inputAllowed: boolean) {
   const allowPrompt = isInteractive() && inputAllowed !== false;
-  intro("ClawHub sync");
+  intro("SkillHub sync");
 
   const token = await requireAuthToken();
 
   const registry = await getRegistryWithAuth(opts, token);
   const selectedRoots = buildScanRoots(opts, options.root);
-  const clawdbotRoots = await resolveClawdbotSkillRoots();
+  const skillbotRoots = await resolveSkillbotSkillRoots();
   const combinedRoots = Array.from(
-    new Set([...selectedRoots, ...clawdbotRoots.roots].map((root) => root.trim()).filter(Boolean)),
+    new Set([...selectedRoots, ...skillbotRoots.roots].map((root) => root.trim()).filter(Boolean)),
   );
   const concurrency = normalizeConcurrency(options.concurrency);
 
   const spinner = createSpinner("Scanning for local skills");
-  const primaryScan = await scanRootsWithLabels(combinedRoots, clawdbotRoots.labels);
+  const primaryScan = await scanRootsWithLabels(combinedRoots, skillbotRoots.labels);
   let scan = primaryScan;
   let telemetryScan = primaryScan;
   if (primaryScan.skills.length === 0) {

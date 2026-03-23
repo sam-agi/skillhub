@@ -45,9 +45,9 @@ describe("theme", () => {
 
   it("reads stored theme with fallback", () => {
     expect(getStoredTheme()).toBe("system");
-    window.localStorage.setItem("clawhub-theme", "dark");
+    window.localStorage.setItem("skillhub-theme", "dark");
     expect(getStoredTheme()).toBe("dark");
-    window.localStorage.setItem("clawhub-theme", "nope");
+    window.localStorage.setItem("skillhub-theme", "nope");
     expect(getStoredTheme()).toBe("system");
     window.localStorage.setItem("clawdhub-theme", "dark");
     expect(getStoredTheme()).toBe("dark");
@@ -85,11 +85,11 @@ describe("theme", () => {
     await waitFor(() => {
       expect(document.documentElement.dataset.theme).toBe("dark");
     });
-    expect(window.localStorage.getItem("clawhub-theme")).toBe("dark");
+    expect(window.localStorage.getItem("skillhub-theme")).toBe("dark");
   });
 
   it("loads stored theme after mount without a mismatched initial render", async () => {
-    window.localStorage.setItem("clawhub-theme", "dark");
+    window.localStorage.setItem("skillhub-theme", "dark");
     vi.stubGlobal("matchMedia", () => ({
       matches: false,
       addEventListener: vi.fn(),

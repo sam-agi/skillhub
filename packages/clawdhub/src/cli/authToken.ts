@@ -8,6 +8,6 @@ export async function getOptionalAuthToken(): Promise<string | undefined> {
 
 export async function requireAuthToken(): Promise<string> {
   const token = await getOptionalAuthToken();
-  if (!token) fail("Not logged in. Run: clawhub login");
+  if (!token) fail("Not logged in. Run: skillhub login");
   return token;
 }

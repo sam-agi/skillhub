@@ -8,7 +8,7 @@ export function SkillVersionsPanel({
   suppressScanResults,
   suppressedMessage,
 }: SkillVersionsPanelProps) {
-  const convexSiteUrl = getRuntimeEnv("VITE_CONVEX_SITE_URL") ?? "https://clawhub.ai";
+  const convexSiteUrl = getRuntimeEnv("VITE_CONVEX_SITE_URL") ?? "https://skillhub.ai";
   return (
     <div className="tab-body">
       <div>

@@ -4,7 +4,7 @@ import { useMutation } from "convex/react";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { api } from "../../../convex/_generated/api";
 import { getUserFacingConvexError } from "../../lib/convexError";
-import { getClawHubSiteUrl, normalizeClawHubSiteOrigin } from "../../lib/site";
+import { getSkillHubSiteUrl, normalizeSkillHubSiteOrigin } from "../../lib/site";
 import { setAuthError, useAuthError } from "../../lib/useAuthError";
 import { useAuthStatus } from "../../lib/useAuthStatus";
 
@@ -37,9 +37,9 @@ function CliAuth() {
   const safeRedirect = useMemo(() => isAllowedRedirectUri(redirectUri), [redirectUri]);
   const registry = useMemo(() => {
     if (typeof window !== "undefined") {
-      return normalizeClawHubSiteOrigin(window.location.origin) ?? getClawHubSiteUrl();
+      return normalizeSkillHubSiteOrigin(window.location.origin) ?? getSkillHubSiteUrl();
     }
-    return getClawHubSiteUrl();
+    return getSkillHubSiteUrl();
   }, []);
 
   useEffect(() => {

@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 export type ThemeMode = "system" | "light" | "dark";
 export type BrandTheme = "classic" | "bgi";
 
-const THEME_KEY = "clawhub-theme";
-const BRAND_KEY = "clawhub-brand";
+const THEME_KEY = "skillhub-theme";
+const BRAND_KEY = "skillhub-brand";
 const LEGACY_THEME_KEY = "clawdhub-theme";
 
 export function getStoredTheme(): ThemeMode {

@@ -5404,7 +5404,9 @@ export const insertVersion = internalMutation({
         now,
       });
 
-      if (!args.bypassNewSkillRateLimit) {
+      // Admin and moderator bypass rate limits
+      const isPrivileged = user.role === "admin" || user.role === "moderator";
+      if (!args.bypassNewSkillRateLimit && !isPrivileged) {
         const ownerTrustSignals = await getOwnerTrustSignals(ctx, user, now);
         enforceNewSkillRateLimit(ownerTrustSignals);
       }

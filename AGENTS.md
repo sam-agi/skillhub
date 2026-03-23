@@ -48,10 +48,10 @@
 
 ## URL Quick Reference
 
-- Canonical site: `https://clawhub.ai` (prefer this over legacy domains).
-- Skill page URL format: `https://clawhub.ai/<owner>/<slug>` (owner handle preferred; falls back to owner id).
-- Skill API detail URL: `https://clawhub.ai/api/v1/skills/<slug>`.
-- Skill file URL: `https://clawhub.ai/api/v1/skills/<slug>/file?path=SKILL.md`.
+- Canonical site: `https://skillhub.ai` (prefer this over legacy domains).
+- Skill page URL format: `https://skillhub.ai/<owner>/<slug>` (owner handle preferred; falls back to owner id).
+- Skill API detail URL: `https://skillhub.ai/api/v1/skills/<slug>`.
+- Skill file URL: `https://skillhub.ai/api/v1/skills/<slug>/file?path=SKILL.md`.
 - For “full URL?” requests, return the canonical page URL first, then API URL if useful.
 
 ## Configuration & Security

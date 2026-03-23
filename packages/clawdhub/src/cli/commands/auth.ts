@@ -49,7 +49,7 @@ export async function cmdLogin(
 ) {
   if (!tokenFlag && !inputAllowed) fail("Token required (use --token or remove --no-input)");
 
-  const token = tokenFlag || (await promptHidden("ClawHub token: "));
+  const token = tokenFlag || (await promptHidden("SkillHub token: "));
   if (!token) fail("Token required");
 
   const registry = await getRegistry(opts, { cache: true });

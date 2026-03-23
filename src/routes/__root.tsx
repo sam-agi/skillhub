@@ -117,7 +117,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
   // 内联主题检测脚本 - 在页面渲染前执行，防止主题闪烁
   const themeScript = `
     (function() {
-      const THEME_KEY = "clawhub-theme";
+      const THEME_KEY = "skillhub-theme";
       const BRAND_KEY = "clawhub-brand";
       const LEGACY_THEME_KEY = "clawdhub-theme";
       function getStoredTheme() {

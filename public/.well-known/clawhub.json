@@ -1,6 +1,6 @@
 {
-  "apiBase": "https://clawhub.ai",
-  "authBase": "https://clawhub.ai",
+  "apiBase": "https://skillhub.ai",
+  "authBase": "https://skillhub.ai",
   "minCliVersion": "0.1.0",
-  "registry": "https://clawhub.ai"
+  "registry": "https://skillhub.ai"
 }

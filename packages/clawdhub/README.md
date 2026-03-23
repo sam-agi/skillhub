@@ -54,7 +54,7 @@ skillhub login --token clh_...
 ## Environment Variables
 
 ```bash
-SKILLHUB_SITE=https://clawhub.ai      # Registry site URL
+SKILLHUB_SITE=https://skillhub.ai      # Registry site URL
 SKILLHUB_REGISTRY=<api-url>           # Direct registry override
 SKILLHUB_WORKDIR=<path>               # Working directory
 ```

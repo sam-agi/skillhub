@@ -7,27 +7,27 @@ read_when:
 
 # CLI
 
-CLI package: `packages/clawdhub/` (published as `clawhub`, bin: `clawhub`).
+CLI package: `packages/skillhub/` (published as `skillhub`, bin: `skillhub`).
 
 From this repo you can run it via the wrapper script:
 
 ```bash
-bun clawhub --help
+bun skillhub --help
 ```
 
 ## Global flags
 
 - `--workdir <dir>`: working directory (default: cwd; falls back to Clawdbot workspace if configured)
 - `--dir <dir>`: install dir under workdir (default: `skills`)
-- `--site <url>`: base URL for browser login (default: `https://clawhub.ai`)
-- `--registry <url>`: API base URL (default: discovered, else `https://clawhub.ai`)
+- `--site <url>`: base URL for browser login (default: `https://skillhub.ai`)
+- `--registry <url>`: API base URL (default: discovered, else `https://skillhub.ai`)
 - `--no-input`: disable prompts
 
 Env equivalents:
 
-- `CLAWHUB_SITE` (legacy `CLAWDHUB_SITE`)
-- `CLAWHUB_REGISTRY` (legacy `CLAWDHUB_REGISTRY`)
-- `CLAWHUB_WORKDIR` (legacy `CLAWDHUB_WORKDIR`)
+- `SKILLHUB_SITE` (legacy `CLAWDHUB_SITE`)
+- `SKILLHUB_REGISTRY` (legacy `CLAWDHUB_REGISTRY`)
+- `SKILLHUB_WORKDIR` (legacy `CLAWDHUB_WORKDIR`)
 
 ### HTTP proxy
 
@@ -52,7 +52,7 @@ Example:
 ```bash
 export HTTPS_PROXY=http://proxy.example.com:3128
 export NO_PROXY=localhost,127.0.0.1
-clawhub search "my query"
+skillhub search "my query"
 ```
 
 When no proxy variable is set, behavior is unchanged (direct connections).
@@ -61,15 +61,15 @@ When no proxy variable is set, behavior is unchanged (direct connections).
 
 Stores your API token + cached registry URL.
 
-- macOS: `~/Library/Application Support/clawhub/config.json`
-- override: `CLAWHUB_CONFIG_PATH` (legacy `CLAWDHUB_CONFIG_PATH`)
+- macOS: `~/Library/Application Support/skillhub/config.json`
+- override: `SKILLHUB_CONFIG_PATH` (legacy `CLAWDHUB_CONFIG_PATH`)
 
 ## Commands
 
 ### `login` / `auth login`
 
 - Default: opens browser to `<site>/cli/auth` and completes via loopback callback.
-- Headless: `clawhub login --token clh_...`
+- Headless: `skillhub login --token clh_...`
 
 ### `whoami`
 
@@ -111,8 +111,8 @@ Stores your API token + cached registry URL.
 - Downloads zip via `/api/v1/download`.
 - Extracts into `<workdir>/<dir>/<slug>`.
 - Writes:
-  - `<workdir>/.clawhub/lock.json` (legacy `.clawdhub`)
-  - `<skill>/.clawhub/origin.json` (legacy `.clawdhub`)
+  - `<workdir>/.skillhub/lock.json` (legacy `.clawdhub`)
+  - `<skill>/.skillhub/origin.json` (legacy `.clawdhub`)
 
 ### `uninstall <slug>`
 
@@ -122,7 +122,7 @@ Stores your API token + cached registry URL.
 
 ### `list`
 
-- Reads `<workdir>/.clawhub/lock.json` (legacy `.clawdhub`).
+- Reads `<workdir>/.skillhub/lock.json` (legacy `.clawdhub`).
 
 ### `update [slug]` / `update --all`
 
@@ -136,7 +136,7 @@ Stores your API token + cached registry URL.
 
 - Publishes via `POST /api/v1/skills` (multipart).
 - Requires semver: `--version 1.2.3`.
-- Publishing a skill means it is released under `MIT-0` on ClawHub.
+- Publishing a skill means it is released under `MIT-0` on SkillHub.
 - Published skills are free to use, modify, and redistribute without attribution.
 
 ### `delete <slug>`
@@ -229,5 +229,5 @@ Stores your API token + cached registry URL.
 
 Telemetry:
 
-- Sent during `sync` when logged in, unless `CLAWHUB_DISABLE_TELEMETRY=1` (legacy `CLAWDHUB_DISABLE_TELEMETRY=1`).
+- Sent during `sync` when logged in, unless `SKILLHUB_DISABLE_TELEMETRY=1` (legacy `CLAWDHUB_DISABLE_TELEMETRY=1`).
 - Details: `docs/telemetry.md`.

@@ -1,5 +1,5 @@
 import { useNavigate } from "@tanstack/react-router";
-import type { ClawdisSkillMetadata } from "clawhub-schema";
+import type { SkilldisSkillMetadata } from "skillhub-schema";
 import { useAction, useMutation, useQuery } from "convex/react";
 import { useEffect, useMemo, useState } from "react";
 import { api } from "../../convex/_generated/api";
@@ -183,7 +183,7 @@ export function SkillDetailPage({
     (diffVersions ?? versions ?? []).map((version) => [version._id, version]),
   );
 
-  const clawdis = (latestVersion?.parsed as { clawdis?: ClawdisSkillMetadata } | undefined)
+  const clawdis = (latestVersion?.parsed as { clawdis?: SkilldisSkillMetadata } | undefined)
     ?.clawdis;
   const osLabels = useMemo(() => formatOsList(clawdis?.os), [clawdis?.os]);
   const nixPlugin = clawdis?.nix?.plugin;

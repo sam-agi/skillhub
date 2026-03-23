@@ -15,7 +15,7 @@ const RETRY_COUNT = 2;
 const RETRY_BACKOFF_BASE_MS = 300;
 const RETRY_BACKOFF_MAX_MS = 5_000;
 const RETRY_AFTER_JITTER_MS = 250;
-const CURL_META_MARKER = "__CLAWHUB_CURL_META__";
+const CURL_META_MARKER = "__SKILLHUB_CURL_META__";
 const CURL_WRITE_OUT_FORMAT = [
   "",
   CURL_META_MARKER,
@@ -423,7 +423,7 @@ async function fetchJsonFormViaCurl(url: string, args: FormRequestArgs) {
     headers.push("-H", `Authorization: Bearer ${args.token}`);
   }
 
-  const tempDir = await mkdtemp(join(tmpdir(), "clawhub-upload-"));
+  const tempDir = await mkdtemp(join(tmpdir(), "skillhub-upload-"));
   try {
     const formArgs: string[] = [];
     for (const [key, value] of args.form.entries()) {
@@ -497,7 +497,7 @@ async function fetchTextViaCurl(url: string, args: { token?: string }) {
 }
 
 async function fetchBinaryViaCurl(url: string, token?: string) {
-  const tempDir = await mkdtemp(join(tmpdir(), "clawhub-download-"));
+  const tempDir = await mkdtemp(join(tmpdir(), "skillhub-download-"));
   const filePath = join(tempDir, "payload.bin");
   try {
     const headers: string[] = [];

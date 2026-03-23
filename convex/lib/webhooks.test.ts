@@ -25,7 +25,7 @@ describe("webhook config", () => {
     delete process.env.SITE_URL;
     process.env.DISCORD_WEBHOOK_URL = "https://example.com";
     const config = getWebhookConfig();
-    expect(config.siteUrl).toBe("https://clawhub.ai");
+    expect(config.siteUrl).toBe("https://skillhub.ai");
   });
 });
 
@@ -41,7 +41,7 @@ describe("webhook filtering", () => {
     const config = {
       url: "https://example.com",
       highlightedOnly: true,
-      siteUrl: "https://clawhub.ai",
+      siteUrl: "https://skillhub.ai",
     };
     const allowed = shouldSendWebhook(
       "skill.publish",
@@ -55,7 +55,7 @@ describe("webhook filtering", () => {
     const config = {
       url: "https://example.com",
       highlightedOnly: true,
-      siteUrl: "https://clawhub.ai",
+      siteUrl: "https://skillhub.ai",
     };
     const allowed = shouldSendWebhook(
       "skill.highlighted",
@@ -70,9 +70,9 @@ describe("payload building", () => {
   it("builds canonical url with owner", () => {
     const url = buildSkillUrl(
       { slug: "beeper", displayName: "Beeper", ownerHandle: "KrauseFx" },
-      "https://clawhub.ai",
+      "https://skillhub.ai",
     );
-    expect(url).toBe("https://clawhub.ai/KrauseFx/beeper");
+    expect(url).toBe("https://skillhub.ai/KrauseFx/beeper");
   });
 
   it("builds a publish embed", () => {
@@ -86,7 +86,7 @@ describe("payload building", () => {
         ownerHandle: "steipete",
         tags: ["latest", "discord"],
       },
-      { url: "https://example.com", highlightedOnly: false, siteUrl: "https://clawhub.ai" },
+      { url: "https://example.com", highlightedOnly: false, siteUrl: "https://skillhub.ai" },
     );
     const embed = payload.embeds[0];
     expect(embed.title).toBe("Demo Skill");

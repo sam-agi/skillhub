@@ -11,7 +11,7 @@ read_when:
 
 - Compare any file between two versions.
 - Default compare: `latest` vs `previous` (SemVer precedence).
-- UX feels native to ClawHub (theme + typography + motion).
+- UX feels native to SkillHub (theme + typography + motion).
 - Inline or side-by-side toggle.
 - Public access.
 
@@ -66,7 +66,7 @@ Optional helper action:
 
 ## Monaco theming
 
-- Define `clawhub-light` / `clawhub-dark` via `monaco.editor.defineTheme`.
+- Define `skillhub-light` / `skillhub-dark` via `monaco.editor.defineTheme`.
 - Derive colors from CSS variables on `document.documentElement`:
   - `--surface`, `--surface-muted`, `--ink`, `--ink-soft`, `--line`, `--accent`.
 - Apply theme on load + when theme changes (`data-theme`).

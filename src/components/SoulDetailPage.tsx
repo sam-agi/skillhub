@@ -127,7 +127,7 @@ export function SoulDetailPage({ slug }: SoulDetailPageProps) {
   }
 
   const ownerHandle = owner?.handle ?? owner?.name ?? null;
-  const convexSiteUrl = getRuntimeEnv("VITE_CONVEX_SITE_URL") ?? "https://clawhub.ai";
+  const convexSiteUrl = getRuntimeEnv("VITE_CONVEX_SITE_URL") ?? "https://skillhub.ai";
   const downloadBase = `${convexSiteUrl}/api/v1/souls/${soul.slug}/file`;
 
   return (

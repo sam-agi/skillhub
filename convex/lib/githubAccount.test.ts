@@ -113,7 +113,7 @@ describe("requireGitHubAccountAge", () => {
     expect(fetchMock).toHaveBeenCalledWith(
       "https://api.github.com/user/12345",
       expect.objectContaining({
-        headers: expect.objectContaining({ "User-Agent": "clawhub" }),
+        headers: expect.objectContaining({ "User-Agent": "skillhub" }),
       }),
     );
     expect(runMutation).toHaveBeenCalledWith(internal.users.setGitHubCreatedAtInternal, {
@@ -260,7 +260,7 @@ describe("requireGitHubAccountAge", () => {
       "https://api.github.com/user/12345",
       expect.objectContaining({
         headers: {
-          "User-Agent": "clawhub",
+          "User-Agent": "skillhub",
           Authorization: "Bearer ghp_test123",
         },
       }),

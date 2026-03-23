@@ -21,7 +21,7 @@ export function Footer() {
               Convex
             </a>{" "}
             ·{" "}
-            <a href="https://github.com/openclaw/clawhub" target="_blank" rel="noreferrer">
+            <a href="https://github.com/openclaw/skillhub" target="_blank" rel="noreferrer">
               Open source (MIT)
             </a>{" "}
             ·{" "}

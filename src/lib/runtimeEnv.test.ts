@@ -9,8 +9,8 @@ afterEach(() => {
 
 describe("runtimeEnv", () => {
   it("reads from process env on the server", () => {
-    vi.stubEnv("VITE_SITE_URL", "https://clawhub.ai");
-    expect(getRuntimeEnv("VITE_SITE_URL")).toBe("https://clawhub.ai");
+    vi.stubEnv("VITE_SITE_URL", "https://skillhub.ai");
+    expect(getRuntimeEnv("VITE_SITE_URL")).toBe("https://skillhub.ai");
   });
 
   it("throws for missing required env", () => {

@@ -7,7 +7,7 @@ read_when:
 
 # API v1
 
-Base: `https://clawhub.ai`
+Base: `https://skillhub.ai`
 
 OpenAPI: `/api/v1/openapi.json`
 

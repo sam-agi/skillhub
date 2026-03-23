@@ -135,7 +135,7 @@ skillhub skill merge source-slug target-slug
 name: variant-calling
 description: GATK-based variant calling pipeline for WGS data
 metadata:
-  clawhub:
+  skillhub:
     requires:
       bins:
         - gatk
@@ -292,7 +292,7 @@ bun run dev
 
 本项目基于 **MIT License** 开源。
 
-原 [ClawHub](https://github.com/openclaw/clawhub) 项目由 [OpenClaw](https://openclaw.ai) 团队创建并维护。本仓库是原项目的衍生版本，针对 BGI（华大基因）及中国生物学研究社区进行了本地化和定制。
+原 [OpenClaw](https://github.com/openclaw) 项目由 [OpenClaw](https://openclaw.ai) 团队创建并维护。本仓库是原项目的衍生版本，针对 BGI（华大基因）及中国生物学研究社区进行了本地化和定制。
 
 ```
 MIT License
@@ -326,5 +326,5 @@ SOFTWARE.
 </p>
 
 <p align="center">
-  <sub>Built on top of <a href="https://github.com/openclaw/clawhub">ClawHub</a></sub>
+  <sub>基于 <a href="https://github.com/openclaw/openclaw">OpenClaw</a> 生态</sub>
 </p>

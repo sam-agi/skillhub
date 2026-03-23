@@ -7,9 +7,7 @@
   "description": "SkillHub CLI — install, update, search, and publish agent skills to @bgicli registry.",
   "license": "MIT",
   "bin": {
-    "skillhub": "bin/clawdhub.js",
-    "clawhub": "bin/clawdhub.js",
-    "clawdhub": "bin/clawdhub.js"
+    "skillhub": "bin/skillhub.js"
   },
   "keywords": [
     "skill",
@@ -19,14 +17,14 @@
     "skillhub",
     "bgicli"
   ],
-  "homepage": "https://github.com/zja2004/clawhub",
+  "homepage": "https://github.com/zja2004/skillhub",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zja2004/clawhub.git",
+    "url": "git+https://github.com/zja2004/skillhub.git",
     "directory": "packages/clawdhub"
   },
   "bugs": {
-    "url": "https://github.com/zja2004/clawhub/issues"
+    "url": "https://github.com/zja2004/skillhub/issues"
   },
   "files": [
     "bin",

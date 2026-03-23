@@ -1,23 +1,23 @@
 ---
-summary: "Long-term plan for first-class OpenClaw plugin hosting on ClawHub."
+summary: "Long-term plan for first-class OpenClaw plugin hosting on SkillHub."
 read_when:
-  - Planning ClawHub as an OpenClaw plugin registry
+  - Planning SkillHub as an OpenClaw plugin registry
   - Defining plugin package verification or compatibility rules
-  - Deciding between npm-compat and a native ClawHub plugin API
+  - Deciding between npm-compat and a native SkillHub plugin API
 ---
 
 # Plugin Hosting Plan
 
 ## Goal
 
-Grow ClawHub into the long-term home for **OpenClaw plugins**.
+Grow SkillHub into the long-term home for **OpenClaw plugins**.
 
 This should support:
 
 - native OpenClaw plugin packages
 - compatible bundle plugins (Codex, Claude, Cursor)
 - first-class skills in the same overall namespace
-- first-class capability visibility in ClawHub UI and API
+- first-class capability visibility in SkillHub UI and API
 - verification that a package is actually for OpenClaw
 - compatibility checks against the OpenClaw plugin API boundary
 - a clean install/update path for OpenClaw
@@ -29,10 +29,10 @@ This should **not** become a general-purpose npm clone for arbitrary packages.
 Canonical direction:
 
 - **Option 3** is the product model:
-  ClawHub becomes the authoritative **OpenClaw plugin registry** with a native
-  ClawHub plugin API and first-class plugin metadata.
+  SkillHub becomes the authoritative **OpenClaw plugin registry** with a native
+  SkillHub plugin API and first-class plugin metadata.
 - **Option 2** is the compatibility layer:
-  after the native model is stable, ClawHub may expose a restricted
+  after the native model is stable, SkillHub may expose a restricted
   **npm-compatible read facade** for OpenClaw plugin packages only.
 
 Why:
@@ -45,15 +45,15 @@ Why:
   - what setup/install behavior does it declare in package metadata?
   - what OpenClaw API boundary was it built against?
   - should OpenClaw allow installing it?
-- A native ClawHub plugin model answers those directly.
+- A native SkillHub plugin model answers those directly.
 - npm-compat can sit on top later as a transport adapter.
 
 Additional product decision:
 
-- ClawHub should expose **one package catalog** across skills, code plugins,
+- SkillHub should expose **one package catalog** across skills, code plugins,
   and bundle plugins
 - every published package must declare exactly one family
-- OpenClaw should install both skills and plugins directly from ClawHub
+- OpenClaw should install both skills and plugins directly from SkillHub
 - package identity should be unified, but public routes and install locators do
   **not** need to collapse into one literal slug format
 - `package` can remain an internal catalog term; user-facing UX should prefer
@@ -61,9 +61,9 @@ Additional product decision:
 
 ## Constraints
 
-### ClawHub today
+### SkillHub today
 
-ClawHub is currently a text-bundle registry for skills and souls.
+SkillHub is currently a text-bundle registry for skills and souls.
 
 Implications:
 
@@ -71,7 +71,7 @@ Implications:
 - publish currently rejects non-text files
 - search, moderation, install, and API contracts are skill-centric
 
-That means native OpenClaw plugins do **not** fit the current ClawHub model
+That means native OpenClaw plugins do **not** fit the current SkillHub model
 without first-class package/artifact support.
 
 ### OpenClaw today
@@ -97,7 +97,7 @@ Current OpenClaw assumptions:
 
 ## Product Model
 
-ClawHub should treat registry content as a first-class package catalog with one
+SkillHub should treat registry content as a first-class package catalog with one
 shared identity layer.
 
 Top-level families:
@@ -108,7 +108,7 @@ Top-level families:
 - `souls` may remain as a legacy/internal family if still needed, but they
   should not drive the long-term package model
 
-This lets ClawHub support:
+This lets SkillHub support:
 
 - installable OpenClaw skills
 - package-backed native OpenClaw code plugins
@@ -150,7 +150,7 @@ Current OpenClaw evidence supports this:
 - install state is keyed by one `pluginId`
 - the current `extensions/` tree uses one manifest per real plugin package
 
-Current ClawHub gap:
+Current SkillHub gap:
 
 - current skill flows already normalize many slugs to lowercase
 - current uniqueness is still family-specific rather than global because skills
@@ -189,7 +189,7 @@ Suggested storage model:
 
 ## Publishing Model
 
-ClawHub should stay open to community publishing.
+SkillHub should stay open to community publishing.
 
 Policy:
 
@@ -280,7 +280,7 @@ Why this format:
 
 - the Node ecosystem already understands SemVer ranges
 - additive vs breaking changes are explicit
-- ClawHub and OpenClaw can make deterministic allow/deny decisions
+- SkillHub and OpenClaw can make deterministic allow/deny decisions
 - daily OpenClaw release cadence stays decoupled from the contract version
 
 Do **not** model the API contract as:
@@ -345,7 +345,7 @@ coarse.
 Capability visibility should be a first-class product feature, not a derived
 afterthought.
 
-ClawHub should extract and persist a structured capability summary for every
+SkillHub should extract and persist a structured capability summary for every
 installable package.
 
 High-confidence capability extraction should focus on **declared** and
@@ -417,7 +417,7 @@ Suggested filters:
 
 ## Verification Model
 
-ClawHub should not accept arbitrary packages just because they are npm-shaped.
+SkillHub should not accept arbitrary packages just because they are npm-shaped.
 
 A publishable native plugin package must pass OpenClaw-specific validation.
 
@@ -466,7 +466,7 @@ A publishable native plugin package must pass OpenClaw-specific validation.
 Initial rollout policy:
 
 - verification should launch on a small cohort of publisher accounts that
-  ClawHub explicitly trusts
+  SkillHub explicitly trusts
 - this cohort can expand over time as the pipeline proves reliable
 - verification should not require registry-wide rollout on day one
 - unverified community plugins can still exist; they just should not look
@@ -507,9 +507,9 @@ Best-practice direction:
 
 Dependency/provenance rule:
 
-- if OpenClaw installs additional npm dependencies after unpack, ClawHub must
+- if OpenClaw installs additional npm dependencies after unpack, SkillHub must
   clearly label verification as covering only the top-level published artifact
-  unless and until ClawHub adds a stronger dependency-aware verification model
+  unless and until SkillHub adds a stronger dependency-aware verification model
 - v1 should not require a persisted dependency snapshot/lockfile artifact just
   to ship verification for trusted accounts
 - do not present `rebuild-verified` as stronger than the actual verification
@@ -517,7 +517,7 @@ Dependency/provenance rule:
 
 ## Trust Channels
 
-ClawHub needs a first-class trust model that users can understand quickly.
+SkillHub needs a first-class trust model that users can understand quickly.
 
 Badges on individual packages are not enough.
 
@@ -538,7 +538,7 @@ Suggested channels:
 
 Channel rules:
 
-- channel is assigned by ClawHub policy, not self-declared by the publisher
+- channel is assigned by SkillHub policy, not self-declared by the publisher
 - `official` is a moderator-set flag on a GitHub account/login
 - marking an account/login `official` applies to all existing and future
   packages from that account
@@ -580,7 +580,7 @@ Recommended defaults:
 - install flows for code plugins can still show all packages by default, but
   official packages should be visually clearer and easier to filter to
 - OpenClaw can support a policy mode that only allows installing official code
-  plugins from ClawHub
+  plugins from SkillHub
 - enterprise or locked-down environments can allow only selected channels
 
 Do **not** encode trust only in:
@@ -590,7 +590,7 @@ Do **not** encode trust only in:
 - publisher display name
 - a single `official` boolean
 
-## ClawHub Data Model
+## SkillHub Data Model
 
 Add first-class package catalog tables.
 
@@ -666,7 +666,7 @@ Recommended implementation detail:
 
 ## Discovery And Scale
 
-The public ClawHub catalog will be read-heavy.
+The public SkillHub catalog will be read-heavy.
 
 The Convex plan should assume:
 
@@ -708,7 +708,7 @@ Operational rules:
 
 ## API Shape
 
-ClawHub should expose a native plugin registry API before implementing full
+SkillHub should expose a native plugin registry API before implementing full
 npm-compat.
 
 Suggested native endpoints:
@@ -739,7 +739,7 @@ Response data should include:
 - install command suggestions
 - capability summary
 
-Later, ClawHub may add a restricted npm-compatible read surface for OpenClaw
+Later, SkillHub may add a restricted npm-compatible read surface for OpenClaw
 code-plugin packages only.
 
 API shape rule:
@@ -758,21 +758,21 @@ API shape rule:
 
 ## npm Compatibility
 
-ClawHub should be as npm-compatible as makes sense, without pretending every
+SkillHub should be as npm-compatible as makes sense, without pretending every
 family is an npm package in the same way.
 
 Recommended policy:
 
 - code plugins should get the strongest npm compatibility
-- ClawHub should eventually support npm-compatible read/install flows for code
+- SkillHub should eventually support npm-compatible read/install flows for code
   plugins
-- skills should use the native ClawHub API, not npm compatibility
+- skills should use the native SkillHub API, not npm compatibility
 - bundle plugins should not be forced into fake npm semantics if their real
   install/runtime model is different
 
 Practical design:
 
-- canonical API remains ClawHub-native
+- canonical API remains SkillHub-native
 - npm facade is an adapter, not the source of truth
 - official-only npm views or endpoints can exist later if OpenClaw needs a
   trusted-only install surface
@@ -782,21 +782,21 @@ Practical design:
 
 ## OpenClaw Integration Plan
 
-OpenClaw should gain a native ClawHub source.
+OpenClaw should gain a native SkillHub source.
 
 Possible UX:
 
 ```bash
-openclaw plugins install @scope/pkg --registry https://clawhub.ai
+openclaw plugins install @scope/pkg --registry https://skillhub.ai
 ```
 
 or:
 
 ```bash
-openclaw plugins install clawhub:@scope/pkg
+openclaw plugins install skillhub:@scope/pkg
 ```
 
-Skills should also install directly from ClawHub:
+Skills should also install directly from SkillHub:
 
 ```bash
 openclaw skills install owner/skill-name
@@ -804,18 +804,18 @@ openclaw skills install owner/skill-name
 
 Install/update flow:
 
-1. Resolve package metadata from ClawHub.
+1. Resolve package metadata from SkillHub.
 2. Fetch tarball/archive + integrity.
 3. Verify `pluginApiRange` against local `pluginApiVersion`.
 4. Show capability summary and verification scope before install.
-5. Record ClawHub source metadata in `plugins.installs`.
+5. Record SkillHub source metadata in `plugins.installs`.
 6. Install/update using the same local package install machinery.
 
 This should coexist with current npm and marketplace flows during migration.
 
 Bundle plugin flow should remain clearly separate:
 
-1. Resolve bundle plugin metadata from ClawHub.
+1. Resolve bundle plugin metadata from SkillHub.
 2. Download bundle artifact or expanded files.
 3. Validate bundle schema and supported host targets.
 4. Install using bundle-specific import/sync logic.
@@ -831,7 +831,7 @@ Policy integration:
   require an explicit warning acceptance step per code plugin
 - OpenClaw should persist that acceptance locally per code plugin
 - OpenClaw should expose a stricter mode that only installs official code
-  plugins from ClawHub
+  plugins from SkillHub
 
 ## Rollout
 
@@ -849,7 +849,7 @@ Policy integration:
 - require semver package versions for code-plugin publishing
 - define capability extraction schema and dependency verification scope
 
-### Phase 2. ClawHub native plugin registry
+### Phase 2. SkillHub native plugin registry
 
 - add `packages` as a first-class catalog with family metadata
 - add explicit channel policy and admin controls
@@ -868,9 +868,9 @@ Policy integration:
   case-insensitive package catalog
 - resolve collisions by oldest publish first, with moderator override support
 
-### Phase 3. OpenClaw native ClawHub source
+### Phase 3. OpenClaw native SkillHub source
 
-- add install/update support for ClawHub-hosted skills and native plugins
+- add install/update support for SkillHub-hosted skills and native plugins
 - surface compatibility and verification in CLI output
 - add channel/family policy enforcement in install flows
 
@@ -893,7 +893,7 @@ Long-term recommendation:
 - optimize browse/search around **digest tables, indexes, and change-aware
   denormalization**
 
-That gives ClawHub the control surface needed for trust, compatibility, and
+That gives SkillHub the control surface needed for trust, compatibility, and
 product UX without forcing full npm-general behavior into the first iteration.
 
 ## Open Questions
@@ -913,7 +913,7 @@ product UX without forcing full npm-general behavior into the first iteration.
   tier?
 - Should the trusted verification cohort be limited to `official` accounts at
   first, or allow a separate moderator-picked beta cohort?
-- How much import/API-surface linting should ClawHub enforce at publish time versus reporting as advisory?
+- How much import/API-surface linting should SkillHub enforce at publish time versus reporting as advisory?
 - Should `official` packages require provenance from day one, or can manual
   approval temporarily override missing provenance?
 - For npm compatibility, how far do we want to mimic npm metadata and dist-tag

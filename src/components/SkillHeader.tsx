@@ -1,9 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import {
-  type ClawdisSkillMetadata,
+  type SkilldisSkillMetadata,
   PLATFORM_SKILL_LICENSE,
   PLATFORM_SKILL_LICENSE_SUMMARY,
-} from "clawhub-schema";
+} from "skillhub-schema";
 import { Package } from "lucide-react";
 import type { Doc, Id } from "../../convex/_generated/dataModel";
 import { getSkillBadges } from "../lib/badges";
@@ -62,7 +62,7 @@ type SkillHeaderProps = {
   isRemoved: boolean;
   nixPlugin: string | undefined;
   hasPluginBundle: boolean;
-  configRequirements: ClawdisSkillMetadata["config"] | undefined;
+  configRequirements: SkilldisSkillMetadata["config"] | undefined;
   cliHelp: string | undefined;
   tagEntries: Array<[string, Id<"skillVersions">]>;
   versionById: Map<Id<"skillVersions">, Doc<"skillVersions">>;
@@ -72,7 +72,7 @@ type SkillHeaderProps = {
   onTagVersionChange: (value: Id<"skillVersions"> | "") => void;
   onTagSubmit: () => void;
   tagVersions: Doc<"skillVersions">[];
-  clawdis: ClawdisSkillMetadata | undefined;
+  clawdis: SkilldisSkillMetadata | undefined;
   osLabels: string[];
 };
 
@@ -114,7 +114,7 @@ export function SkillHeader({
   clawdis,
   osLabels,
 }: SkillHeaderProps) {
-  const convexSiteUrl = getRuntimeEnv("VITE_CONVEX_SITE_URL") ?? "https://clawhub.ai";
+  const convexSiteUrl = getRuntimeEnv("VITE_CONVEX_SITE_URL") ?? "https://skillhub.ai";
   const formattedStats = formatSkillStatsTriplet(skill.stats);
   const suppressScanResults =
     !isStaff &&
@@ -141,7 +141,7 @@ export function SkillHeader({
           <div className="pending-banner-content">
             <strong>Skill blocked — malicious content detected</strong>
             <p>
-              ClawHub Security 将此 skill 标记为恶意。下载已禁用。请查看下方的扫描结果。
+              SkillHub Security 将此 skill 标记为恶意。下载已禁用。请查看下方的扫描结果。
             </p>
           </div>
         </div>
@@ -150,13 +150,13 @@ export function SkillHeader({
           <div className="pending-banner-content">
             <strong>Skill flagged — suspicious patterns detected</strong>
             <p>
-              ClawHub Security 将此 skill 标记为可疑。使用前请查看扫描结果。
+              SkillHub Security 将此 skill 标记为可疑。使用前请查看扫描结果。
             </p>
             {canManage ? (
               <p className="pending-banner-appeal">
                 如果您认为此 skill 被错误标记，请{" "}
                 <a
-                  href="https://github.com/openclaw/clawhub/issues"
+                  href="https://github.com/openclaw/skillhub/issues"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -11,10 +11,8 @@ import {
   TEXT_FILE_EXTENSION_SET,
 } from "./schema/index.js";
 
-const DOT_DIR = ".clawhub";
-const LEGACY_DOT_DIR = ".clawdhub";
-const DOT_IGNORE = ".clawhubignore";
-const LEGACY_DOT_IGNORE = ".clawdhubignore";
+const DOT_DIR = ".skillhub";
+const DOT_IGNORE = ".skillhubignore";
 
 export type SkillOrigin = {
   version: 1;
@@ -40,10 +38,10 @@ export async function listTextFiles(root: string) {
   const files: Array<{ relPath: string; bytes: Uint8Array; contentType?: string }> = [];
   const absRoot = resolve(root);
   const ig = ignore();
-  ig.add([".git/", "node_modules/", `${DOT_DIR}/`, `${LEGACY_DOT_DIR}/`]);
+  ig.add([".git/", "node_modules/", `${DOT_DIR}/`]);
   await addIgnoreFile(ig, join(absRoot, ".gitignore"));
   await addIgnoreFile(ig, join(absRoot, DOT_IGNORE));
-  await addIgnoreFile(ig, join(absRoot, LEGACY_DOT_IGNORE));
+  
 
   await walk(absRoot, async (absPath) => {
     const relPath = normalizePath(relative(absRoot, absPath));
@@ -98,7 +96,7 @@ export function hashSkillZip(zipBytes: Uint8Array) {
 }
 
 export async function readLockfile(workdir: string): Promise<Lockfile> {
-  const paths = [join(workdir, DOT_DIR, "lock.json"), join(workdir, LEGACY_DOT_DIR, "lock.json")];
+  const paths = [join(workdir, DOT_DIR, "lock.json")];
   for (const path of paths) {
     try {
       const raw = await readFile(path, "utf8");
@@ -120,7 +118,7 @@ export async function writeLockfile(workdir: string, lock: Lockfile) {
 export async function readSkillOrigin(skillFolder: string): Promise<SkillOrigin | null> {
   const paths = [
     join(skillFolder, DOT_DIR, "origin.json"),
-    join(skillFolder, LEGACY_DOT_DIR, "origin.json"),
+    
   ];
   for (const path of paths) {
     try {

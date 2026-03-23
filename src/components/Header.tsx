@@ -5,7 +5,7 @@ import { useMemo, useRef, useState, useEffect } from "react";
 
 import { gravatarUrl } from "../lib/gravatar";
 import { isModerator } from "../lib/roles";
-import { getClawHubSiteUrl, getSiteMode, getSiteName } from "../lib/site";
+import { getSkillHubSiteUrl, getSiteMode, getSiteName } from "../lib/site";
 import { applyTheme, useThemeMode } from "../lib/theme";
 import { startThemeTransition } from "../lib/theme-transition";
 import { useAuthError } from "../lib/useAuthError";
@@ -29,7 +29,7 @@ export default function Header() {
   const siteMode = getSiteMode();
   const siteName = useMemo(() => getSiteName(siteMode), [siteMode]);
   const isSoulMode = siteMode === "souls";
-  const clawHubUrl = getClawHubSiteUrl();
+  const clawHubUrl = getSkillHubSiteUrl();
 
   const avatar = me?.image ?? (me?.email ? gravatarUrl(me.email) : undefined);
   const handle = me?.handle ?? me?.displayName ?? "user";

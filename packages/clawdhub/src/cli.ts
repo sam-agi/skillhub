@@ -3,7 +3,7 @@ import { stat } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { Command } from "commander";
 import { getCliBuildLabel, getCliVersion } from "./cli/buildInfo.js";
-import { resolveClawdbotDefaultWorkspace } from "./cli/clawdbotConfig.js";
+import { resolveSkillbotDefaultWorkspace } from "./cli/skillbotConfig.js";
 import { cmdLoginFlow, cmdLogout, cmdWhoami } from "./cli/commands/auth.js";
 import {
   cmdDeleteSkill,
@@ -40,9 +40,9 @@ import { fail } from "./cli/ui.js";
 import { readGlobalConfig } from "./config.js";
 
 const program = new Command()
-  .name("clawhub")
+  .name("skillhub")
   .description(
-    `${styleTitle(`ClawHub CLI ${getCliBuildLabel()}`)}\n${styleEnvBlock(
+    `${styleTitle(`SkillHub CLI ${getCliBuildLabel()}`)}\n${styleEnvBlock(
       "install, update, search, and publish agent skills.",
     )}`,
   )
@@ -57,7 +57,7 @@ const program = new Command()
   .addHelpText(
     "after",
     styleEnvBlock(
-      "\nEnv:\n  CLAWHUB_SITE\n  CLAWHUB_REGISTRY\n  CLAWHUB_WORKDIR\n  (CLAWDHUB_* supported)\n",
+      "\nEnv:\n  SKILLHUB_SITE\n  SKILLHUB_REGISTRY\n  SKILLHUB_WORKDIR\n",
     ),
   );
 
@@ -67,16 +67,16 @@ async function resolveGlobalOpts(): Promise<GlobalOpts> {
   const raw = program.opts<{ workdir?: string; dir?: string; site?: string; registry?: string }>();
   const workdir = await resolveWorkdir(raw.workdir);
   const dir = resolve(workdir, raw.dir ?? "skills");
-  const site = raw.site ?? process.env.CLAWHUB_SITE ?? process.env.CLAWDHUB_SITE ?? DEFAULT_SITE;
+  const site = raw.site ?? process.env.SKILLHUB_SITE ?? process.env.SKILLHUB_SITE ?? DEFAULT_SITE;
   const registrySource = raw.registry
     ? "cli"
-    : process.env.CLAWHUB_REGISTRY || process.env.CLAWDHUB_REGISTRY
+    : process.env.SKILLHUB_REGISTRY || process.env.SKILLHUB_REGISTRY
       ? "env"
       : "default";
   const registry =
     raw.registry ??
-    process.env.CLAWHUB_REGISTRY ??
-    process.env.CLAWDHUB_REGISTRY ??
+    process.env.SKILLHUB_REGISTRY ??
+    process.env.SKILLHUB_REGISTRY ??
     DEFAULT_REGISTRY;
   return { workdir, dir, site, registry, registrySource };
 }
@@ -88,26 +88,22 @@ function isInputAllowed() {
 
 async function resolveWorkdir(explicit?: string) {
   if (explicit?.trim()) return resolve(explicit.trim());
-  const envWorkdir = process.env.CLAWHUB_WORKDIR?.trim() ?? process.env.CLAWDHUB_WORKDIR?.trim();
+  const envWorkdir = process.env.SKILLHUB_WORKDIR?.trim() ?? process.env.SKILLHUB_WORKDIR?.trim();
   if (envWorkdir) return resolve(envWorkdir);
 
   const cwd = resolve(process.cwd());
-  const hasMarker = await hasClawhubMarker(cwd);
+  const hasMarker = await hasSkillhubMarker(cwd);
   if (hasMarker) return cwd;
 
-  const clawdbotWorkspace = await resolveClawdbotDefaultWorkspace();
+  const clawdbotWorkspace = await resolveSkillbotDefaultWorkspace();
   return clawdbotWorkspace ? resolve(clawdbotWorkspace) : cwd;
 }
 
-async function hasClawhubMarker(workdir: string) {
-  const lockfile = join(workdir, ".clawhub", "lock.json");
+async function hasSkillhubMarker(workdir: string) {
+  const lockfile = join(workdir, ".skillhub", "lock.json");
   if (await pathExists(lockfile)) return true;
-  const markerDir = join(workdir, ".clawhub");
-  if (await pathExists(markerDir)) return true;
-  const legacyLockfile = join(workdir, ".clawdhub", "lock.json");
-  if (await pathExists(legacyLockfile)) return true;
-  const legacyMarkerDir = join(workdir, ".clawdhub");
-  return pathExists(legacyMarkerDir);
+  const markerDir = join(workdir, ".skillhub");
+  return pathExists(markerDir);
 }
 
 async function pathExists(path: string) {

@@ -2,9 +2,9 @@ import { readGlobalConfig, writeGlobalConfig } from "../config.js";
 import { discoverRegistryFromSite } from "../discovery.js";
 import type { GlobalOpts } from "./types.js";
 
-export const DEFAULT_SITE = "https://clawhub.ai";
-export const DEFAULT_REGISTRY = "https://clawhub.ai";
-const LEGACY_REGISTRY_HOSTS = new Set(["auth.clawdhub.com", "auth.clawhub.com", "auth.clawhub.ai"]);
+export const DEFAULT_SITE = "https://skillhub.ai";
+export const DEFAULT_REGISTRY = "https://skillhub.ai";
+const LEGACY_REGISTRY_HOSTS = new Set(["auth.skillhub.com", "auth.skillhub.ai"]);
 
 export async function resolveRegistry(opts: GlobalOpts) {
   const explicit = opts.registrySource !== "default" ? opts.registry.trim() : "";
@@ -16,7 +16,7 @@ export async function resolveRegistry(opts: GlobalOpts) {
 
   const cfg = await readGlobalConfig();
   const cached = cfg?.registry?.trim();
-  if (cached && !isLegacyRegistry(cached)) return cached;
+  if (cached) return cached;
   return DEFAULT_REGISTRY;
 }
 
@@ -26,10 +26,7 @@ export async function getRegistry(opts: GlobalOpts, params?: { cache?: boolean }
   if (!cache) return registry;
   const cfg = await readGlobalConfig();
   const cached = cfg?.registry?.trim();
-  const shouldUpdate =
-    !cached ||
-    isLegacyRegistry(cached) ||
-    (cached === DEFAULT_REGISTRY && registry !== DEFAULT_REGISTRY);
+  const shouldUpdate = !cached || (cached === DEFAULT_REGISTRY && registry !== DEFAULT_REGISTRY);
   if (shouldUpdate) await writeGlobalConfig({ registry, token: cfg?.token });
   return registry;
 }

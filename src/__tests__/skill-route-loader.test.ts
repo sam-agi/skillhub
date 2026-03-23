@@ -246,7 +246,7 @@ describe("skill route loader", () => {
         links: [
           {
             rel: "canonical",
-            href: "https://clawhub.ai/steipete/weather",
+            href: "https://skillhub.ai/steipete/weather",
           },
         ],
       }),
@@ -255,14 +255,14 @@ describe("skill route loader", () => {
       expect.arrayContaining([
         { title: "Weather — ClawHub" },
         { name: "description", content: "Get current weather." },
-        { property: "og:url", content: "https://clawhub.ai/steipete/weather" },
+        { property: "og:url", content: "https://skillhub.ai/steipete/weather" },
         {
           property: "og:image",
-          content: "https://clawhub.ai/og/skill.png?v=5&slug=weather&owner=steipete&version=1.0.0",
+          content: "https://skillhub.ai/og/skill.png?v=5&slug=weather&owner=steipete&version=1.0.0",
         },
         {
           name: "twitter:image",
-          content: "https://clawhub.ai/og/skill.png?v=5&slug=weather&owner=steipete&version=1.0.0",
+          content: "https://skillhub.ai/og/skill.png?v=5&slug=weather&owner=steipete&version=1.0.0",
         },
       ]),
     );
@@ -273,12 +273,12 @@ describe("skill route loader", () => {
       links: [
         {
           rel: "canonical",
-          href: "https://clawhub.ai/steipete/weather",
+          href: "https://skillhub.ai/steipete/weather",
         },
       ],
       meta: expect.arrayContaining([
         { title: "weather — ClawHub" },
-        { property: "og:url", content: "https://clawhub.ai/steipete/weather" },
+        { property: "og:url", content: "https://skillhub.ai/steipete/weather" },
       ]),
     });
   });
